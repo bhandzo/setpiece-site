@@ -77,6 +77,7 @@ export default config({
     homepage: singleton({
       label: 'Homepage',
       path: 'src/content/homepage',
+      format: { data: 'json' },
       schema: {
         // Hero section
         heroTitle: fields.text({ 

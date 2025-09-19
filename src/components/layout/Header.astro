@@ -3,15 +3,12 @@ import { menuLinks } from "@/site.config";
 import { siteConfig } from "../../site.config";
 ---
 
-<header
-  class="col-span-3 md:col-span-6 lg:col-span-9 grid grid-cols-3 md:grid-cols-6 lg:grid-cols-9 items-center gap-4 z-90 bg-global-bg"
-  id="main-header"
->
+<header class="gc-full gr-span-1" id="main-header">
   <!-- Logo/Brand - Left side -->
   <div class="col-span-2 md:col-span-3 lg:col-span-3">
     <a
       aria-current={Astro.url.pathname === "/" ? "page" : false}
-      class="inline-flex items-baseline gap-3 hover:text-accent transition-colors"
+      class="items-baseline hover:text-accent transition-colors"
       href="/"
     >
       <img src="/logo.svg" alt="Setpiece Logo" class="w-8 h-8 flex-shrink-0" />
@@ -21,10 +18,10 @@ import { siteConfig } from "../../site.config";
     </a>
   </div>
 
-  <!-- Navigation - desktop only while debugging -->
+  <!-- Navigation - Center/right aligned -->
   <nav
     aria-label="Main menu"
-    class="col-span-1 md:col-span-3 lg:col-span-6"
+    class="col-span-1 col-start-3 md:col-span-3 md:col-start-4 lg:col-span-3 lg:col-start-5"
     id="navigation-menu"
   >
     <div class="hidden md:flex items-baseline space-x-8 leading-none">
