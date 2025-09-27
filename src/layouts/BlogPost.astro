@@ -28,24 +28,22 @@ const readingTime: string = remarkPluginFrontmatter.readingTime;
   }}
 >
   <article class="gc-full grid-local" data-pagefind-body>
-    <div id="blog-hero" class="gc-full md:grid-cols-4 md:col-start-1">
+    <div id="blog-hero" class="gc-full">
       <Masthead content={post} readingTime={readingTime} />
     </div>
-    <div class="gc-full md:col-span-4 md:col-start-1 grid-local">
-      <div
-        class="gc-full prose prose-sm prose-headings:font-semibold prose-headings:text-accent-2"
-      >
+    <div class="gc-full md:gc-two-thirds lg:gc-two-thirds">
+      <div class="prose prose-sm prose-headings:font-semibold prose-headings:text-accent-2">
         <slot />
         <WebMentions />
       </div>
-      {
-        !!headings.length && (
-          <div class="gc-full lg:col-span-2 lg:col-start-6">
-            <TOC headings={headings} />
-          </div>
-        )
-      }
     </div>
+    {
+      !!headings.length && (
+        <div class="gc-full md:gc-third lg:gc-third">
+          <TOC headings={headings} />
+        </div>
+      )
+    }
   </article>
 </BaseLayout>
 <button

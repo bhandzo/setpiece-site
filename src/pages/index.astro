@@ -59,8 +59,8 @@ const content = homepage;
   <!-- Hero statement -->
 
   <!-- Two-column editorial with asymmetric spans -->
-  <section class="gc-full grid-local md:mt-10">
-    <article class="gc-full md:col-span-5 lg:col-span-10">
+  <section class="gc-full grid-local md:mt-10 md:mb-10">
+    <article class="gc-full md:col-span-5 md:mb-10 lg:col-span-10">
       <h3 class="text-3xl md:text-4xl leading-snug">
         {content.mainProblemTitle}
       </h3>
@@ -83,18 +83,16 @@ const content = homepage;
   </section>
 
   <!-- Differentiation -->
-  <section class="gc-full grid-local gr-span-5 py-5 px-5 bg-black text-white">
-    <article class="gc-full md:col-span-3 lg:col-span-4">
+  <section class="gc-full grid-local bg-black text-white">
+    <article class="gc-full md:col-span-2 lg:gc-third py-5 px-5">
       <h3 class="text-3xl md:text-4xl leading-snug mb-4">
         {content.differentiatorTitle}
       </h3>
     </article>
-    <div
-      class="gc-full grid-local md:col-span-3 md:col-start-3 lg:col-span-5 lg:col-start-5"
-    >
+    <div class="gc-full md:gc-two-thirds lg:gc-two-thirds py-5 px-5">
       {
         differentiators.map((diff) => (
-          <section class="gc-full md:border-t-[5px] border-black">
+          <section class="mb-8 last:mb-0">
             <h4 class="text-xl mb-3">{diff.data.title}</h4>
             <div
               class="text-sm leading-normal prose-sm prose-p:mb-0"
