@@ -1,6 +1,5 @@
 // keystatic.config.ts
 import { config, fields, collection, singleton } from '@keystatic/core';
-import type { Config } from '@keystatic/core';
 
 export default config({
   storage: {
@@ -11,14 +10,98 @@ export default config({
     },
   },
   collections: {
-    posts: collection({
-      label: 'Posts',
+    post: collection({
+      label: 'Blog Posts',
       slugField: 'title',
-      path: 'src/content/posts/*',
+      path: 'src/content/post/*/',
       format: { contentField: 'content' },
       schema: {
         title: fields.slug({ name: { label: 'Title' } }),
-        content: fields.markdoc({ label: 'Content' }),
+        description: fields.text({ 
+          label: 'Description',
+          multiline: true 
+        }),
+        coverImage: fields.object({
+          alt: fields.text({ label: 'Alt Text' }),
+          src: fields.image({ 
+            label: 'Cover Image',
+            directory: 'src/content/post/*/',
+            publicPath: '/src/content/post/'
+          })
+        }, { 
+          label: 'Cover Image'
+        }),
+        draft: fields.checkbox({ 
+          label: 'Draft',
+          defaultValue: false 
+        }),
+        ogImage: fields.text({ 
+          label: 'OG Image URL',
+          validation: { isRequired: false }
+        }),
+        tags: fields.array(
+          fields.text({ label: 'Tag' }),
+          { 
+            label: 'Tags',
+            itemLabel: props => props.value || 'Tag'
+          }
+        ),
+        publishDate: fields.date({ 
+          label: 'Publish Date',
+          defaultValue: { kind: 'today' }
+        }),
+        updatedDate: fields.date({ 
+          label: 'Updated Date',
+          validation: { isRequired: false }
+        }),
+        pinned: fields.checkbox({ 
+          label: 'Pinned',
+          defaultValue: false 
+        }),
+        content: fields.markdoc({ 
+          label: 'Content',
+          extension: 'md'
+        }),
+      },
+    }),
+    note: collection({
+      label: 'Notes',
+      slugField: 'title',
+      path: 'src/content/note/*',
+      format: { contentField: 'content' },
+      schema: {
+        title: fields.slug({ name: { label: 'Title' } }),
+        description: fields.text({ 
+          label: 'Description',
+          multiline: true,
+          validation: { isRequired: false }
+        }),
+        publishDate: fields.datetime({ 
+          label: 'Publish Date',
+          defaultValue: { kind: 'now' }
+        }),
+        content: fields.markdoc({ 
+          label: 'Content',
+          extension: 'md'
+        }),
+      },
+    }),
+    tag: collection({
+      label: 'Tags',
+      slugField: 'title',
+      path: 'src/content/tag/*',
+      format: { contentField: 'content' },
+      schema: {
+        title: fields.slug({ name: { label: 'Title' } }),
+        description: fields.text({ 
+          label: 'Description',
+          multiline: true,
+          validation: { isRequired: false }
+        }),
+        content: fields.markdoc({ 
+          label: 'Content',
+          extension: 'md'
+        }),
       },
     }),
     problemCards: collection({
