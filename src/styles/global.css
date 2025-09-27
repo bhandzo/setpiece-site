@@ -192,6 +192,19 @@ html {
 		@apply tracking-tight;
 	}
 
+	/* Default list item styles */
+	ul {
+		list-style-type: disc;
+	}
+
+	ol {
+		list-style-type: decimal;
+	}
+
+	li {
+		@apply ml-4;
+	}
+
 	/* Expand/collapse details styling */
 	details summary {
 		@apply flex items-center gap-2;

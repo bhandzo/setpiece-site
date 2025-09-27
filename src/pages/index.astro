@@ -2,6 +2,8 @@
 import PageLayout from "@/layouts/Base.astro";
 import { Image } from "astro:assets";
 import hills from "@/content/images/hills.jpg";
+import lightsCropped from "@/content/images/Lights_Cropped.jpg";
+import flags from "@/content/images/Flags.jpeg";
 import { getCollection } from "astro:content";
 
 // Import homepage data directly - Astro handles YAML natively
@@ -41,7 +43,7 @@ const content = homepage;
 <PageLayout meta={{ title: "Home Page" }}>
   <!-- Hero image -->
 
-  <section class="gc-full md:my-10">
+  <section class="gc-full mt-14 mb-32">
     <h2 class="text-3xl
     md:text-4xl
     leading-snug">
@@ -62,8 +64,8 @@ const content = homepage;
   <!-- Hero statement -->
 
   <!-- Two-column editorial with asymmetric spans -->
-  <section class="gc-full grid-local md:mt-10 md:mb-10">
-    <article class="gc-full md:col-span-5 md:mb-10 lg:col-span-10">
+  <section class="gc-full grid-local">
+    <article class="gc-full md:col-span-5 lg:col-span-10">
       <h3 class="text-3xl md:text-4xl leading-snug">
         {content.mainProblemTitle}
       </h3>
@@ -83,6 +85,15 @@ const content = homepage;
         </section>
       ))
     }
+  </section>
+
+  <!-- Lights image before differentiators -->
+  <section class="gc-full -mb-4">
+    <Image
+      src={lightsCropped}
+      alt="Lights cropped image"
+      class="w-full h-72 object-cover object-center"
+    />
   </section>
 
   <!-- Differentiation -->
@@ -108,9 +119,9 @@ const content = homepage;
   </section>
 
   <!-- About Us -->
-  <section class="gc-full grid-local-10 gr-span-25">
-    <section class="gc-full gr-span-2">
-      <h3 class="text-3xl md:text-4xl leading-snug mt-20">
+  <section class="gc-full grid-local-10">
+    <section class="gc-full mt-4">
+      <h3 class="text-3xl md:text-4xl leading-snug">
         {content.aboutUsTitle}
       </h3>
       <p class="text-sm leading-normal">
@@ -120,10 +131,17 @@ const content = homepage;
 
     {
       teamMembers.map((member) => (
-        <section class="gc-full gr-span-6 md:col-span-3 lg:col-span-5 py-5 px-5">
-          <h4 class="text-2xl mb-3">{member.data.name.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}</h4>
+        <section class="gc-full gr-span-6 md:col-span-3 lg:col-span-5 py-5 px-5 bg-gray-200">
+          <h4 class="text-2xl mb-3">
+            {member.data.name
+              .replace("-", " ")
+              .replace(/\b\w/g, (l) => l.toUpperCase())}
+          </h4>
           <h5 class="text-lg mb-3 text-gray-600">{member.data.title}</h5>
-          <div class="text-sm leading-normal prose-sm mb-4" set:html={member.rendered?.html} />
+          <div
+            class="text-sm leading-normal prose-sm mb-4"
+            set:html={member.rendered?.html}
+          />
           <div class="text-sm leading-normal">
             <strong>Specializes in:</strong>
             <ul class="list-disc list-inside mt-2 space-y-1">
@@ -135,6 +153,15 @@ const content = homepage;
         </section>
       ))
     }
+  </section>
+
+  <!-- Flags image before services -->
+  <section class="gc-full">
+    <Image
+      src={flags}
+      alt="Flags image"
+      class="w-full h-72 object-cover object-center"
+    />
   </section>
 
   <!-- Services -->
