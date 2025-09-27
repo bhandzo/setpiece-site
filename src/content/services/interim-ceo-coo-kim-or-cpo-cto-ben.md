@@ -2,7 +2,7 @@
 title: Interim CEO/COO (Kim) or CPO/CTO (Ben)
 order: 4
 ---
-### Take the Wheel While You Transform
+#### Take the Wheel While You Transform
 We step into critical leadership roles during pivotal moments - fundraising, pivots, rapid scaling, or founder transitions. We don’t just advise from the sidelines; we execute day-to-day operations while building sustainable systems your permanent team can own.
 
 - Full operational leadership during transformation periods

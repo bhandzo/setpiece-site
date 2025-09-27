@@ -38,28 +38,29 @@ const content = homepage;
 <PageLayout meta={{ title: "Home Page" }}>
   <!-- Hero image -->
 
-  <section class="gc-full md:col-span-5 lg:col-span-8 gr-span-2">
-    <h2 class="text-3xl md:text-4xl leading-snug mb-4">
+  <section class="gc-full md:my-10">
+    <h2 class="text-3xl
+    md:text-4xl
+    leading-snug">
       {content.heroTitle}
     </h2>
     <p class="text-sm leading-normal">
       {content.heroDescription}
     </p>
   </section>
-  <section class="gc-full gr-span-5">
+  <section class="gc-full">
     <Image
       src={hills}
       alt="Rolling hills landscape"
-      class="w-full h-full object-cover object-top"
+      class="w-full h-60 object-cover object-top"
     />
   </section>
 
   <!-- Hero statement -->
 
   <!-- Two-column editorial with asymmetric spans -->
-  <section class="gc-full grid-local gr-span-4">
-    <article class="gc-full gr-span-1 invisible md:visible"></article>
-    <article class="gc-full gr-span-1 md:col-span-5 lg:col-span-10">
+  <section class="gc-full grid-local md:mt-10">
+    <article class="gc-full md:col-span-5 lg:col-span-10">
       <h3 class="text-3xl md:text-4xl leading-snug">
         {content.mainProblemTitle}
       </h3>
@@ -119,7 +120,7 @@ const content = homepage;
     {
       services.map((service) => (
         <section class="gc-full gr-span-6 md:col-span-3 lg:col-span-5 border-1 border-black py-5 px-5">
-          <h4 class="text-xl mb-3">{service.data.title}</h4>
+          <h4 class="text-2xl mb-3">{service.data.title}</h4>
           <div
             class="text-sm leading-normal prose-sm"
             set:html={service.rendered?.html}
@@ -148,6 +149,6 @@ const content = homepage;
           </div>
         </details> -->
   </section>
-</PageLayout>
 
-<!-- Three-column problem sections -->
+  <!-- Three-column problem sections -->
+</PageLayout>

@@ -32,8 +32,8 @@
 
 /* Responsive grid settings - mobile first approach */
 @media (min-width: 640px)  { :root { --cols: 3; --margin: 14px;  } } /* sm+ */
-@media (min-width: 768px)  { :root { --cols: 6; --margin: 21px; --row: 80px} } /* md+ */
-@media (min-width: 1024px) { :root { --cols: 9; --margin: 28px; } } /* lg+ */
+@media (min-width: 768px)  { :root { --cols: 6; --margin: 21px;  } } /* md+ */
+@media (min-width: 1024px) { :root { --cols: 9; --margin: 28px;  } } /* lg+ */
 
 @layer base {
 	html, body {
@@ -50,7 +50,7 @@
 	  }
 	.grid-frame {
 	/* size the "poster" area; adjust as you like */
-	width: min(900px, 92vw);
+	width: min(900px, 100vw);
 	/* height can be fluid or fixed; pick one: */
 	min-height: min(1280px, 140vh);
 	
@@ -66,25 +66,7 @@
 	
 	}
 	
-	/* Optional: a thin keyline artound the grid frame (like the poster border) */
-	.grid-frame {
-	outline: 2px solid rgba(255,255,255,.85);
-	outline-offset: -2px; /* inside the padding */
-	background:
-    /* vertical lines every (track + gutter-x) */
-    repeating-linear-gradient(
-      to right,
-      var(--line) 0 1px,
-      transparent 1px calc(var(--track) + var(--gutter-x))
-    ),
-    /* horizontal lines every (row + gutter-y) */
-    repeating-linear-gradient(
-      to bottom,
-      var(--line) 0 1px,
-      transparent 1px calc(var(--row) + var(--gutter-y))
-    );
-  background-clip: content-box; /* keep lines inside the padded area */
-	}
+
 
 	/* ---- Grid system using Tailwind patterns ---- */
 	
@@ -202,7 +184,7 @@ html {
 	}
 
 	/* typographic defaults */
-	.'prose' {
+	.prose {
 		@apply leading-normal max-w-measure;
 	}
 

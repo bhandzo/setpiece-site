@@ -64,7 +64,7 @@ export default defineConfig({
             insertThemeColorMeta: false,
             insertManifestLink: false,
         },
-		}), react(), markdoc(), keystatic()],
+		}), react(), markdoc(), ...(process.env.SKIP_KEYSTATIC ? [] : [keystatic()])],
     markdown: {
         rehypePlugins: [
             rehypeHeadingIds,

@@ -55,15 +55,17 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 ---
 
 <PageLayout meta={meta}>
-	<div class="mb-12 flex items-center gap-3">
-		<h1 class="title">Posts</h1>
-		<a class="text-accent" href="/rss.xml" target="_blank">
-			<span class="sr-only">RSS feed</span>
-			<Icon aria-hidden="true" class="h-6 w-6" focusable="false" name="mdi:rss" />
-		</a>
-	</div>
-	<div class="grid sm:grid-cols-[3fr_1fr] sm:gap-x-8 sm:gap-y-16">
-		<div>
+	<section class="gc-full">
+		<div class="mb-12 flex items-center gap-3">
+			<h1 class="title">Posts</h1>
+			<a class="text-accent" href="/rss.xml" target="_blank">
+				<span class="sr-only">RSS feed</span>
+				<Icon aria-hidden="true" class="h-6 w-6" focusable="false" name="mdi:rss" />
+			</a>
+		</div>
+	</section>
+	<div class="gc-full grid-local md:gap-x-8 md:gap-y-16">
+		<div class="gc-full md:col-span-4 lg:col-span-6">
 			{
 				pinnedPosts.length > 0 && (
 					<section class="mb-16">
@@ -99,7 +101,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 		</div>
 		{
 			!!uniqueTags.length && (
-				<aside>
+				<aside class="gc-full md:col-span-2 lg:col-span-3">
 					<h2 class="title mb-4 flex items-center gap-2 text-lg">
 						Tags
 						<svg

@@ -3,33 +3,33 @@ import { menuLinks } from "@/site.config";
 import { siteConfig } from "../../site.config";
 ---
 
-<header class="gc-full gr-span-1" id="main-header">
+<header class="gc-full grid-local py-5" id="main-header">
   <!-- Logo/Brand - Left side -->
-  <div class="col-span-2 md:col-span-3 lg:col-span-3">
+  <div class="col-span-3">
     <a
       aria-current={Astro.url.pathname === "/" ? "page" : false}
-      class="items-baseline hover:text-accent transition-colors"
+      class="hover:text-accent transition-colors"
       href="/"
     >
-      <img src="/logo.svg" alt="Setpiece Logo" class="w-8 h-8 flex-shrink-0" />
-      <span class="text-lg font-medium tracking-tight whitespace-nowrap"
+      <img src="/logo.svg" alt="Setpiece Logo" class="w-8 h-8 float-left" />
+      <span class="text-lg font-medium tracking-tight float-left mt-0.5 ml-3"
         >{siteConfig.title}</span
       >
     </a>
   </div>
 
-  <!-- Navigation - Center/right aligned -->
+  <!-- Navigation - Right aligned -->
   <nav
     aria-label="Main menu"
-    class="col-span-1 col-start-3 md:col-span-3 md:col-start-4 lg:col-span-3 lg:col-start-5"
+    class="col-span-2 col-start-5 lg:col-start-7 mt-1.5"
     id="navigation-menu"
   >
-    <div class="hidden md:flex items-baseline space-x-8 leading-none">
+    <div class="leading-none">
       {
         menuLinks.map((link) => (
           <a
             aria-current={Astro.url.pathname === link.path ? "page" : false}
-            class="text-sm uppercase tracking-wide hover:text-accent transition-colors leading-none"
+            class="pr-1.5 text-sm uppercase tracking-wide hover:text-accent transition-colors leading-none"
             href={link.path}
           >
             {link.title}
