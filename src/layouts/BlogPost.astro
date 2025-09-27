@@ -31,8 +31,10 @@ const readingTime: string = remarkPluginFrontmatter.readingTime;
     <div id="blog-hero" class="gc-full">
       <Masthead content={post} readingTime={readingTime} />
     </div>
-    <div class="gc-full md:gc-two-thirds lg:gc-two-thirds">
-      <div class="prose prose-sm prose-headings:font-semibold prose-headings:text-accent-2">
+    <div class="gc-full md:gc-two-thirds lg:gc-two-thirds mx-auto" style="max-width: 515px;">
+      <div
+        class="prose prose-sm prose-headings:font-semibold prose-headings:text-accent-2"
+      >
         <slot />
         <WebMentions />
       </div>

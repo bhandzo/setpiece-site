@@ -5,7 +5,7 @@ import { siteConfig } from "../../site.config";
 
 <header class="gc-full grid-local py-5" id="main-header">
   <!-- Logo/Brand - Left side -->
-  <div class="col-span-3">
+  <div class="col-span-2 lg:col-span-3">
     <a
       aria-current={Astro.url.pathname === "/" ? "page" : false}
       class="hover:text-accent transition-colors"
@@ -21,7 +21,7 @@ import { siteConfig } from "../../site.config";
   <!-- Navigation - Right aligned -->
   <nav
     aria-label="Main menu"
-    class="col-span-2 col-start-5 lg:col-start-7 mt-1.5"
+    class="col-span-1 col-start-3 md:col-start-6 lg:col-start-10 mt-1.5"
     id="navigation-menu"
   >
     <div class="leading-none">
