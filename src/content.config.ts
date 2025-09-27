@@ -80,4 +80,14 @@ const services = defineCollection({
 	}),
 });
 
-export const collections = { post, note, tag, problemCards, differentiators, services };
+const teamMembers = defineCollection({
+	loader: glob({ base: "./src/content/teamMembers", pattern: "**/*.{md,mdx}" }),
+	schema: z.object({
+		name: z.string(),
+		title: z.string(),
+		order: z.number().default(0),
+		specializations: z.array(z.string()),
+	}),
+});
+
+export const collections = { post, note, tag, problemCards, differentiators, services, teamMembers };

@@ -154,6 +154,34 @@ export default config({
           extension: 'md'
         })
       }
+    }),
+    teamMembers: collection({
+      label: 'Team Members',
+      slugField: 'name',
+      path: 'src/content/teamMembers/*',
+      format: { contentField: 'bio' },
+      schema: {
+        name: fields.slug({ name: { label: 'Name' } }),
+        title: fields.text({ 
+          label: 'Job Title',
+          defaultValue: ''
+        }),
+        order: fields.number({ 
+          label: 'Display Order',
+          defaultValue: 0
+        }),
+        specializations: fields.array(
+          fields.text({ label: 'Specialization' }),
+          { 
+            label: 'Specializations',
+            itemLabel: props => props.value || 'Specialization'
+          }
+        ),
+        bio: fields.markdoc({ 
+          label: 'Bio',
+          extension: 'md'
+        })
+      }
     })
   },
   singletons: {
@@ -203,6 +231,17 @@ export default config({
           label: 'Services Description',
           multiline: true,
           defaultValue: 'Strategy clarity first, then systematic transformation. No wasted effort optimizing the wrong things.'
+        }),
+        
+        // About Us section
+        aboutUsTitle: fields.text({
+          label: 'About Us Title',
+          defaultValue: 'Operating Partners, Not Consultants'
+        }),
+        aboutUsDescription: fields.text({
+          label: 'About Us Description',
+          multiline: true,
+          defaultValue: "We're operators who've navigated the messy middle ourselves. We embed with your team to execute transformation together, ensuring knowledge transfer and sustainable results."
         })
       }
     })

@@ -11,7 +11,7 @@
 	--row: min-content max-content auto;               /* row height (baseline module) */
 	--gutter-x: 14px;          /* column gap */
 	--gutter-y: 14px;          /* row gap */
-	--margin: 3px;             /* inner margin around the grid - mobile first */
+	--margin: 6px;             /* inner margin around the grid - mobile first */
 	--line: rgba(255,255,255,.85); /* overlay line color */
 	--bg: #e85a14;             /* page background */
 }

@@ -12,6 +12,7 @@ const problemCardsCollection = (await getCollection("problemCards")) || [];
 const differentiatorsCollection =
   (await getCollection("differentiators")) || [];
 const servicesCollection = (await getCollection("services")) || [];
+const teamMembersCollection = (await getCollection("teamMembers")) || [];
 
 // Sort collections by order
 problemCardsCollection.sort(
@@ -21,11 +22,13 @@ differentiatorsCollection.sort(
   (a, b) => (a.data.order ?? 0) - (b.data.order ?? 0)
 );
 servicesCollection.sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
+teamMembersCollection.sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
 
 // Collections are already rendered with Astro v5+
 const problemCards = problemCardsCollection;
 const differentiators = differentiatorsCollection;
 const services = servicesCollection;
+const teamMembers = teamMembersCollection;
 
 // Use the homepage data and fail loudly if it doesn't exist
 if (!homepage) {
@@ -102,6 +105,36 @@ const content = homepage;
         ))
       }
     </div>
+  </section>
+
+  <!-- About Us -->
+  <section class="gc-full grid-local-10 gr-span-25">
+    <section class="gc-full gr-span-2">
+      <h3 class="text-3xl md:text-4xl leading-snug mt-20">
+        {content.aboutUsTitle}
+      </h3>
+      <p class="text-sm leading-normal">
+        {content.aboutUsDescription}
+      </p>
+    </section>
+
+    {
+      teamMembers.map((member) => (
+        <section class="gc-full gr-span-6 md:col-span-3 lg:col-span-5 py-5 px-5">
+          <h4 class="text-2xl mb-3">{member.data.name.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}</h4>
+          <h5 class="text-lg mb-3 text-gray-600">{member.data.title}</h5>
+          <div class="text-sm leading-normal prose-sm mb-4" set:html={member.rendered?.html} />
+          <div class="text-sm leading-normal">
+            <strong>Specializes in:</strong>
+            <ul class="list-disc list-inside mt-2 space-y-1">
+              {member.data.specializations.map((spec) => (
+                <li>{spec}</li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      ))
+    }
   </section>
 
   <!-- Services -->
