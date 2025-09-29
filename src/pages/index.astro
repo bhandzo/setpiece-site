@@ -43,10 +43,8 @@ const content = homepage;
 <PageLayout meta={{ title: "Home Page" }}>
   <!-- Hero image -->
 
-  <section class="gc-full mt-28 mb-28">
-    <h2 class="text-3xl
-    md:text-4xl
-    leading-snug">
+  <section class="gc-full py-baseline">
+    <h2 class="text-3xl md:text-4xl leading-snug mb-baseline-sm">
       {content.heroTitle}
     </h2>
     <p class="text-sm leading-normal">
@@ -64,9 +62,9 @@ const content = homepage;
   <!-- Hero statement -->
 
   <!-- Two-column editorial with asymmetric spans -->
-  <section class="gc-full grid-local mb-20">
-    <article class="gc-full md:col-span-5 lg:col-span-10 mb-10">
-      <h3 class="text-3xl md:text-4xl leading-snug">
+  <section class="gc-full grid-local mb-baseline">
+    <article class="gc-full md:col-span-5 lg:col-span-10 mb-baseline-sm">
+      <h3 class="text-3xl md:text-4xl leading-snug mb-baseline-sm">
         {content.mainProblemTitle}
       </h3>
       <p class="text-sm leading-normal">
@@ -76,8 +74,8 @@ const content = homepage;
 
     {
       problemCards.map((card) => (
-        <section class="gc-full md:col-span-2 lg:col-span-3 md:border-t-[5px] md:border-black">
-          <h4 class="text-xl">{card.data.title}</h4>
+        <section class="gc-full md:col-span-2 lg:col-span-3 md:border-t-[5px] md:border-black py-baseline-sm">
+          <h4 class="text-xl mb-4">{card.data.title}</h4>
           <div
             class="text-sm leading-normal prose-sm prose-p:mb-0"
             set:html={card.rendered?.html}
@@ -98,16 +96,16 @@ const content = homepage;
 
   <!-- Differentiation -->
   <section class="gc-full grid-local bg-black text-white">
-    <article class="gc-full md:col-span-2 lg:gc-third py-5 px-5">
-      <h3 class="text-3xl md:text-4xl leading-snug mb-4">
+    <article class="gc-full md:col-span-2 lg:gc-third py-baseline-sm px-5">
+      <h3 class="text-3xl md:text-4xl leading-snug mb-baseline-sm">
         {content.differentiatorTitle}
       </h3>
     </article>
-    <div class="gc-full md:gc-two-thirds lg:gc-two-thirds py-5 px-5">
+    <div class="gc-full md:gc-two-thirds lg:gc-two-thirds py-baseline-sm px-5">
       {
         differentiators.map((diff) => (
-          <section class="mb-8 last:mb-0">
-            <h4 class="text-xl mb-3">{diff.data.title}</h4>
+          <section class="mb-6 last:mb-0">
+            <h4 class="text-xl mb-4">{diff.data.title}</h4>
             <div
               class="text-sm leading-normal prose-sm prose-p:mb-0"
               set:html={diff.rendered?.html}
@@ -119,9 +117,9 @@ const content = homepage;
   </section>
 
   <!-- About Us -->
-  <section class="gc-full grid-local-10 mt-20">
-    <section class="gc-full mt-4 mb-10">
-      <h3 class="text-3xl md:text-4xl leading-snug">
+  <section class="gc-full grid-local-10 mt-baseline">
+    <section class="gc-full py-baseline-sm">
+      <h3 class="text-3xl md:text-4xl leading-snug mb-baseline-sm">
         {content.aboutUsTitle}
       </h3>
       <p class="text-sm leading-normal">
@@ -131,13 +129,13 @@ const content = homepage;
 
     {
       teamMembers.map((member) => (
-        <section class="gc-full md:col-span-3 lg:col-span-5 py-5 px-5 bg-gray-200">
-          <h4 class="text-2xl mb-3">
+        <section class="gc-full md:col-span-3 lg:col-span-5 py-baseline-sm px-5 bg-gray-200">
+          <h4 class="text-2xl mb-4">
             {member.data.name
               .replace("-", " ")
               .replace(/\b\w/g, (l) => l.toUpperCase())}
           </h4>
-          <h5 class="text-lg mb-3 text-gray-600">{member.data.title}</h5>
+          <h5 class="text-lg mb-4 text-gray-600">{member.data.title}</h5>
           <div
             class="text-sm leading-normal prose-sm mb-4"
             set:html={member.rendered?.html}
@@ -167,7 +165,7 @@ const content = homepage;
   <!-- Services -->
   <section class="gc-full grid-local-10 gr-span-25">
     <section class="gc-full gr-span-2">
-      <h3 class="text-3xl md:text-4xl leading-snug mt-20">
+      <h3 class="text-3xl md:text-4xl leading-snug mt-baseline mb-baseline-sm">
         {content.servicesTitle}
       </h3>
       <p class="text-sm leading-normal">
@@ -177,8 +175,8 @@ const content = homepage;
 
     {
       services.map((service) => (
-        <section class="gc-full gr-span-6 md:col-span-3 lg:col-span-5 border-1 border-black py-5 px-5">
-          <h4 class="text-2xl mb-3">{service.data.title}</h4>
+        <section class="gc-full gr-span-6 md:col-span-3 lg:col-span-5 border-1 border-black py-baseline-sm px-5">
+          <h4 class="text-2xl mb-4">{service.data.title}</h4>
           <div
             class="text-sm leading-normal prose-sm"
             set:html={service.rendered?.html}

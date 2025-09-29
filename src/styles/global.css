@@ -6,6 +6,10 @@
 :root {
 	color-scheme: light;
 	--font-fallback-sans: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; 
+	/* Baseline rhythm system built on 4px foundation */
+	--baseline: 24px;          /* 6 × 4px - our main rhythm unit */
+	--baseline-sm: 16px;       /* 4 × 4px - small rhythm unit */
+	--baseline-lg: 32px;       /* 8 × 4px - large rhythm unit */
 	/* Mobile-first responsive grid */
 	--cols: 3;                 /* mobile: 3 columns */
 	--row: min-content max-content auto;               /* row height (baseline module) */
@@ -181,6 +185,29 @@ html {
 
 	.title {
 		@apply text-accent-2 text-2xl font-semibold;
+	}
+
+	/* Minimal baseline rhythm utilities */
+	.mb-baseline {
+		margin-bottom: var(--baseline);
+	}
+	
+	.mb-baseline-sm {
+		margin-bottom: var(--baseline-sm);
+	}
+	
+	.mb-baseline-lg {
+		margin-bottom: var(--baseline-lg);
+	}
+	
+	.py-baseline {
+		padding-top: var(--baseline);
+		padding-bottom: var(--baseline);
+	}
+	
+	.py-baseline-sm {
+		padding-top: var(--baseline-sm);
+		padding-bottom: var(--baseline-sm);
 	}
 
 	/* typographic defaults */

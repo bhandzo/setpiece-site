@@ -28,11 +28,11 @@ const readingTime: string = remarkPluginFrontmatter.readingTime;
   }}
 >
   <article class="gc-full grid-local" data-pagefind-body>
-    <div id="blog-hero" class="gc-full">
-      <Masthindead content={post} readingTime={readingTime} />
+    <div id="blog-hero" class="gc-full py-baseline">
+      <Masthead content={post} readingTime={readingTime} />
     </div>
     <div
-      class="gc-full md:gc-two-thirds lg:gc-two-thirds mx-auto"
+      class="gc-full md:gc-two-thirds lg:gc-two-thirds mx-auto py-baseline-sm"
       style="max-width: 515px;"
     >
       <div
@@ -44,7 +44,7 @@ const readingTime: string = remarkPluginFrontmatter.readingTime;
     </div>
     {
       !!headings.length && (
-        <div class="gc-full md:gc-third lg:gc-third">
+        <div class="gc-full md:gc-third lg:gc-third py-baseline-sm">
           <TOC headings={headings} />
         </div>
       )
