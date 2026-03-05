@@ -100,11 +100,10 @@ export default defineConfig({
     },
 });
 
-function rawFonts(ext: string[]) {
+function rawFonts(ext: string[]): import("vite").Plugin {
     return {
         name: "vite-plugin-raw-fonts",
-        // @ts-expect-error:next-line
-        transform(_, id) {
+        transform(_code: string, id: string) {
             if (ext.some((e) => id.endsWith(e))) {
                 const buffer = fs.readFileSync(id);
                 return {

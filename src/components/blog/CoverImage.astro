@@ -1,0 +1,23 @@
+---
+// ABOUTME: Full-width cover image for blog posts, separated from post metadata.
+// ABOUTME: Uses responsive aspect-ratio sizing instead of hardcoded pixel dimensions.
+import { Image } from "astro:assets";
+
+interface Props {
+	src: ImageMetadata;
+	alt: string;
+}
+
+const { src, alt } = Astro.props;
+---
+
+<div class="aspect-video w-full overflow-hidden">
+	<Image
+		alt={alt}
+		class="h-full w-full object-cover"
+		loading="eager"
+		src={src}
+		widths={[480, 768, 1024, 1440]}
+		sizes="100vw"
+	/>
+</div>

@@ -1,5 +1,6 @@
 ---
-import { Image } from "astro:assets";
+// ABOUTME: Post metadata display for blog posts (title, date, reading time, tags).
+// ABOUTME: Paired with CoverImage.astro which handles the hero image separately.
 import type { CollectionEntry } from "astro:content";
 import FormattedDate from "@/components/FormattedDate.astro";
 
@@ -18,20 +19,6 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 };
 ---
 
-{
-	data.coverImage && (
-		<div class="mb-6 aspect-video">
-			<Image
-				alt={data.coverImage.alt}
-				layout="constrained"
-				width={748}
-				height={420}
-				priority
-				src={data.coverImage.src}
-			/>
-		</div>
-	)
-}
 {data.draft ? <span class="text-base text-red-500">(Draft)</span> : null}
 <h1 class="title">
 	{data.title}
@@ -71,13 +58,10 @@ const dateTimeOptions: Intl.DateTimeFormatOptions = {
 				<path d="M6 9h-.01" />
 			</svg>
 			{data.tags.map((tag, i) => (
-				<>
-					{/* prettier-ignore */}
-					<span class="contents">
-						<a class="cactus-link inline-block before:content-['#']" data-pagefind-filter={`tag:${tag}`} href={`/tags/${tag}/`}><span class="sr-only">View more blogs with the tag&nbsp;</span>{tag}
-						</a>{i < data.tags.length - 1 && ", "}
-					</span>
-				</>
+				<span class="contents">
+					<a class="cactus-link inline-block before:content-['#']" data-pagefind-filter={`tag:${tag}`} href={`/tags/${tag}/`}><span class="sr-only">View more blogs with the tag&nbsp;</span>{tag}
+					</a>{i < data.tags.length - 1 && ", "}
+				</span>
 			))}
 		</div>
 	)

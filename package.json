@@ -12,7 +12,9 @@
 		"format": "pnpm run format:code && pnpm run format:imports",
 		"format:code": "biome format . --write && prettier -w \"**/*\" \"!**/*.{md,mdx}\" --ignore-unknown --cache",
 		"format:imports": "biome check --formatter-enabled=false --write",
-		"check": "astro check"
+		"check": "astro check",
+		"test": "vitest run",
+		"test:watch": "vitest"
 	},
 	"dependencies": {
 		"@astrojs/markdoc": "^0.15.6",
@@ -67,7 +69,8 @@
 		"prettier-plugin-tailwindcss": "^0.6.13",
 		"reading-time": "^1.5.0",
 		"tailwindcss": "4.1.11",
-		"typescript": "^5.8.3"
+		"typescript": "^5.8.3",
+		"vitest": "^4.0.18"
 	},
 	"pnpm": {
 		"overrides": {
