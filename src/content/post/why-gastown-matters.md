@@ -1,5 +1,5 @@
 ---
-title: "Collective Intelligence Is the Next Frontier, And Gastown Is a Glimpse of the Future"
+title: "Collective Intelligence Is the Next Frontier"
 publishDate: "28 Mar 2026"
 description: "The best AI models can code anything. But making agents work together at scale is the real challenge — and Gastown shows us how."
 tags: ["ai", "agents", "distributed-systems"]
