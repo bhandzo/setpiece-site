@@ -47,7 +47,7 @@ AGI may not emerge from a single superintelligent model. It may emerge from orch
 
 ## So what is Gastown?
 
-[Gastown](https://github.com/steveyegge/gastown) is a distributed multi-agent system that takes coordination seriously. It solves the problems Jesse ran into — and the ones that would break our customer support example — with four ideas.
+[Gastown](https://github.com/steveyegge/gastown) is a Mad Max themed distributed multi-agent system created by Steve Yegge that takes coordination seriously. It solves the problems Jesse ran into — and the ones that would break our customer support example — with four ideas.
 
 **Mail.** Agents need their own communication protocol. Slack doesn't work. Email doesn't work. Human tools are designed for humans. Humans are lazy, the do not update the CRM. Agents will happily complete a 10 page form in order to hand off a simple piece of work. Gastown gives agents a structured mail system where every handoff is explicit.
 
