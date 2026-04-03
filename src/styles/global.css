@@ -46,7 +46,8 @@
 
 	body {
 		margin: 0;
-		color: #111;
+		color: var(--color-global-text);
+		background-color: var(--color-global-bg);
 		font-family: system-ui, sans-serif;
 		display: flex;
 		justify-content: center;
