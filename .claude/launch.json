@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Astro Dev",
+      "runtimeExecutable": "/Users/kimberlynortman/.local/share/mise/installs/npm-pnpm/11.0.9/bin/pnpm",
+      "runtimeArgs": ["dev"],
+      "port": 4321
+    },
+    {
+      "name": "Astro Preview",
+      "runtimeExecutable": "/Users/kimberlynortman/.local/share/mise/installs/npm-pnpm/11.0.9/bin/pnpm",
+      "runtimeArgs": ["preview"],
+      "port": 4321
+    }
+  ]
+}
