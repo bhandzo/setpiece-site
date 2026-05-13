@@ -2,14 +2,14 @@
 title: Executive Coaching
 order: 0
 ---
-### Make Hard Decisions, Move Fast, Get Results
+### Lead at AI-Era Pace
 
-Weekly/bi-weekly coaching sessions plus "red phone" access for founders navigating the challenges of scaling leadership while needing to solve complex business problems fast.
+Coaching for leaders running businesses where the operating tempo, the toolkit, and the team's habits are all changing at once. Weekly or bi-weekly sessions plus "red phone" access for founders and executives who need a thinking partner who's actually operated through this.
 
-- Strategic thinking and radical candor development
-- Communication and people management in growth phases
-- Embedding culture and values into all business touchpoints
-- Decision frameworks for complex leadership challenges
-- Product strategy and organizational design
+- Decision systems and radical candor for AI-era operating
+- Communication and people management as the org reshapes
+- Embedding culture and values into a team that's leveraging new tools
+- Org design and operating-model judgment calls
+- Product, strategy, and leadership through pivots and scale
 
-**Perfect for:**&nbsp;Leaders committed to continuous improvement who embrace honest self-reflection and recognize that people are the key drivers of business success.
+**Perfect for:**&nbsp;Leaders who treat continuous improvement as part of the job, embrace honest self-reflection, and understand that the people are what makes the operation actually work.
