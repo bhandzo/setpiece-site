@@ -1,6 +1,5 @@
 ---
-title: Built for the Wrong Era, or Not Yet Built for This One
+title: Built for the Wrong Era
 order: 3
 ---
-
-Established operations were designed pre-AI and absorb every gain you try to make. Earlier teams have the customer and industry expertise but risk baking in yesterday's assumptions before they ship. Bolt-on tools don't fix either. The operating model does.
+You have the customer and industry expertise but aren't sure how to future proof operations. Bolt-on tools don't fix things. The operating model does.
