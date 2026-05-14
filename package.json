@@ -5,6 +5,7 @@
 	"private": false,
 	"scripts": {
 		"dev": "astro dev",
+		"dev:local": "KEYSTATIC_LOCAL=1 astro dev",
 		"start": "astro dev",
 		"build": "SKIP_KEYSTATIC=true astro build",
 		"preview": "astro preview",

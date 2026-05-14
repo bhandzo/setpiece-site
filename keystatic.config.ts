@@ -2,13 +2,18 @@
 import { config, fields, collection, singleton } from '@keystatic/core';
 
 export default config({
-  storage: {
-    kind: 'github',
-    repo: {
-      owner: 'bhandzo',
-      name: 'setpiece-site',
-    },
-  },
+  // Default to GitHub storage so the deployed admin keeps working.
+  // Run `KEYSTATIC_LOCAL=1 pnpm dev` (or `pnpm dev:local`) to edit files
+  // on disk without a GitHub login.
+  storage: process.env.KEYSTATIC_LOCAL
+    ? { kind: 'local' }
+    : {
+        kind: 'github',
+        repo: {
+          owner: 'bhandzo',
+          name: 'setpiece-site',
+        },
+      },
   collections: {
     post: collection({
       label: 'Blog Posts',
