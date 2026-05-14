@@ -5,6 +5,7 @@
 	"private": false,
 	"scripts": {
 		"dev": "astro dev",
+		"dev:local": "KEYSTATIC_LOCAL=1 astro dev",
 		"start": "astro dev",
 		"build": "SKIP_KEYSTATIC=true astro build",
 		"preview": "astro preview",
@@ -70,5 +71,12 @@
 		"tailwindcss": "4.1.11",
 		"typescript": "^5.8.3",
 		"vitest": "^4.0.18"
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"@tailwindcss/oxide",
+			"esbuild",
+			"sharp"
+		]
 	}
 }

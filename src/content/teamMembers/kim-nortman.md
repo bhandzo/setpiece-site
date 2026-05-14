@@ -1,12 +1,12 @@
 ---
 name: kim-nortman
-title: Executive Coach & Strategic Advisor
+title: CEO, Executive Coach, & Strategic Advisor
 order: 1
 specializations:
   - Executive coaching
-  - Strategic pivots
-  - Organizational transformation
+  - AI-native organizational transformation
+  - Strategic pivots and PMF
   - Leadership team alignment
+  - Culture and adoption
 ---
-
-Exited 2x founder, CEO, and lawyer. Coaches CEOs and technical leaders through transformational growth. Embeds to help you find PMF, execute a pivot, get your company off the ground, or scale. Expert in strategy, operations, leadership, culture, and AI transformation for non-technical teams.
+Exited 2x founder, CEO, and lawyer. Native AI operator who coaches CEOs and embeds with leadership teams through pivots, PMF, scaling, and AI-era operating model rebuilds. Expert in strategy, culture, leadership, and AI-enablement for non-technical teams.
