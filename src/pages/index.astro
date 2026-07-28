@@ -6,7 +6,7 @@ import lightsCropped from "@/content/images/Lights_Cropped.jpg";
 import flags from "@/content/images/Flags.jpeg";
 import { getCollection } from "astro:content";
 
-// Import homepage data directly - Astro handles YAML natively
+// Homepage copy is managed by the Keystatic "homepage" singleton, stored as JSON
 import homepage from "@/content/homepage.json";
 
 // Get collections data
@@ -34,7 +34,7 @@ const teamMembers = teamMembersCollection;
 
 // Use the homepage data and fail loudly if it doesn't exist
 if (!homepage) {
-  throw new Error("Homepage data not found at src/content/homepage/index.yaml");
+  throw new Error("Homepage data not found at src/content/homepage.json");
 }
 
 const content = homepage;
@@ -132,7 +132,7 @@ const content = homepage;
         <section class="gc-full md:col-span-3 lg:col-span-5 py-baseline-sm px-5 bg-gray-200">
           <h4 class="text-2xl mb-4">
             {member.data.name
-              .replace("-", " ")
+              .replace(/-/g, " ")
               .replace(/\b\w/g, (l) => l.toUpperCase())}
           </h4>
           <h5 class="text-lg mb-4 text-gray-600">{member.data.title}</h5>
@@ -184,27 +184,5 @@ const content = homepage;
         </section>
       ))
     }
-
-    <!-- <details class="group">
-          <summary class="text-sm leading-normal cursor-pointer list-none">
-            <span class="group-open:hidden">{content.servicesDescription}</span>
-            <span class="hidden group-open:inline"
-              >Click to collapse description</span
-            >
-          </summary>
-          <div class="text-sm leading-normal mt-2">
-            <p>
-              This is additional content that expands when you click the summary
-              above. You can put any server-rendered content here - paragraphs,
-              lists, or even more complex markup.
-            </p>
-            <p>
-              Since this is server-rendered, it works perfectly with Astro's
-              static generation and doesn't require any JavaScript.
-            </p>
-          </div>
-        </details> -->
   </section>
-
-  <!-- Three-column problem sections -->
 </PageLayout>
