@@ -11,7 +11,7 @@
 	"linter": {
 		"enabled": true,
 		"rules": {
-			"recommended": true,
+			"preset": "recommended",
 			"a11y": {
 				"noSvgWithoutTitle": "off"
 			},
@@ -36,6 +36,11 @@
 		"formatter": {
 			"trailingCommas": "all",
 			"semicolons": "always"
+		}
+	},
+	"css": {
+		"parser": {
+			"tailwindDirectives": true
 		}
 	},
 	"vcs": {
