@@ -3,3 +3,12 @@ allowBuilds:
   '@tailwindcss/oxide': true
   esbuild: true
   sharp: true
+  workerd: false
+
+# Compat mirror of allowBuilds for pnpm 10 (which Cloudflare Pages runs and
+# which does not read allowBuilds). Keep the two lists in sync.
+onlyBuiltDependencies:
+  - '@biomejs/biome'
+  - '@tailwindcss/oxide'
+  - esbuild
+  - sharp

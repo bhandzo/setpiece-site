@@ -1,7 +1,6 @@
 /* would like to ignore ./src/pages/og-image/[slug].png.ts */
 @import "tailwindcss";
-/* config for tailwindcss-typography plugin */
-@config "../../tailwind.config.ts";
+@plugin "@tailwindcss/typography";
 
 :root {
 	color-scheme: light;
@@ -21,7 +20,7 @@
 }
 
 /* use a selector-based strategy for dark mode */
-@variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 /* you could refactor below to use light-dark(), depending on your target audience */
 @theme {
@@ -31,6 +30,33 @@
 	--color-accent: oklch(55.27% 0.195 19.06);
 	--color-accent-2: oklch(18.15% 0 0);
 	--color-quote: oklch(55.27% 0.195 19.06);
+
+	/* Tokens migrated from the legacy tailwind.config.ts */
+	--color-paper: #ffffff;
+	--color-ink: #111111;
+
+	--font-sans: aktiv-grotesk, system-ui, sans-serif;
+	--font-mono:
+		bc-sklonar, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+		"Courier New", monospace;
+
+	--leading-snug: 1.25;
+	--leading-loose: 1.65;
+
+	/* used via `max-w-measure` for comfortable reading width */
+	--container-measure: 72ch;
+
+	/* Per-size line-heights (the sizes themselves match Tailwind defaults) */
+	--text-xs--line-height: 1.5;
+	--text-sm--line-height: 1.5;
+	--text-base--line-height: 1.5;
+	--text-lg--line-height: 1.5;
+	--text-xl--line-height: 1.5;
+	--text-2xl--line-height: 1.25;
+	--text-3xl--line-height: 1.25;
+	--text-4xl--line-height: 1.2;
+	--text-5xl--line-height: 1.1;
+	--text-6xl--line-height: 1.1;
 }
 
 
@@ -266,4 +292,120 @@ html {
 	--tw-prose-links: var(--color-global-text);
 	--tw-prose-quotes: var(--color-quote);
 	--tw-prose-th-borders: #666;
+}
+
+/* ------------------------------------------------------------------------
+ * @tailwindcss/typography customizations, migrated from the legacy
+ * tailwind.config.ts (theme.extend.typography). CSS-first config can't pass
+ * options to the plugin, so these override its defaults. Selectors mirror
+ * the plugin's own `:where()` pattern so specificity and the `not-prose`
+ * escape hatch behave exactly as before; the @layer utilities wrapper keeps
+ * them in the same cascade layer as the plugin's output, after it.
+ * --------------------------------------------------------------------- */
+@layer utilities {
+	.prose :where(a):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+		text-underline-offset: 2px;
+	}
+
+	@media (hover: hover) {
+		.prose :where(a):not(:where([class~="not-prose"], [class~="not-prose"] *)):hover {
+			text-decoration-color: var(--color-link);
+			text-decoration-thickness: 2px;
+		}
+	}
+
+	.prose :where(blockquote):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+		border-left-width: 0;
+	}
+
+	/* `pre code` is excluded so code blocks keep the plugin's borderless reset */
+	.prose
+		:where(code):not(:where([class~="not-prose"], [class~="not-prose"] *)):not(:where(pre code)) {
+		border: 1px dotted #666;
+		border-radius: 2px;
+	}
+
+	.prose
+		:where(kbd):not(:where([class~="not-prose"], [class~="not-prose"] *)):where(
+			[data-theme="dark"],
+			[data-theme="dark"] *
+		) {
+		background: var(--color-global-text);
+	}
+
+	.prose :where(hr):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+		border-top-style: solid;
+	}
+
+	.prose :where(strong):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+		font-weight: 700;
+	}
+
+	/* Footnote markers rendered as [n] */
+	.prose :where(sup):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+		margin-inline-start: calc(var(--spacing) * 0.5);
+	}
+
+	.prose :where(sup):not(:where([class~="not-prose"], [class~="not-prose"] *)) a::before {
+		content: "[";
+	}
+
+	.prose :where(sup):not(:where([class~="not-prose"], [class~="not-prose"] *)) a::after {
+		content: "]";
+	}
+
+	@media (hover: hover) {
+		.prose :where(sup):not(:where([class~="not-prose"], [class~="not-prose"] *)) a:hover {
+			color: var(--color-link);
+		}
+	}
+
+	/* Tables: no row borders; dashed rules on header and footer */
+	.prose :where(thead):not(:where([class~="not-prose"], [class~="not-prose"] *)),
+	.prose :where(tbody tr):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+		border-bottom-width: 0;
+	}
+
+	.prose :where(thead th):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+		border-bottom: 1px dashed #666;
+		font-weight: 700;
+	}
+
+	.prose :where(tfoot):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+		border-top: 1px dashed #666;
+	}
+
+	.prose
+		:where(th[align="center"], td[align="center"]):not(
+			:where([class~="not-prose"], [class~="not-prose"] *)
+		) {
+		text-align: center;
+	}
+
+	.prose
+		:where(th[align="right"], td[align="right"]):not(
+			:where([class~="not-prose"], [class~="not-prose"] *)
+		) {
+		text-align: right;
+	}
+
+	.prose
+		:where(th[align="left"], td[align="left"]):not(
+			:where([class~="not-prose"], [class~="not-prose"] *)
+		) {
+		text-align: left;
+	}
+
+	.prose
+		:where(.expressive-code, .admonition, .github-card):not(
+			:where([class~="not-prose"], [class~="not-prose"] *)
+		) {
+		margin-top: calc(var(--spacing) * 4);
+		margin-bottom: calc(var(--spacing) * 4);
+	}
+
+	.prose-sm :where(code):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+		font-size: var(--text-sm);
+		font-weight: 400;
+	}
 }

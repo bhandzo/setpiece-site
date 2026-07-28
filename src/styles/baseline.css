@@ -1,4 +1,5 @@
-/* Add class "baseline" on <body> to show a 4px baseline grid overlay */
+/* Dev-only design tool: not imported by the site. Add class "baseline" on <body>
+   to show a 4px baseline grid overlay (see docs/baseline_realign.md for context). */
 .baseline::before {
     content: "";
     position: fixed; inset: 0;
