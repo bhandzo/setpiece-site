@@ -69,28 +69,6 @@ export default config({
         }),
       },
     }),
-    note: collection({
-      label: 'Notes',
-      slugField: 'title',
-      path: 'src/content/note/*',
-      format: { contentField: 'content' },
-      schema: {
-        title: fields.slug({ name: { label: 'Title' } }),
-        description: fields.text({ 
-          label: 'Description',
-          multiline: true,
-          validation: { isRequired: false }
-        }),
-        publishDate: fields.datetime({ 
-          label: 'Publish Date',
-          defaultValue: { kind: 'now' }
-        }),
-        content: fields.markdoc({ 
-          label: 'Content',
-          extension: 'md'
-        }),
-      },
-    }),
     tag: collection({
       label: 'Tags',
       slugField: 'title',
