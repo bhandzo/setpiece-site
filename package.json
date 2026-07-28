@@ -1,8 +1,8 @@
 {
-	"name": "astro-cactus",
+	"name": "setpiece-site",
 	"type": "module",
-	"version": "6.8.0",
-	"private": false,
+	"version": "0.1.0",
+	"private": true,
 	"scripts": {
 		"dev": "astro dev",
 		"dev:local": "KEYSTATIC_LOCAL=1 astro dev",
@@ -37,7 +37,6 @@
 		"astro-webmanifest": "^1.0.0",
 		"cssnano": "^7.0.7",
 		"hastscript": "^9.0.0",
-		"install": "^0.13.0",
 		"mdast-util-directive": "^3.0.0",
 		"mdast-util-to-markdown": "^2.1.2",
 		"mdast-util-to-string": "^4.0.0",
@@ -70,6 +69,7 @@
 		"reading-time": "^1.5.0",
 		"tailwindcss": "4.1.11",
 		"typescript": "^5.8.3",
+		"vite": "^6.3.6",
 		"vitest": "^4.0.18"
 	}
 }

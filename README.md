@@ -78,4 +78,4 @@ mise.toml        Pinned Node + pnpm versions
 
 ## Credits
 
-Originally forked from [chrismwilliams/astro-theme-cactus](https://github.com/chrismwilliams/astro-theme-cactus). The cactus theme docs cover features not duplicated here (Pagefind search, webmentions, OG image generation, admonitions).
+Originally forked from [chrismwilliams/astro-theme-cactus](https://github.com/chrismwilliams/astro-theme-cactus). The cactus theme docs cover features not duplicated here (Pagefind search, OG image generation, admonitions).

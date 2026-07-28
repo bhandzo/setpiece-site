@@ -4,7 +4,6 @@ import { type CollectionEntry, render } from "astro:content";
 import CoverImage from "@/components/blog/CoverImage.astro";
 import Masthead from "@/components/blog/Masthead.astro";
 import TOC from "@/components/blog/TOC.astro";
-import WebMentions from "@/components/blog/webmentions/index.astro";
 
 import BaseLayout from "./Base.astro";
 
@@ -44,7 +43,6 @@ const readingTime: string = remarkPluginFrontmatter.readingTime;
         class="prose prose-sm prose-headings:font-semibold prose-headings:text-accent-2"
       >
         <slot />
-        <WebMentions />
       </div>
     </div>
     {

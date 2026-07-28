@@ -1,5 +1,6 @@
 // ABOUTME: Vitest configuration for the Setpiece site.
 // ABOUTME: Uses Astro's Vite config as base for consistent module resolution.
+/// <reference types="vitest/config" />
 import { getViteConfig } from "astro/config";
 
 export default getViteConfig({
