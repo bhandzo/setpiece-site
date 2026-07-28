@@ -111,6 +111,7 @@ function rawFonts(ext: string[]): import("vite").Plugin {
                     map: null,
                 };
             }
+            return undefined;
         },
     };
 }
