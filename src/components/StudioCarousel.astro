@@ -624,6 +624,14 @@ const KNOWN_CARDS = ["softcopy", "dashbox", "tighthead"];
 
     prev.addEventListener("click", () => go(-1));
     next.addEventListener("click", () => go(1));
+    // arrow keys on the focused track move a full slide — small native
+    // keyboard nudges would otherwise be snapped straight back
+    track.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+        e.preventDefault();
+        go(e.key === "ArrowRight" ? 1 : -1);
+      }
+    });
     track.addEventListener("scroll", sync, { passive: true });
     window.addEventListener("resize", sync);
     sync();
