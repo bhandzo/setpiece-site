@@ -1,10 +1,12 @@
 ---
 // ABOUTME: Homepage — "Set Play" Swiss-grid layout: hero with set-play notation,
-// ABOUTME: problem columns, blue differentiator plane, Studio proof artifacts, services table, team.
+// ABOUTME: sections bounded by full-bleed scrimmed imagery and color planes, Studio proof artifacts, services table, team.
 import SetPlay from "@/components/SetPlay.astro";
 import PageLayout from "@/layouts/Base.astro";
 import { Image } from "astro:assets";
+import flags from "@/content/images/Flags.jpeg";
 import lightsCropped from "@/content/images/Lights_Cropped.jpg";
+import hills from "@/content/images/hills.jpg";
 import { getCollection } from "astro:content";
 
 // Homepage copy is managed by the Keystatic "homepage" singleton, stored as JSON
@@ -38,7 +40,7 @@ const services = servicesCollection;
 const teamMembers = teamMembersCollection;
 const studioProducts = studioProductsCollection;
 
-// Maier-style color-pair swatches for the Studio rows, cycled by index
+// Maier-style color pairs for the Studio row spines, cycled by index
 const swatchPairs = [
   ["bg-blue", "bg-orange"],
   ["bg-orange", "bg-ochre"],
@@ -73,40 +75,51 @@ const content = homepage;
     </div>
   </section>
 
-  <!-- 2. Problem — three hairline-separated columns -->
-  <section class="gc-full border-t border-(--hairline) pt-16 pb-24 md:pt-20 md:pb-32">
-    <div class="grid-local-10 mb-16 md:mb-20">
-      <h2
-        class="display text-[clamp(2rem,4vw,3.25rem)] col-span-full lg:col-span-7"
-      >
-        {content.mainProblemTitle}
-      </h2>
-      <p
-        class="text-lg leading-relaxed max-w-[34em] col-span-full md:col-span-4 lg:col-start-6 lg:col-span-5 mt-6"
-      >
-        {content.mainProblemDescription}
-      </p>
+  <!-- 2. Problem — bounded by a full-bleed scrimmed photograph; the image edge
+       is the section boundary. Theme-independent: same in light and dark. -->
+  <section class="gc-full bleed relative">
+    <div class="scrim-backdrop" aria-hidden="true">
+      <Image alt="" sizes="100vw" src={hills} widths={[768, 1440, 2560]} />
     </div>
+    <div
+      class="relative w-[min(1280px,100%)] mx-auto px-(--margin) py-20 md:py-28"
+    >
+      <p class="eyebrow text-[#F1ECE2]/80 mb-6">The problem</p>
+      <div
+        class="grid gap-y-6 lg:grid-cols-12 lg:gap-x-6 items-start mb-14 md:mb-20 text-[#F1ECE2]"
+      >
+        <h2
+          class="display text-[clamp(2rem,4vw,3.25rem)] lg:col-span-6"
+        >
+          {content.mainProblemTitle}
+        </h2>
+        <p
+          class="text-lg leading-relaxed max-w-[34em] lg:col-start-8 lg:col-span-5"
+        >
+          {content.mainProblemDescription}
+        </p>
+      </div>
 
-    <div class="grid md:grid-cols-3">
-      {
-        problemCards.map((card) => (
-          <article class="border-t border-(--hairline) md:border-t-0 md:border-l md:first:border-l-0 md:border-(--hairline) pt-8 pb-10 md:pt-16 md:px-8 md:first:pl-0 md:last:pr-0">
-            <h3 class="text-xl font-bold tracking-tight mb-4">
-              {card.data.title}
-            </h3>
-            <div
-              class="leading-relaxed space-y-4"
-              set:html={card.rendered?.html}
-            />
-          </article>
-        ))
-      }
+      <div class="grid md:grid-cols-3 gap-x-6 gap-y-12 text-[#F1ECE2]">
+        {
+          problemCards.map((card) => (
+            <article class="border-t-[5px] border-[#F1ECE2] pt-6 md:pt-8">
+              <h3 class="text-xl font-bold tracking-tight mb-4">
+                {card.data.title}
+              </h3>
+              <div
+                class="leading-relaxed space-y-4"
+                set:html={card.rendered?.html}
+              />
+            </article>
+          ))
+        }
+      </div>
     </div>
   </section>
 
   <!-- 3. Differentiators — full-bleed slate-blue plane -->
-  <section class="gc-full bleed bg-blue text-[#F1ECE2]">
+  <section class="gc-full bleed bg-blue text-[#F1ECE2] mt-8 md:mt-14">
     <div
       class="w-[min(1280px,100%)] mx-auto px-(--margin) py-20 md:py-28 grid gap-y-12 lg:grid-cols-3 lg:gap-x-6"
     >
@@ -131,65 +144,79 @@ const content = homepage;
     </div>
   </section>
 
-  <!-- 4. Image moment — one photograph, blue duotone, a breather -->
-  <figure class="gc-full bleed duotone" aria-hidden="true">
-    <Image
-      alt=""
-      class="h-[320px] md:h-[480px] w-full object-cover object-center"
-      src={lightsCropped}
-    />
-  </figure>
-
-  <!-- 5. Setpiece Studio — proof artifacts as Maier-style rows -->
-  <section class="gc-full pt-20 pb-24 md:pt-28 md:pb-32">
+  <!-- 4. Setpiece Studio — opens with the deck-cover composition: the lights
+       photograph in full color, orange spine on its left edge, headline
+       overlapping the image edge. Product rows bounded by color spines. -->
+  <section class="gc-full pt-16 pb-24 md:pt-24 md:pb-32">
     <p class="eyebrow text-(--color-muted-dark) mb-6">Setpiece Studio</p>
-    <div class="grid-local-10 mb-16 md:mb-20">
+
+    <div
+      class="grid grid-cols-1 gap-y-8 lg:grid-cols-12 lg:gap-x-6 lg:gap-y-8 mb-16 md:mb-24"
+    >
       <h2
-        class="display text-[clamp(2rem,4vw,3.25rem)] col-span-full lg:col-span-6"
+        class="display text-[clamp(2.75rem,6vw,5.25rem)] relative z-10 lg:col-start-1 lg:col-span-8 lg:row-start-1 lg:self-end"
       >
         {content.studioTitle}
       </h2>
+      <div
+        class="flex h-[320px] md:h-[440px] lg:h-[65vh] lg:col-start-6 lg:col-span-7 lg:row-start-1 lg:row-span-2"
+      >
+        <div class="w-6 lg:w-[76px] shrink-0 bg-orange" aria-hidden="true"></div>
+        <Image
+          alt=""
+          class="min-w-0 flex-1 object-cover"
+          sizes="(min-width: 1024px) 60vw, 100vw"
+          src={lightsCropped}
+          widths={[768, 1440, 2048]}
+        />
+      </div>
       <p
-        class="text-lg leading-relaxed max-w-[34em] col-span-full md:col-span-4 lg:col-start-7 lg:col-span-4 mt-6"
+        class="text-lg leading-relaxed max-w-[28rem] lg:col-start-1 lg:col-span-5 lg:row-start-2 lg:self-start"
       >
         {content.studioDescription}
       </p>
     </div>
 
-    <div class="border-t border-(--hairline)">
+    <div class="space-y-16 md:space-y-20">
       {
         studioProducts.map((product, i) => (
-          <article class="grid md:grid-cols-12 gap-x-6 gap-y-6 border-b border-(--hairline) py-10 md:py-12">
-            <div class="md:col-span-2 flex w-32 md:w-full max-w-40 h-12">
-              <div class:list={["w-1/2", swatchPairs[i % 3]?.[0]]} />
-              <div class:list={["w-1/2", swatchPairs[i % 3]?.[1]]} />
+          <article class="grid grid-cols-[24px_1fr] gap-x-5 md:grid-cols-[112px_1fr] md:gap-x-10">
+            <div class="flex flex-col" aria-hidden="true">
+              <div class:list={["h-1/2", swatchPairs[i % 3]?.[0]]} />
+              <div class:list={["h-1/2", swatchPairs[i % 3]?.[1]]} />
             </div>
-            <div class="md:col-span-4">
-              <h3 class="text-xl font-bold tracking-tight mb-2">
-                {product.data.name}
-              </h3>
-              <p class="leading-relaxed">{product.data.tagline}</p>
+            <div class="grid gap-y-4 md:grid-cols-10 md:gap-x-6 py-1">
+              <div class="md:col-span-4">
+                <h3 class="text-xl font-bold tracking-tight mb-2">
+                  {product.data.name}
+                </h3>
+                <p class="leading-relaxed">{product.data.tagline}</p>
+              </div>
+              <div
+                class="md:col-span-6 leading-relaxed space-y-4 max-w-[38em]"
+                set:html={product.rendered?.html}
+              />
             </div>
-            <div
-              class="md:col-span-6 leading-relaxed space-y-4 max-w-[38em]"
-              set:html={product.rendered?.html}
-            />
           </article>
         ))
       }
     </div>
   </section>
 
-  <!-- 6. Services — Maier contents-table: 01–04 engagement arc -->
+  <!-- 5. Services — Maier contents-table: 01–04 engagement arc. The one place
+       drawn hairlines are honest: a table of contents. -->
   <section class="gc-full pb-24 md:pb-32">
-    <div class="grid-local-10 mb-16 md:mb-20">
+    <p class="eyebrow text-(--color-muted-dark) mb-6">Services</p>
+    <div
+      class="grid gap-y-6 lg:grid-cols-12 lg:gap-x-6 items-start mb-14 md:mb-20"
+    >
       <h2
-        class="display text-[clamp(2rem,4vw,3.25rem)] col-span-full lg:col-span-6"
+        class="display text-[clamp(2rem,4vw,3.25rem)] lg:col-span-6"
       >
         {content.servicesTitle}
       </h2>
       <p
-        class="text-lg leading-relaxed max-w-[34em] col-span-full md:col-span-4 lg:col-start-7 lg:col-span-4 mt-6"
+        class="text-lg leading-relaxed max-w-[34em] lg:col-start-8 lg:col-span-5"
       >
         {content.servicesSubtitle}
       </p>
@@ -215,43 +242,56 @@ const content = homepage;
     </div>
   </section>
 
-  <!-- 7. Team — two operators on bone fields -->
-  <section class="gc-full pb-24 md:pb-32">
-    <div class="grid-local-10 mb-16 md:mb-20">
-      <h2
-        class="display text-[clamp(2rem,4vw,3.25rem)] col-span-full lg:col-span-6"
-      >
-        {content.aboutUsTitle}
-      </h2>
-      <p
-        class="text-lg leading-relaxed max-w-[34em] col-span-full md:col-span-4 lg:col-start-7 lg:col-span-4 mt-6"
-      >
-        {content.aboutUsDescription}
-      </p>
+  <!-- 6. Team — bounded by the full-bleed scrimmed flags photograph; the two
+       operators sit on top as solid surface cards (theme-aware). -->
+  <section class="gc-full bleed relative">
+    <div class="scrim-backdrop" aria-hidden="true">
+      <Image alt="" sizes="100vw" src={flags} widths={[768, 1440, 2560]} />
     </div>
+    <div
+      class="relative w-[min(1280px,100%)] mx-auto px-(--margin) py-20 md:py-28"
+    >
+      <p class="eyebrow text-[#F1ECE2]/80 mb-6">About</p>
+      <div
+        class="grid gap-y-6 lg:grid-cols-12 lg:gap-x-6 items-start mb-14 md:mb-20 text-[#F1ECE2]"
+      >
+        <h2
+          class="display text-[clamp(2rem,4vw,3.25rem)] lg:col-span-6"
+        >
+          {content.aboutUsTitle}
+        </h2>
+        <p
+          class="text-lg leading-relaxed max-w-[34em] lg:col-start-8 lg:col-span-5"
+        >
+          {content.aboutUsDescription}
+        </p>
+      </div>
 
-    <div class="grid md:grid-cols-2 gap-6">
-      {
-        teamMembers.map((member) => (
-          <article class="bg-bone p-8 md:p-10">
-            <h3 class="text-2xl font-bold tracking-tight mb-1">
-              {member.data.name
-                .replace(/-/g, " ")
-                .replace(/\b\w/g, (l) => l.toUpperCase())}
-            </h3>
-            <p class="eyebrow text-(--color-muted-dark) mb-6">{member.data.title}</p>
-            <div
-              class="leading-relaxed space-y-4 mb-8"
-              set:html={member.rendered?.html}
-            />
-            <ul class="eyebrow space-y-2 border-t border-(--hairline) pt-6 list-none">
-              {member.data.specializations.map((spec) => (
-                <li class="ml-0">{spec}</li>
-              ))}
-            </ul>
-          </article>
-        ))
-      }
+      <div class="grid md:grid-cols-2 gap-6">
+        {
+          teamMembers.map((member) => (
+            <article class="bg-bone p-8 md:p-10">
+              <h3 class="text-2xl font-bold tracking-tight mb-1">
+                {member.data.name
+                  .replace(/-/g, " ")
+                  .replace(/\b\w/g, (l) => l.toUpperCase())}
+              </h3>
+              <p class="eyebrow text-(--color-muted-dark) mb-6">
+                {member.data.title}
+              </p>
+              <div
+                class="leading-relaxed space-y-4 mb-8"
+                set:html={member.rendered?.html}
+              />
+              <ul class="eyebrow space-y-2 border-t border-(--hairline) pt-6 list-none">
+                {member.data.specializations.map((spec) => (
+                  <li class="ml-0">{spec}</li>
+                ))}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
     </div>
   </section>
 </PageLayout>
