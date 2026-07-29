@@ -309,37 +309,60 @@ html {
 		pointer-events: none;
 	}
 
-	/* Hero CTA: a solid orange control in the nav's mono-caps voice. Square
-	   corners, full width of its text column, 56px hit area. Text is fixed
+	/* Booking CTA: a solid orange control in the nav's mono-caps voice. Square
+	   corners, auto width (label + 48px side padding), 56px hit area. The kit
+	   serves bc-sklonar at a true 700 — no synthesized bold. Text is fixed
 	   warm-black — 5.48:1 on #E67812, AA at any size in both themes (the
 	   orange plane never flips; the dark theme's ink token would fail at
 	   2.25:1). Hover darkens the orange (#D46E0E keeps ink at 4.68:1). */
-	.hero-cta {
-		display: flex;
+	.cta {
+		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		width: 100%;
 		min-height: 3.5rem;
-		margin-top: 2rem;
-		padding: 0.5rem 1.5rem;
+		padding: 0.5rem 3rem;
 		background: var(--color-orange);
 		color: #222019;
 		font-family: var(--font-mono);
 		font-size: 0.9375rem;
+		font-weight: 700;
 		line-height: 1.2;
 		text-transform: uppercase;
 		letter-spacing: 0.08em;
 		text-align: center;
 		transition: background-color 150ms ease;
 	}
-	.hero-cta:hover {
+	.cta:hover {
 		background: #d46e0e;
 	}
-	.hero-cta:focus-visible {
+	.cta:focus-visible {
 		/* theme-aware ink: visible against the page paper on both themes,
 		   where the global orange outline would vanish next to the orange fill */
 		outline: 2px solid var(--color-ink);
 		outline-offset: 2px;
+	}
+	/* Hero variant: fills its text column so button and paragraph rule the
+	   same vertical lines. */
+	.cta-hero {
+		display: flex;
+		width: 100%;
+		margin-top: 2rem;
+		padding-inline: 1.5rem;
+	}
+	/* Inverse variant for the orange studio plane, where an orange button
+	   would vanish: solid ink plane, fixed bone label (12.9:1). Hover lifts
+	   the plane a step lighter; the fill stays legible at 10.4:1. */
+	.cta-inverse {
+		background: #222019;
+		color: #f1ece2;
+	}
+	.cta-inverse:hover {
+		background: #3a362b;
+	}
+	/* On the theme-independent dark scrims the ink outline would sink into
+	   the backdrop — fixed bone stays visible in both themes. */
+	.cta-scrim:focus-visible {
+		outline-color: #f1ece2;
 	}
 
 	/* Maier-scale row numeral: a design feature of the services table, not metadata */
