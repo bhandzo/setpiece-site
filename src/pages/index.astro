@@ -1,7 +1,8 @@
 ---
 // ABOUTME: Homepage — "Set Play" Swiss-grid layout: hero with set-play notation,
-// ABOUTME: sections bounded by full-bleed scrimmed imagery and color planes, Studio proof artifacts, services table, team.
+// ABOUTME: sections bounded by full-bleed scrimmed imagery and color planes, Studio OG-card carousel, services accordion, team.
 import SetPlay from "@/components/SetPlay.astro";
+import StudioCarousel from "@/components/StudioCarousel.astro";
 import PageLayout from "@/layouts/Base.astro";
 import { Image } from "astro:assets";
 import flags from "@/content/images/Flags.jpeg";
@@ -39,13 +40,6 @@ const differentiators = differentiatorsCollection;
 const services = servicesCollection;
 const teamMembers = teamMembersCollection;
 const studioProducts = studioProductsCollection;
-
-// Maier-style color pairs for the Studio row spines, cycled by index
-const swatchPairs = [
-  ["bg-blue", "bg-orange"],
-  ["bg-orange", "bg-ochre"],
-  ["bg-blue", "bg-ochre"],
-];
 
 // Use the homepage data and fail loudly if it doesn't exist
 if (!homepage) {
@@ -149,64 +143,34 @@ const content = homepage;
     </div>
   </section>
 
-  <!-- 4. Setpiece Studio — opens with the deck-cover composition: the lights
-       photograph in full color, orange spine on its left edge, headline
-       overlapping the image edge. Product rows bounded by color spines.
+  <!-- 4. Setpiece Studio — deck-cover v2: full-width headline and subhead over
+       the lights photograph in full color at container width, a solid orange
+       bar flush across the image's top edge (the deck spine, laid horizontal).
+       Products follow as an OG-card carousel — each card its own brand artifact.
        pt matches the services→flags paper gap so both full-bleed seams read equal. -->
   <section class="gc-full pt-24 pb-24 md:pt-32 md:pb-32">
     <p class="eyebrow text-(--color-muted-dark) mb-6">Setpiece Studio</p>
 
-    <div
-      class="grid grid-cols-1 gap-y-8 lg:grid-cols-12 lg:gap-x-6 lg:gap-y-8 mb-16 md:mb-24"
-    >
-      <h2
-        class="display text-[clamp(2.75rem,6vw,5.25rem)] relative z-10 lg:col-start-1 lg:col-span-8 lg:row-start-1 lg:self-end"
-      >
+    <div class="mb-16 md:mb-24">
+      <h2 class="display text-[clamp(2.75rem,6vw,5.25rem)]">
         {content.studioTitle}
       </h2>
-      <div
-        class="flex h-[320px] md:h-[440px] lg:h-[65vh] lg:col-start-6 lg:col-span-7 lg:row-start-1 lg:row-span-2"
-      >
-        <div class="w-6 lg:w-[76px] shrink-0 bg-orange" aria-hidden="true"></div>
+      <p class="text-lg leading-relaxed max-w-[44em] mt-6 md:mt-8 mb-12 md:mb-16">
+        {content.studioDescription}
+      </p>
+      <div>
+        <div class="h-12 lg:h-16 bg-orange" aria-hidden="true"></div>
         <Image
           alt=""
-          class="min-w-0 flex-1 object-cover"
-          sizes="(min-width: 1024px) 60vw, 100vw"
+          class="w-full object-cover h-[260px] md:h-[420px] lg:h-[520px]"
+          sizes="(min-width: 1280px) 1184px, 100vw"
           src={lightsCropped}
           widths={[768, 1440, 2048]}
         />
       </div>
-      <p
-        class="text-lg leading-relaxed max-w-[28rem] lg:col-start-1 lg:col-span-5 lg:row-start-2 lg:self-start"
-      >
-        {content.studioDescription}
-      </p>
     </div>
 
-    <div class="space-y-9 md:space-y-10">
-      {
-        studioProducts.map((product, i) => (
-          <article class="grid grid-cols-[24px_1fr] gap-x-5 md:grid-cols-[112px_1fr] md:gap-x-10">
-            <div class="flex flex-col" aria-hidden="true">
-              <div class:list={["h-1/2", swatchPairs[i % 3]?.[0]]} />
-              <div class:list={["h-1/2", swatchPairs[i % 3]?.[1]]} />
-            </div>
-            <div class="grid gap-y-4 md:grid-cols-10 md:gap-x-6 py-1">
-              <div class="md:col-span-4">
-                <h3 class="text-xl font-bold tracking-tight mb-2">
-                  {product.data.name}
-                </h3>
-                <p class="leading-relaxed">{product.data.tagline}</p>
-              </div>
-              <div
-                class="md:col-span-6 leading-relaxed space-y-4 max-w-[38em]"
-                set:html={product.rendered?.html}
-              />
-            </div>
-          </article>
-        ))
-      }
-    </div>
+    <StudioCarousel products={studioProducts} />
   </section>
 
   <!-- 5. Services — Maier contents-table: 01–04 engagement arc. The one place

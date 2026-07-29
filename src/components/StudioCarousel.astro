@@ -1,0 +1,631 @@
+---
+// ABOUTME: Horizontal scroll-snap carousel of OG-aspect (1200:630) product cards for Setpiece Studio.
+// ABOUTME: Each card is a self-contained brand artifact in that product's own visual language (palette
+// ABOUTME: fixed in both site themes); the site-voice description renders below as a caption row.
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  products: CollectionEntry<"studioProducts">[];
+}
+
+const { products } = Astro.props;
+
+const KNOWN_CARDS = ["softcopy", "dashbox", "tighthead"];
+---
+
+<div class="studio-carousel" data-studio-carousel>
+  <div
+    aria-label="Setpiece Studio products"
+    class="studio-viewport"
+    role="region"
+    tabindex="0"
+  >
+    <ul class="studio-track">
+      {
+      products.map((product, i) => (
+        <li class="studio-slide">
+          {product.id === "softcopy" && (
+            <div class="og-card og-softcopy">
+              <h3 class="sc-wordmark">{product.data.name}</h3>
+              <p class="sc-headline">{product.data.tagline}</p>
+              <div aria-hidden="true" class="sc-artifact">
+                <p class="sc-slide-kicker">06 / 11 · WEEKLY READOUT</p>
+                <p class="sc-slide-title">THE CAMPAIGN PAID&nbsp;OFF.</p>
+                <div class="sc-chart">
+                  <i style="width: 92%"></i>
+                  <i style="width: 64%"></i>
+                  <i style="width: 41%"></i>
+                  <i style="width: 24%"></i>
+                </div>
+                <div class="sc-chips">
+                  <span class="sc-chip sc-chip-dark">
+                    <b>REVENUE</b>$412K
+                  </span>
+                  <span class="sc-chip sc-chip-orange">
+                    <b>ORDERS</b>3,204
+                  </span>
+                </div>
+              </div>
+              <div class="sc-foot">
+                <span>SOFTCOPY · LIVE REPORT</span>
+                <span>FOR MARKETING · BD · SALES · IR</span>
+              </div>
+            </div>
+          )}
+
+          {product.id === "dashbox" && (
+            <div class="og-card og-dashbox">
+              <div class="db-bar">
+                <span>DASHBOX</span>
+                <span>WEEK 31 · MON 06:00</span>
+              </div>
+              <div class="db-body">
+                <h3 class="db-name">{product.data.name}</h3>
+                <p class="db-tagline">{product.data.tagline}</p>
+                <div aria-hidden="true" class="db-stats">
+                  <div class="db-stat">
+                    <span class="db-lab">Weekly revenue</span>
+                    <span class="db-val">$482K</span>
+                    <span class="db-delta db-up">+6.2%</span>
+                  </div>
+                  <div class="db-stat">
+                    <span class="db-lab">Pipeline</span>
+                    <span class="db-val">$1.9M</span>
+                    <span class="db-delta db-up">+3 deals</span>
+                  </div>
+                  <div class="db-stat">
+                    <span class="db-lab">Sell-through</span>
+                    <span class="db-val">74%</span>
+                    <span class="db-delta">−1.2 pt</span>
+                  </div>
+                </div>
+                <div aria-hidden="true" class="db-spark">
+                  <i style="height: 34%"></i>
+                  <i style="height: 52%"></i>
+                  <i style="height: 46%"></i>
+                  <i style="height: 61%"></i>
+                  <i style="height: 55%"></i>
+                  <i style="height: 72%"></i>
+                  <i style="height: 66%"></i>
+                  <i style="height: 84%"></i>
+                  <i style="height: 78%"></i>
+                  <i class="db-now" style="height: 100%"></i>
+                </div>
+              </div>
+              <div class="db-foot">SCHEDULED · WEEKLY · FROM THE WAREHOUSE</div>
+            </div>
+          )}
+
+          {product.id === "tighthead" && (
+            <div class="og-card og-tighthead">
+              <div class="th-top">
+                <h3 class="th-name">{product.data.name}</h3>
+                <span class="th-mark">AGENT RUNS · GATED</span>
+              </div>
+              <p class="th-tagline">{product.data.tagline}</p>
+              <div aria-hidden="true" class="th-runs">
+                <div class="th-run">
+                  <span class="th-lab">RUN 0142</span>
+                  <span class="th-track">
+                    <i class="th-fill" style="width: 100%"></i>
+                    <i class="th-gate" style="left: 34%"></i>
+                    <i class="th-gate" style="left: 68%"></i>
+                  </span>
+                  <span class="th-state th-ok">DEPLOYED</span>
+                </div>
+                <div class="th-run">
+                  <span class="th-lab">RUN 0143</span>
+                  <span class="th-track">
+                    <i class="th-fill" style="width: 68%"></i>
+                    <i class="th-gate" style="left: 34%"></i>
+                    <i class="th-gate th-gate-open" style="left: 68%"></i>
+                  </span>
+                  <span class="th-state th-ok">IN REVIEW</span>
+                </div>
+                <div class="th-run">
+                  <span class="th-lab">RUN 0144</span>
+                  <span class="th-track">
+                    <i class="th-fill" style="width: 34%"></i>
+                    <i class="th-gate th-gate-open" style="left: 34%"></i>
+                    <i class="th-gate th-gate-open" style="left: 68%"></i>
+                  </span>
+                  <span class="th-state">HELD AT GATE</span>
+                </div>
+              </div>
+              <div class="th-foot">PLAN · GATE · EXECUTE · REVIEW · DEPLOY</div>
+            </div>
+          )}
+
+          {!KNOWN_CARDS.includes(product.id) && (
+            <div class="og-card og-generic">
+              <div class="gn-bar" aria-hidden="true"></div>
+              <h3 class="gn-name">{product.data.name}</h3>
+              <p class="gn-tagline">{product.data.tagline}</p>
+            </div>
+          )}
+
+          <div class="studio-caption">
+            <p class="studio-caption-index eyebrow">
+              {String(i + 1).padStart(2, "0")}
+            </p>
+            <div
+              class="leading-relaxed space-y-4 max-w-[38em]"
+              set:html={product.rendered?.html}
+            />
+          </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div class="studio-nav">
+    <button aria-label="Previous product" data-carousel-prev type="button">
+      ←
+    </button>
+    <button aria-label="Next product" data-carousel-next type="button">
+      →
+    </button>
+  </div>
+</div>
+
+<style>
+  /* ---- viewport + track: native scroll + snap, scrollbar hidden, no libraries ---- */
+  .studio-viewport {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .studio-viewport::-webkit-scrollbar {
+    display: none;
+  }
+  .studio-track {
+    display: flex;
+    gap: var(--gutter-x);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .studio-slide {
+    flex: 0 0 88vw;
+    margin-left: 0; /* cancel the site's global li indent */
+    scroll-snap-align: start;
+    container-type: inline-size;
+  }
+  @media (min-width: 768px) {
+    .studio-slide {
+      /* one card mostly visible, a peek of the next */
+      flex-basis: min(85%, 880px);
+    }
+  }
+
+  /* ---- caption row: site typography under each brand artifact ---- */
+  .studio-caption {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 1.25rem;
+    margin-top: 1.25rem;
+  }
+  .studio-caption-index {
+    color: var(--color-muted-dark);
+  }
+
+  /* ---- prev/next: hairline circles in the site's mono notation ---- */
+  .studio-nav {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+  .studio-nav button {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid var(--hairline);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--color-ink);
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .studio-nav button:hover:not(:disabled) {
+    border-color: var(--color-orange);
+    color: var(--color-orange);
+  }
+  .studio-nav button:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+
+  /* ---- card base: OG aspect, fixed per-product palettes in both themes ---- */
+  .og-card {
+    position: relative;
+    aspect-ratio: 1200 / 630;
+    overflow: hidden;
+  }
+
+  /* ---- SOFTCOPY — the one-pager cover language: warm ivory field, deep
+          green ink, big grotesk statement left, a green report vignette
+          right, hairline + mono colophon at the foot ---- */
+  .og-softcopy {
+    background: #fbfcf6;
+    color: #152315;
+    padding: 5cqw 5.5cqw;
+  }
+  .sc-wordmark {
+    font-weight: 700;
+    font-size: clamp(0.8rem, 2.6cqw, 1.5rem);
+    letter-spacing: -0.01em;
+  }
+  .sc-headline {
+    position: absolute;
+    left: 5.5cqw;
+    top: 24%;
+    width: 50%;
+    font-weight: 700;
+    font-size: clamp(0.85rem, 3.9cqw, 2.3rem);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+  }
+  .sc-artifact {
+    position: absolute;
+    right: 5.5cqw;
+    top: 17%;
+    width: 36%;
+    height: 62%;
+    background: #16663a;
+    color: #f3f0df;
+    padding: 3cqw;
+  }
+  .sc-slide-kicker {
+    font-family: var(--font-mono);
+    font-size: clamp(0.32rem, 1.05cqw, 0.6rem);
+    letter-spacing: 0.14em;
+    opacity: 0.75;
+  }
+  .sc-slide-title {
+    font-weight: 700;
+    font-size: clamp(0.55rem, 2.2cqw, 1.3rem);
+    letter-spacing: 0.01em;
+    line-height: 1.05;
+    margin-top: 1cqw;
+  }
+  .sc-chart {
+    margin-top: 2.2cqw;
+    background: #f3f0df;
+    padding: 1.6cqw;
+    display: grid;
+    gap: 1.1cqw;
+  }
+  .sc-chart i {
+    display: block;
+    height: 1.5cqw;
+    background: #16663a;
+  }
+  .sc-chips {
+    display: flex;
+    gap: 1.4cqw;
+    margin-top: 2cqw;
+  }
+  .sc-chip {
+    font-family: var(--font-mono);
+    font-size: clamp(0.34rem, 1.15cqw, 0.68rem);
+    letter-spacing: 0.06em;
+    padding: 1.2cqw 1.6cqw;
+  }
+  .sc-chip b {
+    display: block;
+    font-size: clamp(0.28rem, 0.9cqw, 0.55rem);
+    letter-spacing: 0.14em;
+    margin-bottom: 0.5cqw;
+  }
+  .sc-chip-dark {
+    background: #101b10;
+    color: #fbfcf6;
+  }
+  .sc-chip-dark b {
+    color: #e4c465;
+  }
+  .sc-chip-orange {
+    background: #e8501f;
+    color: #fbfcf6;
+  }
+  .sc-foot {
+    position: absolute;
+    left: 5.5cqw;
+    right: 5.5cqw;
+    bottom: 5cqw;
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid rgba(21, 35, 21, 0.25);
+    padding-top: 1.6cqw;
+    font-family: var(--font-mono);
+    font-size: clamp(0.34rem, 1.1cqw, 0.66rem);
+    letter-spacing: 0.12em;
+    color: #7a8370;
+  }
+
+  /* ---- DASHBOX — 538-style data presentation from the report sender:
+          white report, navy header band, heavy top rules, mono uppercase
+          column labels, mono numbers, teal for the good deltas ---- */
+  .og-dashbox {
+    background: #ffffff;
+    color: #0f172a;
+    display: flex;
+    flex-direction: column;
+  }
+  .db-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #003863;
+    color: #ffffff;
+    font-family: var(--font-mono);
+    font-size: clamp(0.36rem, 1.2cqw, 0.7rem);
+    letter-spacing: 0.16em;
+    padding: 1.8cqw 5cqw;
+  }
+  .db-body {
+    flex: 1;
+    padding: 3.4cqw 5cqw 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .db-name {
+    font-weight: 700;
+    font-size: clamp(0.95rem, 4.4cqw, 2.6rem);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .db-tagline {
+    margin-top: 1cqw;
+    max-width: 58%;
+    color: #64748b;
+    font-size: clamp(0.5rem, 1.7cqw, 1rem);
+    line-height: 1.4;
+  }
+  .db-stats {
+    display: flex;
+    margin-top: auto;
+    margin-bottom: 3cqw;
+    border-top: 2px solid #1e293b;
+    width: 62%;
+  }
+  .db-stat {
+    flex: 1;
+    padding: 1.6cqw 2cqw 0;
+    border-left: 1px solid #e2e8f0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7cqw;
+  }
+  .db-stat:first-child {
+    border-left: none;
+    padding-left: 0;
+  }
+  .db-lab {
+    font-family: var(--font-mono);
+    font-size: clamp(0.3rem, 1cqw, 0.6rem);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #64748b;
+  }
+  .db-val {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: clamp(0.7rem, 2.9cqw, 1.7rem);
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+  .db-delta {
+    font-family: var(--font-mono);
+    font-size: clamp(0.32rem, 1.1cqw, 0.65rem);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #64748b;
+  }
+  .db-up {
+    color: #0d9488;
+  }
+  .db-spark {
+    position: absolute;
+    right: 5cqw;
+    top: 3.4cqw;
+    width: 26%;
+    height: 42%;
+    display: flex;
+    align-items: flex-end;
+    gap: 0.9cqw;
+    border-bottom: 2px solid #1e293b;
+  }
+  .db-spark i {
+    flex: 1;
+    background: #cbd5e1;
+  }
+  .db-spark .db-now {
+    background: #0d9488;
+  }
+  .db-foot {
+    border-top: 1px solid #e2e8f0;
+    margin: 0 5cqw;
+    padding: 1.6cqw 0 2.6cqw;
+    font-family: var(--font-mono);
+    font-size: clamp(0.3rem, 1cqw, 0.6rem);
+    letter-spacing: 0.14em;
+    color: #94a3b8;
+  }
+
+  /* ---- TIGHTHEAD — near-black field, light grotesk, one acid-green
+          accent, rounded run traces with explicit gates (vibe only) ---- */
+  .og-tighthead {
+    background: #101210;
+    color: #edefe6;
+    padding: 5cqw 5.5cqw;
+    display: flex;
+    flex-direction: column;
+  }
+  .th-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .th-name {
+    font-family: aktiv-grotesk-thin, var(--font-sans);
+    font-weight: 200;
+    font-size: clamp(1.1rem, 5cqw, 3rem);
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+  .th-mark {
+    font-family: var(--font-mono);
+    font-size: clamp(0.32rem, 1.05cqw, 0.62rem);
+    letter-spacing: 0.18em;
+    color: #c6f24e;
+  }
+  .th-tagline {
+    margin-top: 2.4cqw;
+    max-width: 72%;
+    font-weight: 400;
+    font-size: clamp(0.55rem, 1.9cqw, 1.15rem);
+    line-height: 1.45;
+    color: #b9bdb0;
+  }
+  .th-runs {
+    margin-top: auto;
+    display: grid;
+    gap: 2cqw;
+  }
+  .th-run {
+    display: grid;
+    grid-template-columns: 12% 1fr 18%;
+    align-items: center;
+    column-gap: 2.4cqw;
+  }
+  .th-lab {
+    font-family: var(--font-mono);
+    font-size: clamp(0.3rem, 1cqw, 0.6rem);
+    letter-spacing: 0.12em;
+    color: #6f756b;
+  }
+  .th-track {
+    position: relative;
+    height: 1.2cqw;
+    min-height: 5px;
+    border-radius: 999px;
+    background: #23261f;
+  }
+  .th-fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    border-radius: 999px;
+    background: #c6f24e;
+  }
+  .th-gate {
+    position: absolute;
+    top: 50%;
+    width: 2.1cqw;
+    height: 2.1cqw;
+    min-width: 8px;
+    min-height: 8px;
+    border-radius: 50%;
+    translate: -50% -50%;
+    background: #101210;
+    border: 1.5px solid #c6f24e;
+  }
+  .th-gate-open {
+    border-color: #6f756b;
+  }
+  .th-state {
+    font-family: var(--font-mono);
+    font-size: clamp(0.3rem, 1cqw, 0.6rem);
+    letter-spacing: 0.12em;
+    text-align: right;
+    color: #6f756b;
+  }
+  .th-ok {
+    color: #c6f24e;
+  }
+  .th-foot {
+    margin-top: 3cqw;
+    border-top: 1px solid #23261f;
+    padding-top: 1.6cqw;
+    font-family: var(--font-mono);
+    font-size: clamp(0.3rem, 1cqw, 0.6rem);
+    letter-spacing: 0.16em;
+    color: #6f756b;
+  }
+
+  /* ---- fallback for any future product without a bespoke card ---- */
+  .og-generic {
+    background: var(--color-bone);
+    color: var(--color-ink);
+    padding: 5cqw 5.5cqw;
+  }
+  .gn-bar {
+    height: 4cqw;
+    background: var(--color-orange);
+    margin-bottom: 4cqw;
+  }
+  .gn-name {
+    font-weight: 700;
+    font-size: clamp(1rem, 4.4cqw, 2.6rem);
+    letter-spacing: -0.02em;
+  }
+  .gn-tagline {
+    margin-top: 2cqw;
+    max-width: 70%;
+    font-size: clamp(0.55rem, 1.9cqw, 1.15rem);
+    line-height: 1.45;
+  }
+</style>
+
+<script>
+  // Minimal carousel controls: scroll one slide per click; native scroll and
+  // snap do the rest. Honors prefers-reduced-motion (no smooth animation).
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  for (const root of document.querySelectorAll("[data-studio-carousel]")) {
+    const track = root.querySelector(".studio-viewport");
+    const prev = root.querySelector("[data-carousel-prev]");
+    const next = root.querySelector("[data-carousel-next]");
+    if (
+      !(track instanceof HTMLElement) ||
+      !(prev instanceof HTMLButtonElement) ||
+      !(next instanceof HTMLButtonElement)
+    ) {
+      continue;
+    }
+
+    const step = (): number => {
+      const slide = track.querySelector(".studio-slide");
+      const gap = Number.parseFloat(getComputedStyle(track).columnGap) || 0;
+      return slide instanceof HTMLElement
+        ? slide.offsetWidth + gap
+        : track.clientWidth;
+    };
+
+    const go = (dir: number) => {
+      track.scrollBy({
+        left: dir * step(),
+        behavior: reduced.matches ? "auto" : "smooth",
+      });
+    };
+
+    const sync = () => {
+      const max = track.scrollWidth - track.clientWidth;
+      prev.disabled = track.scrollLeft <= 2;
+      next.disabled = track.scrollLeft >= max - 2;
+    };
+
+    prev.addEventListener("click", () => go(-1));
+    next.addEventListener("click", () => go(1));
+    track.addEventListener("scroll", sync, { passive: true });
+    window.addEventListener("resize", sync);
+    sync();
+  }
+</script>
