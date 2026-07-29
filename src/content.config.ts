@@ -69,6 +69,15 @@ const services = defineCollection({
 	}),
 });
 
+const studioProducts = defineCollection({
+	loader: glob({ base: "./src/content/studioProducts", pattern: "**/*.{md,mdx}" }),
+	schema: z.object({
+		name: z.string(),
+		tagline: z.string(),
+		order: z.number().default(0),
+	}),
+});
+
 const teamMembers = defineCollection({
 	loader: glob({ base: "./src/content/teamMembers", pattern: "**/*.{md,mdx}" }),
 	schema: z.object({
@@ -79,4 +88,12 @@ const teamMembers = defineCollection({
 	}),
 });
 
-export const collections = { post, tag, problemCards, differentiators, services, teamMembers };
+export const collections = {
+	post,
+	tag,
+	problemCards,
+	differentiators,
+	services,
+	studioProducts,
+	teamMembers,
+};

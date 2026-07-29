@@ -36,6 +36,8 @@ describe("homepage content contract", () => {
 		"differentiatorTitle",
 		"servicesTitle",
 		"servicesSubtitle",
+		"studioTitle",
+		"studioDescription",
 		"aboutUsTitle",
 		"aboutUsDescription",
 	] as const;

@@ -138,6 +138,27 @@ export default config({
         })
       }
     }),
+    studioProducts: collection({
+      label: 'Studio Products',
+      slugField: 'name',
+      path: 'src/content/studioProducts/*',
+      format: { contentField: 'description' },
+      schema: {
+        name: fields.slug({ name: { label: 'Name' } }),
+        tagline: fields.text({
+          label: 'Tagline',
+          multiline: true
+        }),
+        order: fields.number({
+          label: 'Display Order',
+          defaultValue: 0
+        }),
+        description: fields.markdoc({
+          label: 'Description',
+          extension: 'md'
+        })
+      }
+    }),
     teamMembers: collection({
       label: 'Team Members',
       slugField: 'name',
@@ -216,6 +237,17 @@ export default config({
           defaultValue: 'Strategy clarity first, then systematic transformation. No wasted effort optimizing the wrong things.'
         }),
         
+        // Setpiece Studio section
+        studioTitle: fields.text({
+          label: 'Studio Title',
+          defaultValue: 'Proof, shipped.'
+        }),
+        studioDescription: fields.text({
+          label: 'Studio Description',
+          multiline: true,
+          defaultValue: 'We build and run the tools we prescribe. Studio is where the operating systems we deploy inside client businesses become products.'
+        }),
+
         // About Us section
         aboutUsTitle: fields.text({
           label: 'About Us Title',
