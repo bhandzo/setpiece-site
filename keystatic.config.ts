@@ -204,7 +204,17 @@ export default config({
           multiline: true,
           defaultValue: 'We are AI-native operating partners for SaaS leaders who\'ve hit a wall. Get unstuck and go fast (again).'
         }),
-        
+        heroCtaLabel: fields.text({
+          label: 'Hero CTA Label',
+          defaultValue: 'Book an intro call'
+        }),
+        heroCtaUrl: fields.text({
+          label: 'Hero CTA URL',
+          description: 'The hero button renders only when this is set — leave empty to hide it.',
+          defaultValue: 'https://app.reclaim.ai/m/setpiece/setpiece-intro',
+          validation: { isRequired: false }
+        }),
+
         // What got you here section
         mainProblemTitle: fields.text({
           label: 'Main Problem Title',

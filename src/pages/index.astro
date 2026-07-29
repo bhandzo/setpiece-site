@@ -47,6 +47,10 @@ if (!homepage) {
 }
 
 const content = homepage;
+
+// The hero CTA renders only when a booking URL is set in the CMS — no
+// placeholder hrefs. Keystatic guarantees the field exists as a string.
+const heroCtaUrl = content.heroCtaUrl.trim();
 ---
 
 <PageLayout meta={{ title: "Setpiece" }}>
@@ -54,20 +58,34 @@ const content = homepage;
   <section class="gc-full relative lg:min-h-[80vh] flex flex-col">
     <SetPlay />
     <div
-      class="relative grid grid-cols-1 lg:grid-cols-12 lg:gap-x-6 w-full flex-1 content-between pt-6 pb-20 md:pt-24 md:pb-24 lg:pb-12 gap-y-16"
+      class="relative grid grid-cols-1 lg:grid-cols-12 lg:gap-x-6 w-full flex-1 content-between pt-6 pb-20 md:pt-24 md:pb-24 lg:pb-0 xl:pb-12 gap-y-16"
     >
       <h1
         class="display text-[clamp(2.75rem,6vw,5.5rem)] col-span-full lg:col-span-10"
       >
         {content.heroTitle}
       </h1>
-      <!-- description starts on grid line 9 — the same column as the problem
-           section's description, so the two blocks rule one vertical line -->
-      <p
-        class="text-lg leading-relaxed max-w-[34em] col-span-full lg:col-start-9 lg:col-span-4"
+      <!-- description starts on grid line 9 at xl — the same column as the
+           problem section's description, so the two blocks rule one vertical
+           line. In the 1024–1279 window it widens one column left (start 8,
+           span 5): with the CTA added, the narrow 4-col measure wraps to six
+           lines and climbs into the set-play strokes — the text block moves,
+           the SVG doesn't. max-width sits on the wrapper so the CTA below
+           matches the text block's width exactly at every viewport. -->
+      <div
+        class="col-span-full lg:col-start-8 lg:col-span-5 xl:col-start-9 xl:col-span-4 max-w-[34em]"
       >
-        {content.heroDescription}
-      </p>
+        <p class="text-lg leading-relaxed">
+          {content.heroDescription}
+        </p>
+        {
+          heroCtaUrl.length > 0 && (
+            <a class="hero-cta" href={heroCtaUrl} rel="noopener">
+              {content.heroCtaLabel}
+            </a>
+          )
+        }
+      </div>
     </div>
   </section>
 
@@ -143,40 +161,48 @@ const content = homepage;
     </div>
   </section>
 
-  <!-- 4. Setpiece Studio — deck-cover v2: full-width headline and subhead over
-       the lights photograph in full color at container width, a solid orange
-       bar flush across the image's top edge (the deck spine, laid horizontal).
-       Products follow as an OG-card carousel — each card its own brand artifact.
-       pt matches the services→flags paper gap so both full-bleed seams read equal. -->
+  <!-- 4. Setpiece Studio — the section header sits on a solid orange plane:
+       eyebrow, headline, subhead in fixed warm-black (#222019 is 5.5:1 on
+       #E67812 — AA at body size in both themes; the orange never flips).
+       Square corners, no border: the box IS the boundary. Products follow as
+       the OG-card carousel; the lights photograph closes the section as a
+       cinematic divider band between Studio and Services — orange spine bar
+       retained across its top edge, container width, shorter than a section
+       opener. Seam spacing above and below the band matches the section
+       rhythm (pb below = mt above). -->
   <section class="gc-full pt-24 pb-24 md:pt-32 md:pb-32">
-    <p class="eyebrow text-(--color-muted-dark) mb-6">Setpiece Studio</p>
-
-    <div class="mb-16 md:mb-24">
+    <div
+      class="bg-orange text-[#222019] px-6 py-10 md:p-20 mb-16 md:mb-24"
+    >
+      <p class="eyebrow mb-6">Setpiece Studio</p>
       <h2 class="display text-[clamp(2.75rem,6vw,5.25rem)]">
         {content.studioTitle}
       </h2>
-      <p class="text-lg leading-relaxed max-w-[44em] mt-6 md:mt-8 mb-12 md:mb-16">
+      <p class="text-lg leading-relaxed max-w-[44em] mt-6 md:mt-8">
         {content.studioDescription}
       </p>
-      <div>
-        <div class="h-12 lg:h-16 bg-orange" aria-hidden="true"></div>
-        <Image
-          alt=""
-          class="w-full object-cover h-[260px] md:h-[420px] lg:h-[520px]"
-          sizes="(min-width: 1280px) 1184px, 100vw"
-          src={lightsCropped}
-          widths={[768, 1440, 2048]}
-        />
-      </div>
     </div>
 
     <StudioCarousel products={studioProducts} />
+
+    <div class="mt-24 md:mt-32">
+      <div class="h-12 lg:h-16 bg-orange" aria-hidden="true"></div>
+      <Image
+        alt=""
+        class="w-full object-cover h-[200px] md:h-[320px] lg:h-[380px]"
+        sizes="(min-width: 1280px) 1184px, 100vw"
+        src={lightsCropped}
+        widths={[768, 1440, 2048]}
+      />
+    </div>
   </section>
 
   <!-- 5. Services — 1/3 header column, 2/3 accordion: 01–04 engagement arc as
        hairline rows with plus-in-circle affordances. The one place drawn
-       hairlines are honest: a table of contents. -->
-  <section class="gc-full pb-24 md:pb-32">
+       hairlines are honest: a table of contents. -mt-6 cancels the
+       grid-frame's 24px row gap so the seam below the lights divider equals
+       the seam above it (same trick as the hills→blue seam). -->
+  <section class="gc-full pb-24 md:pb-32 -mt-6">
     <div class="grid gap-y-10 lg:grid-cols-3 lg:gap-x-6 items-start">
       <div class="lg:sticky lg:top-24 lg:self-start">
         <p class="eyebrow text-(--color-muted-dark) mb-6">Services</p>

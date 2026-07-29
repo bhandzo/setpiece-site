@@ -31,6 +31,7 @@ describe("homepage content contract", () => {
 	const REQUIRED_FIELDS = [
 		"heroTitle",
 		"heroDescription",
+		"heroCtaLabel",
 		"mainProblemTitle",
 		"mainProblemDescription",
 		"differentiatorTitle",
@@ -50,5 +51,11 @@ describe("homepage content contract", () => {
 	it.each(REQUIRED_FIELDS)("homepage.json has a non-empty %s", (field) => {
 		expect(homepage[field], `missing field: ${field}`).toBeTypeOf("string");
 		expect((homepage[field] as string).trim().length).toBeGreaterThan(0);
+	});
+
+	// heroCtaUrl must exist as a string but MAY be empty — the hero button
+	// renders only when a URL is set, so an empty string is a valid state.
+	it("homepage.json has heroCtaUrl as a string (may be empty)", () => {
+		expect(homepage.heroCtaUrl).toBeTypeOf("string");
 	});
 });
