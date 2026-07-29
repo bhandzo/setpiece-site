@@ -60,15 +60,17 @@ const content = homepage;
   <section class="gc-full relative lg:min-h-[80vh] flex flex-col">
     <SetPlay />
     <div
-      class="relative grid-local-10 w-full flex-1 content-between pt-6 pb-20 md:pt-24 md:pb-24 lg:pb-12 gap-y-16"
+      class="relative grid grid-cols-1 lg:grid-cols-12 lg:gap-x-6 w-full flex-1 content-between pt-6 pb-20 md:pt-24 md:pb-24 lg:pb-12 gap-y-16"
     >
       <h1
-        class="display text-[clamp(2.75rem,6vw,5.5rem)] col-span-full lg:col-span-8"
+        class="display text-[clamp(2.75rem,6vw,5.5rem)] col-span-full lg:col-span-10"
       >
         {content.heroTitle}
       </h1>
+      <!-- description starts on grid line 9 — the same column as the problem
+           section's description, so the two blocks rule one vertical line -->
       <p
-        class="text-lg leading-relaxed max-w-[34em] col-span-full md:col-start-3 md:col-span-3 lg:col-start-7 lg:col-span-4"
+        class="text-lg leading-relaxed max-w-[34em] col-span-full lg:col-start-9 lg:col-span-4"
       >
         {content.heroDescription}
       </p>
