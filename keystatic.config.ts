@@ -234,7 +234,7 @@ export default config({
         servicesDescription: fields.text({
           label: 'Services Description',
           multiline: true,
-          defaultValue: 'Strategy clarity first, then systematic transformation. No wasted effort optimizing the wrong things.'
+          defaultValue: 'You own the data. You own the artifacts. You own everything we ship.'
         }),
         
         // Setpiece Studio section
