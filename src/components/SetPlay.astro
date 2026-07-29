@@ -1,6 +1,6 @@
 ---
-// ABOUTME: Decorative rugby set-play notation SVG for the homepage hero —
-// ABOUTME: one designed play: anchor cluster bottom-left, solid 45° play line up the clear right side, support runner arcing onto the target space.
+// ABOUTME: Decorative rugby set-play notation SVG for the homepage hero, traced from
+// ABOUTME: the owner's prototype: two orange passes, black runs and position strokes, dashed support arc.
 ---
 
 <svg
@@ -11,32 +11,82 @@
   viewBox="0 0 1280 720"
   xmlns="http://www.w3.org/2000/svg"
 >
-  <!-- support runner: arcs out of the pocket, converging on the target space -->
-  <path
-    class="set-play-run"
-    d="M1085 430 Q1112 285 1047 222"
-    stroke-dasharray="12 10"
-    stroke-width="2"
-  ></path>
+  <defs>
+    <!-- Reveal mask so the dashed support arc can draw without fighting its dash pattern -->
+    <mask id="set-play-arc-mask" maskUnits="userSpaceOnUse">
+      <path
+        class="set-play-arc-reveal"
+        d="M1112 160 Q1205 255 1169 401"
+        stroke="#fff"
+        stroke-width="10"
+      ></path>
+    </mask>
+  </defs>
 
-  <!-- the designed play: one solid 45° diagonal from the cluster, up the clear
-       right side of the headline into the open upper-right quadrant -->
-  <path class="set-play-line" d="M515 670 L1115 70" stroke-width="3"></path>
+  <!-- Stage 1 — positions on the field: dots, circles, black position strokes -->
+  <g class="set-play-static">
+    <!-- pass-1 origin: open circle with a short dash below-left -->
+    <circle class="set-play-open" cx="108" cy="432" r="8" stroke-width="2.5"></circle>
+    <path class="set-play-stroke" d="M100 472 L115 502" stroke-linecap="round"></path>
+
+    <!-- two short parallel position strokes, each with an open circle at its foot -->
+    <path class="set-play-stroke" d="M256 395 L239 505" stroke-linecap="round"></path>
+    <circle class="set-play-open" cx="236" cy="531" r="9" stroke-width="2.5"></circle>
+    <path class="set-play-stroke" d="M421 394 L399 531" stroke-linecap="round"></path>
+    <circle class="set-play-open" cx="397" cy="557" r="9" stroke-width="2.5"></circle>
+
+    <!-- the long position stroke center-field, open circle at its foot, dot beside it -->
+    <path class="set-play-stroke-long" d="M643 300 L530 674" stroke-linecap="round"></path>
+    <circle class="set-play-open-bold" cx="524" cy="690" r="10" stroke-width="3"></circle>
+    <circle class="set-play-dot" cx="474" cy="686" r="7"></circle>
+
+    <!-- scattered players, lower field -->
+    <circle class="set-play-dot" cx="197" cy="659" r="7"></circle>
+    <circle class="set-play-dot" cx="328" cy="637" r="7"></circle>
+
+    <!-- position past the long stroke, below pass 2 -->
+    <circle class="set-play-open-bold" cx="716" cy="489" r="10" stroke-width="3"></circle>
+
+    <!-- run-arrow base ellipse, right side -->
+    <ellipse class="set-play-open" cx="952" cy="414" rx="14" ry="8" stroke-width="2.5"></ellipse>
+
+    <!-- far right: support position and the target of the dashed arc -->
+    <circle class="set-play-open" cx="1106" cy="146" r="8" stroke-width="2.5"></circle>
+    <circle class="set-play-dot" cx="1169" cy="401" r="7"></circle>
+  </g>
+
+  <!-- Stage 2 — the black run arrow rising up-right -->
+  <path class="set-play-run" d="M962 395 L1051 214" stroke-linecap="round"></path>
   <path
-    class="set-play-arrow"
-    d="M1083 82 L1115 70 L1103 102"
+    class="set-play-run-head"
+    d="M1040 222 L1051 214 L1051 228"
     stroke-linecap="round"
     stroke-linejoin="round"
-    stroke-width="3"
   ></path>
 
-  <!-- players: anchor cluster bottom-left, runner in the pocket,
-       open circle = the target position being attacked -->
-  <circle class="set-play-dot" cx="290" cy="660" r="7"></circle>
-  <circle class="set-play-dot" cx="395" cy="640" r="7"></circle>
-  <circle class="set-play-dot" cx="515" cy="670" r="7"></circle>
-  <circle class="set-play-dot" cx="1085" cy="430" r="7"></circle>
-  <circle class="set-play-dot-open" cx="1035" cy="205" r="8" stroke-width="2"></circle>
+  <!-- Stage 3 — orange pass 1 with the dashed support arc drawing behind it -->
+  <path class="set-play-pass1" d="M120 432 L592 424" stroke-linecap="round"></path>
+  <path
+    class="set-play-pass1-head"
+    d="M577 417 L592 424 L577 431"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  ></path>
+  <path
+    class="set-play-arc"
+    d="M1112 160 Q1205 255 1169 401"
+    mask="url(#set-play-arc-mask)"
+    stroke-dasharray="9 9"
+  ></path>
+
+  <!-- Stage 4 — orange pass 2, higher and further right -->
+  <path class="set-play-pass2" d="M680 337 L980 330" stroke-linecap="round"></path>
+  <path
+    class="set-play-pass2-head"
+    d="M965 323 L980 330 L965 337"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  ></path>
 </svg>
 
 <style>
@@ -59,53 +109,129 @@
     }
   }
 
-  /* Poster-stamp scale: the block renders ~350px wide, so thicken every mark
-	   proportionally or the play reads as a wisp. */
-  @media (max-width: 767px) {
-    .set-play-line,
-    .set-play-arrow {
-      stroke-width: 6;
-    }
-    .set-play-run {
-      stroke-width: 4;
-      stroke-dasharray: 18 15;
-    }
-    .set-play-dot {
-      r: 12px;
-    }
-    .set-play-dot-open {
-      r: 14px;
-      stroke-width: 4;
-    }
-  }
-
+  /* ---- palette + weight hierarchy (prototype: positions bold, long stroke
+	   boldest, passes medium, run light, arc lightest) ---- */
   .set-play-dot {
     fill: var(--color-ink);
   }
 
-  .set-play-dot-open {
+  .set-play-open,
+  .set-play-open-bold {
     stroke: var(--color-ink);
   }
 
-  .set-play-run {
-    stroke: var(--color-muted-dark);
+  .set-play-stroke {
+    stroke: var(--color-ink);
+    stroke-width: 6.5;
   }
 
-  .set-play-line,
-  .set-play-arrow {
+  .set-play-stroke-long {
+    stroke: var(--color-ink);
+    stroke-width: 9;
+  }
+
+  .set-play-run,
+  .set-play-run-head {
+    stroke: var(--color-ink);
+    stroke-width: 3;
+  }
+
+  .set-play-pass1,
+  .set-play-pass1-head,
+  .set-play-pass2,
+  .set-play-pass2-head {
     stroke: var(--color-orange);
+    stroke-width: 5;
   }
 
-  /* Draw the play line once on load; arrowhead lands as the stroke arrives. */
-  .set-play-line {
-    stroke-dasharray: 850;
-    stroke-dashoffset: 850;
-    animation: set-play-draw 900ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  .set-play-arc {
+    stroke: var(--color-muted-dark);
+    stroke-width: 2;
   }
 
-  .set-play-arrow {
+  /* Poster-stamp scale: the block renders ~350px wide, so thicken every mark
+	   proportionally or the play reads as a wisp. */
+  @media (max-width: 767px) {
+    .set-play-stroke {
+      stroke-width: 10;
+    }
+    .set-play-stroke-long {
+      stroke-width: 13;
+    }
+    .set-play-run,
+    .set-play-run-head {
+      stroke-width: 5.5;
+    }
+    .set-play-pass1,
+    .set-play-pass1-head,
+    .set-play-pass2,
+    .set-play-pass2-head {
+      stroke-width: 8;
+    }
+    .set-play-arc {
+      stroke-width: 3.5;
+      stroke-dasharray: 14 12;
+    }
+    .set-play-dot {
+      r: 11px;
+    }
+    .set-play-open {
+      stroke-width: 4;
+      r: 12px;
+    }
+    .set-play-open-bold {
+      stroke-width: 4.5;
+      r: 14px;
+    }
+  }
+
+  /* ---- one-time on-load sequence (client-approved stage order) ----
+	   1. 0ms      positions fade in
+	   2. +300ms   black run arrow draws, head lands at completion
+	   3. +700ms   orange pass 1 draws left-to-right, support arc draws behind it
+	   4. +1300ms  orange pass 2 draws left-to-right                       */
+  .set-play-static {
     opacity: 0;
-    animation: set-play-land 200ms ease-out 700ms forwards;
+    animation: set-play-appear 200ms ease-out forwards;
+  }
+
+  .set-play-run {
+    stroke-dasharray: 202;
+    stroke-dashoffset: 202;
+    animation: set-play-draw 350ms cubic-bezier(0.22, 1, 0.36, 1) 300ms forwards;
+  }
+
+  .set-play-run-head {
+    opacity: 0;
+    animation: set-play-appear 150ms ease-out 630ms forwards;
+  }
+
+  .set-play-pass1 {
+    stroke-dasharray: 473;
+    stroke-dashoffset: 473;
+    animation: set-play-draw 450ms cubic-bezier(0.22, 1, 0.36, 1) 700ms forwards;
+  }
+
+  .set-play-pass1-head {
+    opacity: 0;
+    animation: set-play-appear 150ms ease-out 1100ms forwards;
+  }
+
+  .set-play-arc-reveal {
+    stroke-dasharray: 275;
+    stroke-dashoffset: 275;
+    animation: set-play-draw 500ms cubic-bezier(0.22, 1, 0.36, 1) 700ms forwards;
+  }
+
+  .set-play-pass2 {
+    stroke-dasharray: 301;
+    stroke-dashoffset: 301;
+    animation: set-play-draw 400ms cubic-bezier(0.22, 1, 0.36, 1) 1300ms forwards;
+  }
+
+  .set-play-pass2-head {
+    opacity: 0;
+    animation: set-play-appear 150ms ease-out 1650ms forwards;
   }
 
   @keyframes set-play-draw {
@@ -114,20 +240,24 @@
     }
   }
 
-  @keyframes set-play-land {
+  @keyframes set-play-appear {
     to {
       opacity: 1;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .set-play-line {
-      animation: none;
-      stroke-dashoffset: 0;
-    }
-    .set-play-arrow {
+    .set-play-static,
+    .set-play-run,
+    .set-play-run-head,
+    .set-play-pass1,
+    .set-play-pass1-head,
+    .set-play-arc-reveal,
+    .set-play-pass2,
+    .set-play-pass2-head {
       animation: none;
       opacity: 1;
+      stroke-dashoffset: 0;
     }
   }
 </style>
