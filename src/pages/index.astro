@@ -66,7 +66,7 @@ const content = homepage;
         {content.heroTitle}
       </h1>
       <p
-        class="text-lg leading-relaxed max-w-[34em] col-span-full md:col-start-3 md:col-span-3 lg:col-start-6 lg:col-span-4"
+        class="text-lg leading-relaxed max-w-[34em] col-span-full md:col-start-3 md:col-span-3 lg:col-start-7 lg:col-span-4"
       >
         {content.heroDescription}
       </p>
@@ -142,7 +142,7 @@ const content = homepage;
 
   <!-- 5. Setpiece Studio — proof artifacts as Maier-style rows -->
   <section class="gc-full pt-20 pb-24 md:pt-28 md:pb-32">
-    <p class="eyebrow text-(--color-muted) mb-6">Setpiece Studio</p>
+    <p class="eyebrow text-(--color-muted-dark) mb-6">Setpiece Studio</p>
     <div class="grid-local-10 mb-16 md:mb-20">
       <h2
         class="display text-[clamp(2rem,4vw,3.25rem)] col-span-full lg:col-span-6"
@@ -199,14 +199,14 @@ const content = homepage;
       {
         services.map((service, i) => (
           <article class="grid md:grid-cols-12 gap-x-6 gap-y-4 border-b border-(--hairline) py-10 md:py-12">
-            <p class="eyebrow md:col-span-1 pt-1">
+            <p class="row-numeral md:col-span-2">
               {String(i + 1).padStart(2, "0")}
             </p>
-            <h3 class="text-xl font-bold tracking-tight md:col-span-4">
+            <h3 class="text-2xl font-bold tracking-tight md:col-span-4">
               {service.data.title}
             </h3>
             <div
-              class="md:col-span-7 prose max-w-[38em]"
+              class="md:col-span-6 service-desc"
               set:html={service.rendered?.html}
             />
           </article>
@@ -239,7 +239,7 @@ const content = homepage;
                 .replace(/-/g, " ")
                 .replace(/\b\w/g, (l) => l.toUpperCase())}
             </h3>
-            <p class="eyebrow text-(--color-muted) mb-6">{member.data.title}</p>
+            <p class="eyebrow text-(--color-muted-dark) mb-6">{member.data.title}</p>
             <div
               class="leading-relaxed space-y-4 mb-8"
               set:html={member.rendered?.html}

@@ -35,7 +35,8 @@
 	--color-blue-lt: #6ca2e8; /* only for small highlights on dark/blue planes */
 	--color-orange: #e67812;  /* kinetic accent: play line, arrows, links, hovers */
 	--color-ochre: #d9a91a;   /* third plane color, used sparingly */
-	--color-muted: #8a8474;   /* secondary text on paper */
+	--color-muted: #8a8474;   /* secondary text on paper — decorative only, never labels */
+	--color-muted-dark: #6e6858; /* label tone: eyebrows, markers — reads as intentional */
 
 	--color-global-bg: var(--color-paper);
 	--color-global-text: var(--color-ink);
@@ -188,6 +189,7 @@ html {
 		--color-bone: #26231d;
 		--color-ink: #e6dfd2;
 		--color-muted: #a29b8b;
+		--color-muted-dark: #b3ab9a;
 		--color-quote: var(--color-blue-lt);
 		--hairline: rgba(230, 223, 210, 0.28);
 	}
@@ -256,23 +258,39 @@ html {
 		margin-inline: calc(50% - 50vw);
 	}
 
-	/* Blue duotone photo treatment: grayscale image + blue color-blend overlay */
+	/* Blue duotone photo treatment: grayscale/contrast filter + semi-transparent
+	   blue overlay. No blend modes — they collapse against the dark theme's
+	   backdrop; this stays theme-independent. */
 	.duotone {
 		position: relative;
+		isolation: isolate;
 		background-color: var(--color-blue);
 	}
 	.duotone > img {
 		display: block;
 		width: 100%;
-		filter: grayscale(1) contrast(1.1) brightness(1.05);
+		filter: grayscale(1) contrast(1.2) brightness(1.1);
 	}
 	.duotone::after {
 		content: "";
 		position: absolute;
 		inset: 0;
 		background-color: var(--color-blue);
-		mix-blend-mode: color;
+		opacity: 0.5;
 		pointer-events: none;
+	}
+
+	/* Maier-scale row numeral: a design feature of the services table, not metadata */
+	.row-numeral {
+		font-family: var(--font-sans);
+		font-size: clamp(2rem, 2.5vw, 2.5rem);
+		font-weight: 700;
+		letter-spacing: -0.02em;
+		line-height: 0.9;
+		color: var(--color-blue);
+	}
+	[data-theme="dark"] .row-numeral {
+		color: var(--color-blue-lt);
 	}
 
 	.title {
@@ -322,6 +340,36 @@ html {
 
 	li {
 		@apply ml-4;
+	}
+
+	/* Services description column: narrower measure, slightly smaller, internal
+	   structure subordinated so each row scans as one contents-table entry */
+	.service-desc {
+		font-size: 1rem;
+		line-height: 1.6;
+		max-width: 36em;
+	}
+	.service-desc :is(h2, h3, h4) {
+		font-size: 1rem;
+		font-weight: 700;
+		margin-bottom: 0.75rem;
+	}
+	.service-desc p {
+		margin-bottom: 1rem;
+	}
+	.service-desc ul {
+		margin-top: 0.75rem;
+		margin-bottom: 1rem;
+	}
+	.service-desc li {
+		margin-top: 0.25rem;
+		margin-bottom: 0.25rem;
+	}
+	.service-desc li::marker {
+		color: var(--color-muted-dark);
+	}
+	.service-desc > :last-child {
+		margin-bottom: 0;
 	}
 
 	/* Expand/collapse details styling */
