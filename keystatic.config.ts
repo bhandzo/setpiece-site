@@ -240,7 +240,7 @@ export default config({
         // Setpiece Studio section
         studioTitle: fields.text({
           label: 'Studio Title',
-          defaultValue: 'We run the plays we call.'
+          defaultValue: 'Work with builders, not advisors.'
         }),
         studioDescription: fields.text({
           label: 'Studio Description',
