@@ -12,11 +12,14 @@
 	/* Mobile-first responsive grid */
 	--cols: 3;                 /* mobile: 3 columns */
 	--row: min-content max-content auto;               /* row height (baseline module) */
-	--gutter-x: 14px;          /* column gap */
-	--gutter-y: 14px;          /* row gap */
-	--margin: 6px;             /* inner margin around the grid - mobile first */
+	--gutter-x: 24px;          /* column gap */
+	--gutter-y: 24px;          /* row gap */
+	--margin: 20px;            /* inner margin around the grid - mobile first */
 	--line: rgba(255,255,255,.85); /* overlay line color */
 	--bg: #e85a14;             /* page background */
+	/* Set-play system tokens */
+	--u: 80px;                          /* section rhythm module (20 × 4px) */
+	--hairline: rgba(34, 32, 25, 0.32); /* all rules, 1px */
 }
 
 /* use a selector-based strategy for dark mode */
@@ -24,16 +27,22 @@
 
 /* you could refactor below to use light-dark(), depending on your target audience */
 @theme {
-	--color-global-bg: oklch(98.48% 0 0);
-	--color-global-text: oklch(26.99% 0.0096 235.05);
-	--color-link: oklch(55.44% 0.0431 185.69);
-	--color-accent: oklch(55.27% 0.195 19.06);
-	--color-accent-2: oklch(18.15% 0 0);
-	--color-quote: oklch(55.27% 0.195 19.06);
+	/* "Set Play" palette — warm greige paper, slate blue plane, kinetic orange */
+	--color-paper: #e6dfd2;   /* page background — warm greige */
+	--color-bone: #f1ece2;    /* raised/alternate surface */
+	--color-ink: #222019;     /* text, near-black warm */
+	--color-blue: #2e5e8a;    /* slate plane (Helmhaus) — bands, duotone */
+	--color-blue-lt: #6ca2e8; /* only for small highlights on dark/blue planes */
+	--color-orange: #e67812;  /* kinetic accent: play line, arrows, links, hovers */
+	--color-ochre: #d9a91a;   /* third plane color, used sparingly */
+	--color-muted: #8a8474;   /* secondary text on paper */
 
-	/* Tokens migrated from the legacy tailwind.config.ts */
-	--color-paper: #ffffff;
-	--color-ink: #111111;
+	--color-global-bg: var(--color-paper);
+	--color-global-text: var(--color-ink);
+	--color-link: var(--color-orange);
+	--color-accent: var(--color-orange);
+	--color-accent-2: var(--color-ink);
+	--color-quote: var(--color-blue);
 
 	--font-sans: aktiv-grotesk, system-ui, sans-serif;
 	--font-mono:
@@ -61,9 +70,9 @@
 
 
 /* Responsive grid settings - mobile first approach */
-@media (min-width: 640px)  { :root { --cols: 3; --margin: 14px;  } } /* sm+ */
-@media (min-width: 768px)  { :root { --cols: 6; --margin: 21px;  } } /* md+ */
-@media (min-width: 1024px) { :root { --cols: 9; --margin: 28px;  } } /* lg+ */
+@media (min-width: 640px)  { :root { --cols: 3; --margin: 20px;  } } /* sm+ */
+@media (min-width: 768px)  { :root { --cols: 6; --margin: 32px;  } } /* md+ */
+@media (min-width: 1024px) { :root { --cols: 9; --margin: 48px;  } } /* lg+ */
 
 @layer base {
 	html, body {
@@ -74,14 +83,18 @@
 		margin: 0;
 		color: var(--color-global-text);
 		background-color: var(--color-global-bg);
-		font-family: system-ui, sans-serif;
+		font-family: var(--font-sans, system-ui, sans-serif);
+		font-size: 1.0625rem;
+		line-height: 1.6;
 		display: flex;
 		justify-content: center;
+		/* full-bleed sections use viewport-width margins; clip the sliver of overflow */
+		overflow-x: clip;
 		/* if you want the poster centered vertically: */
 	  }
 	.grid-frame {
 	/* size the "poster" area; adjust as you like */
-	width: min(900px, 100vw);
+	width: min(1280px, 100vw);
 	/* height can be fluid or fixed; pick one: */
 	min-height: min(1280px, 140vh);
 	
@@ -170,12 +183,13 @@ html {
 
 	&[data-theme="dark"] {
 		color-scheme: dark;
-		--color-global-bg: oklch(23.64% 0.0045 248);
-		--color-global-text: oklch(83.54% 0 264);
-		--color-link: oklch(70.44% 0.1133 349);
-		--color-accent: oklch(70.91% 0.1415 163.7);
-		--color-accent-2: oklch(94.66% 0 0);
-		--color-quote: oklch(94.8% 0.106 136.49);
+		/* warm near-black paper; blue plane and orange accent stay put */
+		--color-paper: #1b1915;
+		--color-bone: #26231d;
+		--color-ink: #e6dfd2;
+		--color-muted: #a29b8b;
+		--color-quote: var(--color-blue-lt);
+		--hairline: rgba(230, 223, 210, 0.28);
 	}
 }
 
@@ -208,6 +222,57 @@ html {
 
 	.cactus-link {
 		@apply hover:decoration-link underline underline-offset-2 hover:decoration-2;
+	}
+
+	/* ---- Set-play system: rules, eyebrows, planes ---- */
+
+	/* Visible keyboard focus everywhere (quality floor) */
+	:focus-visible {
+		outline: 2px solid var(--color-orange);
+		outline-offset: 2px;
+	}
+
+	/* 1px hairline rules use Tailwind arbitrary color: `border-t border-(--hairline)` */
+
+	/* Mono utility label: eyebrows, column numbers, nav, data rows */
+	.eyebrow {
+		font-family: var(--font-mono);
+		font-size: 0.8125rem;
+		line-height: 1.5;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+	}
+
+	/* Display type: tight tracking, tight leading */
+	.display {
+		font-weight: 700;
+		letter-spacing: -0.02em;
+		line-height: 1.05;
+		text-wrap: balance;
+	}
+
+	/* Break a section out of the grid-frame to the viewport edges */
+	.bleed {
+		margin-inline: calc(50% - 50vw);
+	}
+
+	/* Blue duotone photo treatment: grayscale image + blue color-blend overlay */
+	.duotone {
+		position: relative;
+		background-color: var(--color-blue);
+	}
+	.duotone > img {
+		display: block;
+		width: 100%;
+		filter: grayscale(1) contrast(1.1) brightness(1.05);
+	}
+	.duotone::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background-color: var(--color-blue);
+		mix-blend-mode: color;
+		pointer-events: none;
 	}
 
 	.title {
