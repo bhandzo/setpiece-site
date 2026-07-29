@@ -1,0 +1,105 @@
+---
+// ABOUTME: Decorative rugby set-play notation SVG for the homepage hero —
+// ABOUTME: dots (players/state), a dashed run line, and one solid orange play line that draws on load.
+---
+
+<svg
+  aria-hidden="true"
+  class="set-play"
+  fill="none"
+  preserveAspectRatio="xMidYMid slice"
+  viewBox="0 0 1280 720"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <!-- dashed support run: up the right margin, then cutting in toward open space -->
+  <path
+    class="set-play-run"
+    d="M1152 640 L1152 384 L960 224"
+    stroke-dasharray="12 10"
+    stroke-width="2"
+  ></path>
+
+  <!-- the designed play: one solid 45° diagonal across the columns -->
+  <path class="set-play-line" d="M192 688 L848 32" stroke-width="3"></path>
+  <path class="set-play-arrow" d="M812 24 L848 32 L840 68" stroke-width="3"></path>
+
+  <!-- players / state on column intersections; the open circle is the space being attacked -->
+  <circle class="set-play-dot" cx="192" cy="688" r="7"></circle>
+  <circle class="set-play-dot" cx="448" cy="432" r="7"></circle>
+  <circle class="set-play-dot" cx="704" cy="176" r="7"></circle>
+  <circle class="set-play-dot" cx="1152" cy="640" r="7"></circle>
+  <circle class="set-play-dot-open" cx="960" cy="224" r="7" stroke-width="2"></circle>
+</svg>
+
+<style>
+  /* Mobile: the play renders as its own block above the headline (full composition).
+	   md+: it becomes the hero's background layer, cropped from the center. */
+  .set-play {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    pointer-events: none;
+  }
+
+  @media (min-width: 768px) {
+    .set-play {
+      position: absolute;
+      inset: 0;
+      height: 100%;
+      aspect-ratio: auto;
+    }
+  }
+
+  .set-play-dot {
+    fill: var(--color-ink);
+  }
+
+  .set-play-dot-open {
+    stroke: var(--color-ink);
+  }
+
+  .set-play-run {
+    stroke: var(--color-muted);
+  }
+
+  .set-play-line,
+  .set-play-arrow {
+    stroke: var(--color-orange);
+  }
+
+  /* Draw the play line once on load; arrowhead lands as the stroke arrives. */
+  .set-play-line {
+    stroke-dasharray: 940;
+    stroke-dashoffset: 940;
+    animation: set-play-draw 900ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .set-play-arrow {
+    opacity: 0;
+    animation: set-play-land 200ms ease-out 700ms forwards;
+  }
+
+  @keyframes set-play-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes set-play-land {
+    to {
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .set-play-line {
+      animation: none;
+      stroke-dashoffset: 0;
+    }
+    .set-play-arrow {
+      animation: none;
+      opacity: 1;
+    }
+  }
+</style>

@@ -1,9 +1,10 @@
 ---
+// ABOUTME: Homepage — "Set Play" Swiss-grid layout: hero with set-play notation,
+// ABOUTME: problem columns, blue differentiator plane, Studio proof artifacts, services table, team.
+import SetPlay from "@/components/SetPlay.astro";
 import PageLayout from "@/layouts/Base.astro";
 import { Image } from "astro:assets";
-import hills from "@/content/images/hills.jpg";
 import lightsCropped from "@/content/images/Lights_Cropped.jpg";
-import flags from "@/content/images/Flags.jpeg";
 import { getCollection } from "astro:content";
 
 // Homepage copy is managed by the Keystatic "homepage" singleton, stored as JSON
@@ -15,6 +16,7 @@ const differentiatorsCollection =
   (await getCollection("differentiators")) || [];
 const servicesCollection = (await getCollection("services")) || [];
 const teamMembersCollection = (await getCollection("teamMembers")) || [];
+const studioProductsCollection = (await getCollection("studioProducts")) || [];
 
 // Sort collections by order
 problemCardsCollection.sort(
@@ -25,12 +27,23 @@ differentiatorsCollection.sort(
 );
 servicesCollection.sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
 teamMembersCollection.sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
+studioProductsCollection.sort(
+  (a, b) => (a.data.order ?? 0) - (b.data.order ?? 0)
+);
 
 // Collections are already rendered with Astro v5+
 const problemCards = problemCardsCollection;
 const differentiators = differentiatorsCollection;
 const services = servicesCollection;
 const teamMembers = teamMembersCollection;
+const studioProducts = studioProductsCollection;
+
+// Maier-style color-pair swatches for the Studio rows, cycled by index
+const swatchPairs = [
+  ["bg-blue", "bg-orange"],
+  ["bg-orange", "bg-ochre"],
+  ["bg-blue", "bg-ochre"],
+];
 
 // Use the homepage data and fail loudly if it doesn't exist
 if (!homepage) {
@@ -40,149 +53,205 @@ if (!homepage) {
 const content = homepage;
 ---
 
-<PageLayout meta={{ title: "Home Page" }}>
-  <!-- Hero image -->
-
-  <section class="gc-full py-baseline">
-    <h2 class="text-3xl md:text-4xl leading-snug mb-baseline-sm">
-      {content.heroTitle}
-    </h2>
-    <p class="text-sm leading-normal">
-      {content.heroDescription}
-    </p>
+<PageLayout meta={{ title: "Setpiece" }}>
+  <!-- 1. Hero — headline over the set-play notation -->
+  <section class="gc-full relative lg:min-h-[80vh] flex flex-col">
+    <SetPlay />
+    <div
+      class="relative grid-local-10 w-full flex-1 content-between pt-6 pb-20 md:pt-24 md:pb-24 gap-y-16"
+    >
+      <h1
+        class="display text-[clamp(2.75rem,6vw,5.5rem)] col-span-full lg:col-span-8"
+      >
+        {content.heroTitle}
+      </h1>
+      <p
+        class="text-lg leading-relaxed max-w-[34em] col-span-full md:col-start-3 md:col-span-3 lg:col-start-6 lg:col-span-4"
+      >
+        {content.heroDescription}
+      </p>
+    </div>
   </section>
-  <section class="gc-full">
-    <Image
-      src={hills}
-      alt="Rolling hills landscape"
-      class="w-full h-60 object-cover object-top"
-    />
-  </section>
 
-  <!-- Hero statement -->
-
-  <!-- Two-column editorial with asymmetric spans -->
-  <section class="gc-full grid-local mb-baseline">
-    <article class="gc-full md:col-span-5 lg:col-span-10 mb-baseline-sm">
-      <h3 class="text-3xl md:text-4xl leading-snug mb-baseline-sm">
+  <!-- 2. Problem — three hairline-separated columns -->
+  <section class="gc-full border-t border-(--hairline) pt-16 pb-24 md:pt-20 md:pb-32">
+    <div class="grid-local-10 mb-16 md:mb-20">
+      <h2
+        class="display text-[clamp(2rem,4vw,3.25rem)] col-span-full lg:col-span-7"
+      >
         {content.mainProblemTitle}
-      </h3>
-      <p class="text-sm leading-normal">
+      </h2>
+      <p
+        class="text-lg leading-relaxed max-w-[34em] col-span-full md:col-span-4 lg:col-start-6 lg:col-span-5 mt-6"
+      >
         {content.mainProblemDescription}
       </p>
-    </article>
+    </div>
 
-    {
-      problemCards.map((card) => (
-        <section class="gc-full md:col-span-2 lg:col-span-3 md:border-t-[5px] md:border-black py-baseline-sm">
-          <h4 class="text-xl mb-4">{card.data.title}</h4>
-          <div
-            class="text-sm leading-normal prose-sm prose-p:mb-0"
-            set:html={card.rendered?.html}
-          />
-        </section>
-      ))
-    }
-  </section>
-
-  <!-- Lights image before differentiators -->
-  <section class="gc-full -mb-4">
-    <Image
-      src={lightsCropped}
-      alt="Lights cropped image"
-      class="w-full h-72 object-cover object-center"
-    />
-  </section>
-
-  <!-- Differentiation -->
-  <section class="gc-full grid-local bg-black text-white">
-    <article class="gc-full md:col-span-2 lg:gc-third py-baseline-sm px-5">
-      <h3 class="text-3xl md:text-4xl leading-snug mb-baseline-sm">
-        {content.differentiatorTitle}
-      </h3>
-    </article>
-    <div class="gc-full md:gc-two-thirds lg:gc-two-thirds py-baseline-sm px-5">
+    <div class="grid md:grid-cols-3">
       {
-        differentiators.map((diff) => (
-          <section class="mb-6 last:mb-0">
-            <h4 class="text-xl mb-4">{diff.data.title}</h4>
+        problemCards.map((card) => (
+          <article class="border-t border-(--hairline) md:border-t-0 md:border-l md:first:border-l-0 md:border-(--hairline) pt-8 pb-10 md:pt-16 md:px-8 md:first:pl-0 md:last:pr-0">
+            <h3 class="text-xl font-bold tracking-tight mb-4">
+              {card.data.title}
+            </h3>
             <div
-              class="text-sm leading-normal prose-sm prose-p:mb-0"
-              set:html={diff.rendered?.html}
+              class="leading-relaxed space-y-4"
+              set:html={card.rendered?.html}
             />
-          </section>
+          </article>
         ))
       }
     </div>
   </section>
 
-  <!-- About Us -->
-  <section class="gc-full grid-local-10 mt-baseline">
-    <section class="gc-full py-baseline-sm">
-      <h3 class="text-3xl md:text-4xl leading-snug mb-baseline-sm">
-        {content.aboutUsTitle}
-      </h3>
-      <p class="text-sm leading-normal">
-        {content.aboutUsDescription}
-      </p>
-    </section>
-
-    {
-      teamMembers.map((member) => (
-        <section class="gc-full md:col-span-3 lg:col-span-5 py-baseline-sm px-5 bg-gray-200">
-          <h4 class="text-2xl mb-4">
-            {member.data.name
-              .replace(/-/g, " ")
-              .replace(/\b\w/g, (l) => l.toUpperCase())}
-          </h4>
-          <h5 class="text-lg mb-4 text-gray-600">{member.data.title}</h5>
-          <div
-            class="text-sm leading-normal prose-sm mb-4"
-            set:html={member.rendered?.html}
-          />
-          <div class="text-sm leading-normal">
-            <strong>Specializes in:</strong>
-            <ul class="list-disc list-inside mt-2 space-y-1">
-              {member.data.specializations.map((spec) => (
-                <li>{spec}</li>
-              ))}
-            </ul>
-          </div>
-        </section>
-      ))
-    }
+  <!-- 3. Differentiators — full-bleed slate-blue plane -->
+  <section class="gc-full bleed bg-blue text-[#F1ECE2]">
+    <div
+      class="w-[min(1280px,100%)] mx-auto px-(--margin) py-20 md:py-28 grid gap-y-12 lg:grid-cols-3 lg:gap-x-6"
+    >
+      <h2 class="display text-[clamp(2rem,4vw,3.25rem)] lg:col-span-1">
+        {content.differentiatorTitle}
+      </h2>
+      <div class="lg:col-span-2 divide-y divide-[rgba(241,236,226,0.35)]">
+        {
+          differentiators.map((diff) => (
+            <article class="py-8 first:pt-0 last:pb-0">
+              <h3 class="text-xl font-bold tracking-tight mb-3">
+                {diff.data.title}
+              </h3>
+              <div
+                class="leading-relaxed space-y-4 max-w-[38em]"
+                set:html={diff.rendered?.html}
+              />
+            </article>
+          ))
+        }
+      </div>
+    </div>
   </section>
 
-  <!-- Flags image before services -->
-  <section class="gc-full">
+  <!-- 4. Image moment — one photograph, blue duotone, a breather -->
+  <figure class="gc-full bleed duotone" aria-hidden="true">
     <Image
-      src={flags}
-      alt="Flags image"
-      class="w-full h-72 object-cover object-center"
+      alt=""
+      class="h-[320px] md:h-[480px] w-full object-cover object-center"
+      src={lightsCropped}
     />
+  </figure>
+
+  <!-- 5. Setpiece Studio — proof artifacts as Maier-style rows -->
+  <section class="gc-full pt-20 pb-24 md:pt-28 md:pb-32">
+    <p class="eyebrow text-(--color-muted) mb-6">Setpiece Studio</p>
+    <div class="grid-local-10 mb-16 md:mb-20">
+      <h2
+        class="display text-[clamp(2rem,4vw,3.25rem)] col-span-full lg:col-span-6"
+      >
+        {content.studioTitle}
+      </h2>
+      <p
+        class="text-lg leading-relaxed max-w-[34em] col-span-full md:col-span-4 lg:col-start-7 lg:col-span-4 mt-6"
+      >
+        {content.studioDescription}
+      </p>
+    </div>
+
+    <div class="border-t border-(--hairline)">
+      {
+        studioProducts.map((product, i) => (
+          <article class="grid md:grid-cols-12 gap-x-6 gap-y-6 border-b border-(--hairline) py-10 md:py-12">
+            <div class="md:col-span-2 flex w-32 md:w-full max-w-40 h-12">
+              <div class:list={["w-1/2", swatchPairs[i % 3]?.[0]]} />
+              <div class:list={["w-1/2", swatchPairs[i % 3]?.[1]]} />
+            </div>
+            <div class="md:col-span-4">
+              <h3 class="text-xl font-bold tracking-tight mb-2">
+                {product.data.name}
+              </h3>
+              <p class="leading-relaxed">{product.data.tagline}</p>
+            </div>
+            <div
+              class="md:col-span-6 leading-relaxed space-y-4 max-w-[38em]"
+              set:html={product.rendered?.html}
+            />
+          </article>
+        ))
+      }
+    </div>
   </section>
 
-  <!-- Services -->
-  <section class="gc-full grid-local-10 gr-span-25">
-    <section class="gc-full gr-span-2">
-      <h3 class="text-3xl md:text-4xl leading-snug mt-baseline mb-baseline-sm">
+  <!-- 6. Services — Maier contents-table: 01–04 engagement arc -->
+  <section class="gc-full pb-24 md:pb-32">
+    <div class="grid-local-10 mb-16 md:mb-20">
+      <h2
+        class="display text-[clamp(2rem,4vw,3.25rem)] col-span-full lg:col-span-6"
+      >
         {content.servicesTitle}
-      </h3>
-      <p class="text-sm leading-normal">
+      </h2>
+      <p
+        class="text-lg leading-relaxed max-w-[34em] col-span-full md:col-span-4 lg:col-start-7 lg:col-span-4 mt-6"
+      >
         {content.servicesSubtitle}
       </p>
-    </section>
+    </div>
 
-    {
-      services.map((service) => (
-        <section class="gc-full gr-span-6 md:col-span-3 lg:col-span-5 border-1 border-black py-baseline-sm px-5">
-          <h4 class="text-2xl mb-4">{service.data.title}</h4>
-          <div
-            class="text-sm leading-normal prose-sm"
-            set:html={service.rendered?.html}
-          />
-        </section>
-      ))
-    }
+    <div class="border-t border-(--hairline)">
+      {
+        services.map((service, i) => (
+          <article class="grid md:grid-cols-12 gap-x-6 gap-y-4 border-b border-(--hairline) py-10 md:py-12">
+            <p class="eyebrow md:col-span-1 pt-1">
+              {String(i + 1).padStart(2, "0")}
+            </p>
+            <h3 class="text-xl font-bold tracking-tight md:col-span-4">
+              {service.data.title}
+            </h3>
+            <div
+              class="md:col-span-7 prose max-w-[38em]"
+              set:html={service.rendered?.html}
+            />
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- 7. Team — two operators on bone fields -->
+  <section class="gc-full pb-24 md:pb-32">
+    <div class="grid-local-10 mb-16 md:mb-20">
+      <h2
+        class="display text-[clamp(2rem,4vw,3.25rem)] col-span-full lg:col-span-6"
+      >
+        {content.aboutUsTitle}
+      </h2>
+      <p
+        class="text-lg leading-relaxed max-w-[34em] col-span-full md:col-span-4 lg:col-start-7 lg:col-span-4 mt-6"
+      >
+        {content.aboutUsDescription}
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6">
+      {
+        teamMembers.map((member) => (
+          <article class="bg-bone p-8 md:p-10">
+            <h3 class="text-2xl font-bold tracking-tight mb-1">
+              {member.data.name
+                .replace(/-/g, " ")
+                .replace(/\b\w/g, (l) => l.toUpperCase())}
+            </h3>
+            <p class="eyebrow text-(--color-muted) mb-6">{member.data.title}</p>
+            <div
+              class="leading-relaxed space-y-4 mb-8"
+              set:html={member.rendered?.html}
+            />
+            <ul class="eyebrow space-y-2 border-t border-(--hairline) pt-6 list-none">
+              {member.data.specializations.map((spec) => (
+                <li class="ml-0">{spec}</li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
   </section>
 </PageLayout>
