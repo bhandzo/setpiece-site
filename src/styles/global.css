@@ -371,12 +371,13 @@ html {
 		@apply ml-4;
 	}
 
-	/* Services description column: narrower measure, slightly smaller, internal
-	   structure subordinated so each row scans as one contents-table entry */
+	/* Services description column: sits stacked under the row title, slightly
+	   smaller, internal structure subordinated so each row scans as one
+	   contents-table entry. Measure capped at 40em. */
 	.service-desc {
 		font-size: 1rem;
 		line-height: 1.6;
-		max-width: 36em;
+		max-width: 40em;
 	}
 	.service-desc :is(h2, h3, h4) {
 		font-size: 1rem;
