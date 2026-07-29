@@ -245,7 +245,7 @@ export default config({
         studioDescription: fields.text({
           label: 'Studio Description',
           multiline: true,
-          defaultValue: "Softcopy, Dashbox, and Menagerie aren't showpieces — they run our business and our clients' businesses every day. We stay at the front of the field because building this is our daily work."
+          defaultValue: "Softcopy, Dashbox, and Tighthead aren't showpieces — they run our business and our clients' businesses every day. We stay at the front of the field because building this is our daily work."
         }),
 
         // About Us section
