@@ -280,16 +280,6 @@ const heroCtaUrl = content.heroCtaUrl.trim();
         </p>
       </div>
 
-      {
-        heroCtaUrl.length > 0 && (
-          <div class="text-center mb-14 md:mb-20">
-            <a class="cta cta-scrim" href={heroCtaUrl} rel="noopener">
-              {content.heroCtaLabel}
-            </a>
-          </div>
-        )
-      }
-
       <div class="grid md:grid-cols-2 gap-6">
         {
           teamMembers.map((member) => (
@@ -315,6 +305,16 @@ const heroCtaUrl = content.heroCtaUrl.trim();
           ))
         }
       </div>
+
+      {
+        heroCtaUrl.length > 0 && (
+          <div class="text-center mt-14 md:mt-20">
+            <a class="cta cta-scrim" href={heroCtaUrl} rel="noopener">
+              {content.heroCtaLabel}
+            </a>
+          </div>
+        )
+      }
     </div>
   </section>
 </PageLayout>
