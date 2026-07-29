@@ -240,12 +240,12 @@ export default config({
         // Setpiece Studio section
         studioTitle: fields.text({
           label: 'Studio Title',
-          defaultValue: 'Proof, shipped.'
+          defaultValue: 'We run the plays we call.'
         }),
         studioDescription: fields.text({
           label: 'Studio Description',
           multiline: true,
-          defaultValue: 'We build and run the tools we prescribe. Studio is where the operating systems we deploy inside client businesses become products.'
+          defaultValue: "Softcopy, Dashbox, and Menagerie aren't showpieces — they run our business and our clients' businesses every day. We stay at the front of the field because building this is our daily work."
         }),
 
         // About Us section
