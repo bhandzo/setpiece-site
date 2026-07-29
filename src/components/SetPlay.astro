@@ -1,13 +1,14 @@
 ---
-// ABOUTME: Decorative rugby set-play notation SVG for the homepage hero, traced from
-// ABOUTME: the owner's prototype: thin logo-style run arrows, two orange passes, dotted support arc.
+// ABOUTME: Decorative rugby set-play notation SVG for the homepage hero, traced from the owner's
+// ABOUTME: prototype: thin logo-style run arrows, two orange passes, dotted support arc. Rendered
+// ABOUTME: contain-fit (never cropped) at any hero shape via preserveAspectRatio xMidYMax meet.
 ---
 
 <svg
   aria-hidden="true"
   class="set-play"
   fill="none"
-  preserveAspectRatio="xMidYMid slice"
+  preserveAspectRatio="xMidYMax meet"
   viewBox="0 0 1280 720"
   xmlns="http://www.w3.org/2000/svg"
 >
@@ -16,7 +17,7 @@
     <mask id="set-play-arc-mask" maskUnits="userSpaceOnUse">
       <path
         class="set-play-arc-reveal"
-        d="M110 450 C150 600 400 655 660 530"
+        d="M120 450 C160 600 405 655 660 530"
         stroke="#fff"
         stroke-width="12"
       ></path>
@@ -25,9 +26,8 @@
 
   <!-- Stage 1 — positions on the field: open circles at the feet, ball-carrier's dash -->
   <g class="set-play-static">
-    <!-- pass-1 origin: open circle with a short dash below-left -->
-    <circle class="set-play-open" cx="108" cy="432" r="8" stroke-width="2.5"></circle>
-    <path class="set-play-dash" d="M100 472 L115 502" stroke-linecap="round"></path>
+    <!-- pass-1 origin: open circle at the left edge of the field -->
+    <circle class="set-play-open" cx="118" cy="432" r="8" stroke-width="2.5"></circle>
 
     <!-- feet of the two short forward-run arrows -->
     <circle class="set-play-open" cx="236" cy="531" r="9" stroke-width="2.5"></circle>
@@ -38,9 +38,11 @@
 
     <!-- position past the long arrow, below pass 2 -->
     <circle class="set-play-open-bold" cx="716" cy="489" r="10" stroke-width="3"></circle>
+    <!-- its forward run is drawn in stage 2 (run-e) -->
 
-    <!-- foot of the up-right run arrow (a true circle, per the prototype) -->
-    <circle class="set-play-open" cx="952" cy="414" r="9" stroke-width="2.5"></circle>
+    <!-- foot of the up-right run arrow (a true circle, per the prototype);
+         held above the description text zone (viewBox x>768, lower right) -->
+    <circle class="set-play-open" cx="952" cy="394" r="9" stroke-width="2.5"></circle>
   </g>
 
   <!-- Stage 2 — black forward-run arrows: thin strokes, small open barbs (logo notation) -->
@@ -58,23 +60,30 @@
     stroke-linecap="round"
     stroke-linejoin="round"
   ></path>
-  <path class="set-play-run set-play-run-c" d="M530 674 L643 300" stroke-linecap="round"></path>
+  <path class="set-play-run set-play-run-c" d="M530 674 L629 345" stroke-linecap="round"></path>
   <path
     class="set-play-head set-play-head-c"
-    d="M630 312 L643 300 L647 318"
+    d="M616 357 L629 345 L633 363"
     stroke-linecap="round"
     stroke-linejoin="round"
   ></path>
-  <path class="set-play-run set-play-run-d" d="M962 395 L1051 214" stroke-linecap="round"></path>
+  <path class="set-play-run set-play-run-e" d="M721 470 L748 365" stroke-linecap="round"></path>
+  <path
+    class="set-play-head set-play-head-e"
+    d="M736 378 L748 365 L753 382"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  ></path>
+  <path class="set-play-run set-play-run-d" d="M962 375 L1051 194" stroke-linecap="round"></path>
   <path
     class="set-play-head set-play-head-d"
-    d="M1036 224 L1051 214 L1052 232"
+    d="M1036 204 L1051 194 L1052 212"
     stroke-linecap="round"
     stroke-linejoin="round"
   ></path>
 
   <!-- Stage 3 — orange pass 1; the dotted support arc loops behind the line -->
-  <path class="set-play-pass1" d="M120 432 L592 424" stroke-linecap="round"></path>
+  <path class="set-play-pass1" d="M130 432 L592 424" stroke-linecap="round"></path>
   <path
     class="set-play-pass1-head"
     d="M573 413 L592 424 L573 435"
@@ -83,7 +92,7 @@
   ></path>
   <path
     class="set-play-arc"
-    d="M110 450 C150 600 400 655 660 530"
+    d="M120 450 C160 600 405 655 660 530"
     mask="url(#set-play-arc-mask)"
     stroke-linecap="round"
   ></path>
@@ -106,7 +115,9 @@
 
 <style>
   /* Mobile: the play renders as its own block above the headline (full composition).
-			   md+: it becomes the hero's background layer, cropped from the center. */
+			   md+: it becomes the hero's background layer. preserveAspectRatio "xMidYMax meet"
+			   letterboxes instead of cropping, so the whole 1280x720 poster stays visible at
+			   every hero shape — scaled to fit, centered, anchored to the hero's bottom. */
   .set-play {
     display: block;
     width: 100%;
@@ -129,11 +140,6 @@
   .set-play-open,
   .set-play-open-bold {
     stroke: var(--color-ink);
-  }
-
-  .set-play-dash {
-    stroke: var(--color-ink);
-    stroke-width: 6.5;
   }
 
   .set-play-run,
@@ -162,9 +168,6 @@
   /* Poster-stamp scale: the block renders ~350px wide, so thicken every mark
 		 proportionally or the play reads as a wisp. */
   @media (max-width: 767px) {
-    .set-play-dash {
-      stroke-width: 10;
-    }
     .set-play-run,
     .set-play-head {
       stroke-width: 5;
@@ -213,8 +216,8 @@
     animation: set-play-draw 300ms cubic-bezier(0.22, 1, 0.36, 1) 300ms forwards;
   }
   .set-play-run-c {
-    stroke-dasharray: 391;
-    stroke-dashoffset: 391;
+    stroke-dasharray: 345;
+    stroke-dashoffset: 345;
     animation: set-play-draw 450ms cubic-bezier(0.22, 1, 0.36, 1) 300ms forwards;
   }
   .set-play-run-d {
@@ -222,9 +225,15 @@
     stroke-dashoffset: 202;
     animation: set-play-draw 350ms cubic-bezier(0.22, 1, 0.36, 1) 300ms forwards;
   }
+  .set-play-run-e {
+    stroke-dasharray: 110;
+    stroke-dashoffset: 110;
+    animation: set-play-draw 300ms cubic-bezier(0.22, 1, 0.36, 1) 300ms forwards;
+  }
 
   .set-play-head-a,
-  .set-play-head-b {
+  .set-play-head-b,
+  .set-play-head-e {
     opacity: 0;
     animation: set-play-appear 150ms ease-out 580ms forwards;
   }
@@ -238,8 +247,8 @@
   }
 
   .set-play-pass1 {
-    stroke-dasharray: 473;
-    stroke-dashoffset: 473;
+    stroke-dasharray: 463;
+    stroke-dashoffset: 463;
     animation: set-play-draw 450ms cubic-bezier(0.22, 1, 0.36, 1) 800ms forwards;
   }
 
@@ -249,8 +258,8 @@
   }
 
   .set-play-arc-reveal {
-    stroke-dasharray: 660;
-    stroke-dashoffset: 660;
+    stroke-dasharray: 614;
+    stroke-dashoffset: 614;
     animation: set-play-draw 550ms cubic-bezier(0.22, 1, 0.36, 1) 800ms forwards;
   }
 
