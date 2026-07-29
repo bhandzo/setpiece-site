@@ -138,6 +138,27 @@ export default config({
         })
       }
     }),
+    studioProducts: collection({
+      label: 'Studio Products',
+      slugField: 'name',
+      path: 'src/content/studioProducts/*',
+      format: { contentField: 'description' },
+      schema: {
+        name: fields.slug({ name: { label: 'Name' } }),
+        tagline: fields.text({
+          label: 'Tagline',
+          multiline: true
+        }),
+        order: fields.number({
+          label: 'Display Order',
+          defaultValue: 0
+        }),
+        description: fields.markdoc({
+          label: 'Description',
+          extension: 'md'
+        })
+      }
+    }),
     teamMembers: collection({
       label: 'Team Members',
       slugField: 'name',
@@ -183,7 +204,17 @@ export default config({
           multiline: true,
           defaultValue: 'We are AI-native operating partners for SaaS leaders who\'ve hit a wall. Get unstuck and go fast (again).'
         }),
-        
+        heroCtaLabel: fields.text({
+          label: 'Hero CTA Label',
+          defaultValue: 'Book an intro call'
+        }),
+        heroCtaUrl: fields.text({
+          label: 'Hero CTA URL',
+          description: 'The hero button renders only when this is set — leave empty to hide it.',
+          defaultValue: 'https://app.reclaim.ai/m/setpiece/setpiece-intro',
+          validation: { isRequired: false }
+        }),
+
         // What got you here section
         mainProblemTitle: fields.text({
           label: 'Main Problem Title',
@@ -213,9 +244,20 @@ export default config({
         servicesDescription: fields.text({
           label: 'Services Description',
           multiline: true,
-          defaultValue: 'Strategy clarity first, then systematic transformation. No wasted effort optimizing the wrong things.'
+          defaultValue: 'You own the data. You own the artifacts. You own everything we ship.'
         }),
         
+        // Setpiece Studio section
+        studioTitle: fields.text({
+          label: 'Studio Title',
+          defaultValue: 'Work with builders, not advisors.'
+        }),
+        studioDescription: fields.text({
+          label: 'Studio Description',
+          multiline: true,
+          defaultValue: "Softcopy, Dashbox, and Tighthead aren't showpieces — they run our business and our clients' businesses every day. We stay at the front of the field because building this is our daily work."
+        }),
+
         // About Us section
         aboutUsTitle: fields.text({
           label: 'About Us Title',

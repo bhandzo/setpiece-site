@@ -1,12 +1,16 @@
 {
   "heroTitle": "AI-native operating partners. Embedded until it works.",
   "heroDescription": "We embed with your leadership team to shape how your business runs across stack, org, and culture. Tailored to your operation, measured by what your business does differently.",
+  "heroCtaLabel": "Book an intro call",
+  "heroCtaUrl": "https://app.reclaim.ai/m/setpiece/setpiece-intro",
   "mainProblemTitle": "The next 10x isn't coming from working harder on the existing operation.",
   "mainProblemDescription": "You've incorporated AI. Your business still runs the same way. The gains keep getting absorbed by legacy workflows, fragmented data, and an operating model designed for a pre-AI world. Real change takes operators who'll rebuild the machine, not advisors who hand you a deck.",
   "differentiatorTitle": "We're Built Different",
   "servicesTitle": "We fix what's actually broken",
   "servicesSubtitle": "Whether you need a clear-eyed read on where AI fits, an operating model rebuild, leadership coaching, or immediate execution, we meet you where you're stuck and do the work alongside you.",
-  "servicesDescription": "Strategy clarity first, then systematic transformation. No wasted effort optimizing the wrong things.",
+  "servicesDescription": "You own the data. You own the artifacts. You own everything we ship.",
+  "studioTitle": "Work with builders, not advisors.",
+  "studioDescription": "Softcopy, Dashbox, and Tighthead aren't showpieces — they run our business and our clients' businesses every day. We stay at the front of the field because building this is our daily work.",
   "aboutUsTitle": "Operating Partners, Not Consultants",
   "aboutUsDescription": "We're operators. We've built, scaled, exited, and rebuilt companies ourselves. Now we embed with leadership teams as AI-native operating partners and do the work alongside you. Tailored to your operation, measured by what your business does differently after we leave."
 }

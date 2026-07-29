@@ -12,11 +12,14 @@
 	/* Mobile-first responsive grid */
 	--cols: 3;                 /* mobile: 3 columns */
 	--row: min-content max-content auto;               /* row height (baseline module) */
-	--gutter-x: 14px;          /* column gap */
-	--gutter-y: 14px;          /* row gap */
-	--margin: 6px;             /* inner margin around the grid - mobile first */
+	--gutter-x: 24px;          /* column gap */
+	--gutter-y: 24px;          /* row gap */
+	--margin: 20px;            /* inner margin around the grid - mobile first */
 	--line: rgba(255,255,255,.85); /* overlay line color */
 	--bg: #e85a14;             /* page background */
+	/* Set-play system tokens */
+	--u: 80px;                          /* section rhythm module (20 × 4px) */
+	--hairline: rgba(34, 32, 25, 0.32); /* all rules, 1px */
 }
 
 /* use a selector-based strategy for dark mode */
@@ -24,16 +27,24 @@
 
 /* you could refactor below to use light-dark(), depending on your target audience */
 @theme {
-	--color-global-bg: oklch(98.48% 0 0);
-	--color-global-text: oklch(26.99% 0.0096 235.05);
-	--color-link: oklch(55.44% 0.0431 185.69);
-	--color-accent: oklch(55.27% 0.195 19.06);
-	--color-accent-2: oklch(18.15% 0 0);
-	--color-quote: oklch(55.27% 0.195 19.06);
+	/* "Set Play" palette — warm paper, slate blue plane, kinetic orange */
+	--color-paper: #f7f4ec;   /* page background — warm off-white */
+	--color-bone: #f1ece2;    /* raised/alternate surface */
+	--color-greige: #e6dfd2;  /* deep surface tone — the original warm greige */
+	--color-ink: #222019;     /* text, near-black warm */
+	--color-blue: #2e5e8a;    /* slate plane (Helmhaus) — bands, duotone */
+	--color-blue-lt: #6ca2e8; /* only for small highlights on dark/blue planes */
+	--color-orange: #e67812;  /* kinetic accent: play line, arrows, links, hovers */
+	--color-ochre: #d9a91a;   /* third plane color, used sparingly */
+	--color-muted: #8a8474;   /* secondary text on paper — decorative only, never labels */
+	--color-muted-dark: #6e6858; /* label tone: eyebrows, markers — reads as intentional */
 
-	/* Tokens migrated from the legacy tailwind.config.ts */
-	--color-paper: #ffffff;
-	--color-ink: #111111;
+	--color-global-bg: var(--color-paper);
+	--color-global-text: var(--color-ink);
+	--color-link: var(--color-orange);
+	--color-accent: var(--color-orange);
+	--color-accent-2: var(--color-ink);
+	--color-quote: var(--color-blue);
 
 	--font-sans: aktiv-grotesk, system-ui, sans-serif;
 	--font-mono:
@@ -61,9 +72,9 @@
 
 
 /* Responsive grid settings - mobile first approach */
-@media (min-width: 640px)  { :root { --cols: 3; --margin: 14px;  } } /* sm+ */
-@media (min-width: 768px)  { :root { --cols: 6; --margin: 21px;  } } /* md+ */
-@media (min-width: 1024px) { :root { --cols: 9; --margin: 28px;  } } /* lg+ */
+@media (min-width: 640px)  { :root { --cols: 3; --margin: 20px;  } } /* sm+ */
+@media (min-width: 768px)  { :root { --cols: 6; --margin: 32px;  } } /* md+ */
+@media (min-width: 1024px) { :root { --cols: 9; --margin: 48px;  } } /* lg+ */
 
 @layer base {
 	html, body {
@@ -74,14 +85,18 @@
 		margin: 0;
 		color: var(--color-global-text);
 		background-color: var(--color-global-bg);
-		font-family: system-ui, sans-serif;
+		font-family: var(--font-sans, system-ui, sans-serif);
+		font-size: 1.0625rem;
+		line-height: 1.6;
 		display: flex;
 		justify-content: center;
+		/* full-bleed sections use viewport-width margins; clip the sliver of overflow */
+		overflow-x: clip;
 		/* if you want the poster centered vertically: */
 	  }
 	.grid-frame {
 	/* size the "poster" area; adjust as you like */
-	width: min(900px, 100vw);
+	width: min(1280px, 100vw);
 	/* height can be fluid or fixed; pick one: */
 	min-height: min(1280px, 140vh);
 	
@@ -170,12 +185,14 @@ html {
 
 	&[data-theme="dark"] {
 		color-scheme: dark;
-		--color-global-bg: oklch(23.64% 0.0045 248);
-		--color-global-text: oklch(83.54% 0 264);
-		--color-link: oklch(70.44% 0.1133 349);
-		--color-accent: oklch(70.91% 0.1415 163.7);
-		--color-accent-2: oklch(94.66% 0 0);
-		--color-quote: oklch(94.8% 0.106 136.49);
+		/* warm near-black paper; blue plane and orange accent stay put */
+		--color-paper: #1b1915;
+		--color-bone: #26231d;
+		--color-ink: #e6dfd2;
+		--color-muted: #a29b8b;
+		--color-muted-dark: #b3ab9a;
+		--color-quote: var(--color-blue-lt);
+		--hairline: rgba(230, 223, 210, 0.28);
 	}
 }
 
@@ -208,6 +225,157 @@ html {
 
 	.cactus-link {
 		@apply hover:decoration-link underline underline-offset-2 hover:decoration-2;
+	}
+
+	/* ---- Set-play system: rules, eyebrows, planes ---- */
+
+	/* Visible keyboard focus everywhere (quality floor) */
+	:focus-visible {
+		outline: 2px solid var(--color-orange);
+		outline-offset: 2px;
+	}
+
+	/* 1px hairline rules use Tailwind arbitrary color: `border-t border-(--hairline)` */
+
+	/* Mono utility label: eyebrows, column numbers, nav, data rows */
+	.eyebrow {
+		font-family: var(--font-mono);
+		font-size: 0.8125rem;
+		line-height: 1.5;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+	}
+
+	/* Display type: tight tracking, tight leading */
+	.display {
+		font-weight: 700;
+		letter-spacing: -0.02em;
+		line-height: 1.05;
+		text-wrap: balance;
+	}
+
+	/* Break a section out of the grid-frame to the viewport edges */
+	.bleed {
+		margin-inline: calc(50% - 50vw);
+	}
+
+	/* Blue duotone photo treatment: grayscale/contrast filter + semi-transparent
+	   blue overlay. No blend modes — they collapse against the dark theme's
+	   backdrop; this stays theme-independent. */
+	.duotone {
+		position: relative;
+		isolation: isolate;
+		background-color: var(--color-blue);
+	}
+	.duotone > img {
+		display: block;
+		width: 100%;
+		filter: grayscale(1) contrast(1.2) brightness(1.1);
+	}
+	.duotone::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		background-color: var(--color-blue);
+		opacity: 0.5;
+		pointer-events: none;
+	}
+
+	/* Full-bleed structural image: a photograph treated as the section's bounding
+	   plane — blue duotone tint under a dark ink scrim, section content on top in
+	   bone. Theme-independent by design (fixed colors, no blend modes): these
+	   sections read the same in light and dark. Markup: the backdrop div is the
+	   section's first child; content siblings need `relative` to paint above it. */
+	.scrim-backdrop {
+		position: absolute;
+		inset: 0;
+		overflow: hidden;
+		background-color: #2e5e8a;
+	}
+	.scrim-backdrop img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		filter: grayscale(1) contrast(1.25) brightness(1.3);
+	}
+	.scrim-backdrop::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		/* ink scrim over blue duotone tint — bone text clears AA on any pixel */
+		background:
+			linear-gradient(rgba(34, 32, 25, 0.74), rgba(34, 32, 25, 0.74)),
+			linear-gradient(rgba(46, 94, 138, 0.45), rgba(46, 94, 138, 0.45));
+		pointer-events: none;
+	}
+
+	/* Booking CTA: a solid orange control in the nav's mono-caps voice. Square
+	   corners, auto width (label + 48px side padding), 56px hit area. The kit
+	   serves bc-sklonar at a true 700 — no synthesized bold. Text is fixed
+	   warm-black — 5.48:1 on #E67812, AA at any size in both themes (the
+	   orange plane never flips; the dark theme's ink token would fail at
+	   2.25:1). Hover darkens the orange (#D46E0E keeps ink at 4.68:1). */
+	.cta {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 3.5rem;
+		padding: 0.5rem 3rem;
+		background: var(--color-orange);
+		color: #222019;
+		font-family: var(--font-mono);
+		font-size: 0.9375rem;
+		font-weight: 700;
+		line-height: 1.2;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		text-align: center;
+		transition: background-color 150ms ease;
+	}
+	.cta:hover {
+		background: #d46e0e;
+	}
+	.cta:focus-visible {
+		/* theme-aware ink: visible against the page paper on both themes,
+		   where the global orange outline would vanish next to the orange fill */
+		outline: 2px solid var(--color-ink);
+		outline-offset: 2px;
+	}
+	/* Hero variant: fills its text column so button and paragraph rule the
+	   same vertical lines. */
+	.cta-hero {
+		display: flex;
+		width: 100%;
+		margin-top: 2rem;
+		padding-inline: 1.5rem;
+	}
+	/* Inverse variant for the orange studio plane, where an orange button
+	   would vanish: solid ink plane, fixed bone label (12.9:1). Hover lifts
+	   the plane a step lighter; the fill stays legible at 10.4:1. */
+	.cta-inverse {
+		background: #222019;
+		color: #f1ece2;
+	}
+	.cta-inverse:hover {
+		background: #3a362b;
+	}
+	/* On the theme-independent dark scrims the ink outline would sink into
+	   the backdrop — fixed bone stays visible in both themes. */
+	.cta-scrim:focus-visible {
+		outline-color: #f1ece2;
+	}
+
+	/* Maier-scale row numeral: a design feature of the services table, not metadata */
+	.row-numeral {
+		font-family: var(--font-sans);
+		font-size: clamp(2rem, 2.5vw, 2.5rem);
+		font-weight: 700;
+		letter-spacing: -0.02em;
+		line-height: 0.9;
+		color: var(--color-blue);
+	}
+	[data-theme="dark"] .row-numeral {
+		color: var(--color-blue-lt);
 	}
 
 	.title {
@@ -259,6 +427,37 @@ html {
 		@apply ml-4;
 	}
 
+	/* Services description column: sits stacked under the row title, slightly
+	   smaller, internal structure subordinated so each row scans as one
+	   contents-table entry. Measure capped at 40em. */
+	.service-desc {
+		font-size: 1rem;
+		line-height: 1.6;
+		max-width: 40em;
+	}
+	.service-desc :is(h2, h3, h4) {
+		font-size: 1rem;
+		font-weight: 700;
+		margin-bottom: 0.75rem;
+	}
+	.service-desc p {
+		margin-bottom: 1rem;
+	}
+	.service-desc ul {
+		margin-top: 0.75rem;
+		margin-bottom: 1rem;
+	}
+	.service-desc li {
+		margin-top: 0.25rem;
+		margin-bottom: 0.25rem;
+	}
+	.service-desc li::marker {
+		color: var(--color-muted-dark);
+	}
+	.service-desc > :last-child {
+		margin-bottom: 0;
+	}
+
 	/* Expand/collapse details styling */
 	details summary {
 		@apply flex items-center gap-2;
@@ -279,6 +478,100 @@ html {
 
 	details[open] summary {
 		@apply mb-2;
+	}
+
+	/* Services accordion: hairline rows, Maier numerals, plus-in-circle
+	   affordance. Native <details>/<summary> — full keyboard support for free.
+	   `interpolate-size` lets the open/close height transition in browsers
+	   that support it; everywhere else the row simply snaps open. */
+	.svc-acc {
+		interpolate-size: allow-keywords;
+	}
+	.svc-acc details {
+		border-bottom: 1px solid var(--hairline);
+	}
+	.svc-acc summary {
+		display: grid;
+		grid-template-columns: minmax(3rem, auto) 1fr auto;
+		align-items: center;
+		column-gap: 1.25rem;
+		padding-block: 2rem;
+		cursor: pointer;
+	}
+	@media (min-width: 768px) {
+		.svc-acc summary {
+			grid-template-columns: 112px 1fr auto;
+			column-gap: 1.5rem;
+			padding-block: 2.5rem;
+		}
+	}
+	/* neutralize the site's generic details/summary chevron treatment */
+	.svc-acc summary::before {
+		content: none;
+	}
+	.svc-acc summary::-webkit-details-marker {
+		display: none;
+	}
+	.svc-acc details[open] summary {
+		margin-bottom: 0;
+	}
+	/* plus in a hairline circle; rotates 45° to a close mark when open */
+	.svc-icon {
+		position: relative;
+		width: 2.75rem;
+		height: 2.75rem;
+		border: 1px solid var(--hairline);
+		border-radius: 50%;
+		transition: transform 250ms ease, border-color 150ms ease, color 150ms ease;
+	}
+	.svc-icon::before,
+	.svc-icon::after {
+		content: "";
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		translate: -50% -50%;
+		background: currentColor;
+	}
+	.svc-icon::before {
+		width: 1rem;
+		height: 2px;
+	}
+	.svc-icon::after {
+		width: 2px;
+		height: 1rem;
+	}
+	.svc-acc details[open] .svc-icon {
+		transform: rotate(45deg);
+	}
+	.svc-acc summary:hover .svc-icon {
+		border-color: var(--color-orange);
+		color: var(--color-orange);
+	}
+	.svc-acc details::details-content {
+		block-size: 0;
+		overflow-y: clip;
+		transition: block-size 300ms ease, content-visibility 300ms allow-discrete;
+	}
+	.svc-acc details[open]::details-content {
+		block-size: auto;
+	}
+	/* body aligns under the title column on md+ */
+	.svc-body {
+		padding-bottom: 2.5rem;
+	}
+	@media (min-width: 768px) {
+		.svc-body {
+			padding-left: calc(112px + 1.5rem);
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.svc-acc details::details-content {
+			transition: none;
+		}
+		.svc-icon {
+			transition: none;
+		}
 	}
 }
 

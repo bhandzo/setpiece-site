@@ -1,46 +1,42 @@
 ---
 // ABOUTME: Site header with logo and navigation links.
-// ABOUTME: Simple horizontal layout — nav visible at all screen sizes.
+// ABOUTME: Quiet Swiss treatment — wordmark left, mono-caps nav right, hairline rule below.
+import ThemeToggle from "@/components/ThemeToggle.astro";
 import { menuLinks } from "@/site.config";
 import { siteConfig } from "../../site.config";
 ---
 
 <header
-  class="gc-full grid-local py-5 border-b-4 border-accent-2"
+  class="gc-full flex items-center justify-between py-5 border-b border-(--hairline)"
   id="main-header"
 >
   <!-- Logo/Brand - Left side -->
-  <div class="col-span-2 lg:col-span-3">
-    <a
-      aria-current={Astro.url.pathname === "/" ? "page" : false}
-      class="hover:text-accent transition-colors"
-      href="/"
-    >
-      <img src="/logo.svg" alt="Setpiece Logo" class="w-8 h-8 float-left" />
-      <span class="text-lg font-medium tracking-tight float-left mt-0.5 ml-3"
-        >{siteConfig.title}</span
-      >
-    </a>
-  </div>
+  <a
+    aria-current={Astro.url.pathname === "/" ? "page" : false}
+    class="flex items-center gap-3 hover:text-accent transition-colors"
+    href="/"
+  >
+    <img src="/logo.svg" alt="" class="w-7 h-7" />
+    <span class="eyebrow">{siteConfig.title}</span>
+  </a>
 
   <!-- Navigation - Right aligned -->
   <nav
     aria-label="Main menu"
-    class="col-span-1 col-start-3 md:col-start-6 lg:col-start-10 mt-1.5"
+    class="flex items-center gap-6"
     id="navigation-menu"
   >
-    <div class="leading-none text-right">
-      {
-        menuLinks.map((link) => (
-          <a
-            aria-current={Astro.url.pathname === link.path ? "page" : false}
-            class="pr-1.5 text-sm uppercase tracking-wide hover:text-accent transition-colors leading-none"
-            href={link.path}
-          >
-            {link.title}
-          </a>
-        ))
-      }
-    </div>
+    {
+      menuLinks.map((link) => (
+        <a
+          aria-current={Astro.url.pathname === link.path ? "page" : false}
+          class="eyebrow hover:text-accent transition-colors"
+          href={link.path}
+        >
+          {link.title}
+        </a>
+      ))
+    }
+    <ThemeToggle />
   </nav>
 </header>
