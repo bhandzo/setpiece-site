@@ -1,5 +1,5 @@
 ---
-name: Agent Platform
+name: Menagerie
 tagline: Production-grade operating agents with explicit controls, permissions, reviews, and deployment discipline.
 order: 3
 ---

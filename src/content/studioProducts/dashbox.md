@@ -1,5 +1,5 @@
 ---
-name: Scheduled Reports
+name: Dashbox
 tagline: Scheduled executive reports from your data warehouse.
 order: 2
 ---
