@@ -1,28 +1,90 @@
 ---
 title: "The Analyst Model Bake-Off"
 publishDate: "31 Jul 2026"
-description: "We ran six LLMs through a live-warehouse regression suite. Every model that finished aced it — and that's the finding."
+description: "Six LLMs, one live-warehouse regression suite. Every model that finished aced it — and that's the finding."
 tags: ["ai", "agents", "evals", "data"]
-coverImage:
-  src: "./cover.jpg"
-  alt: "Header of the Analyst Model Bake-Off report"
 draft: false
 ---
 
-We run an AI pricing analyst against a live BigQuery warehouse at Extra Point. This month we asked a question every team running an agent in production eventually asks: **is the model we picked still the right one?**
+We run an AI pricing analyst against a live BigQuery warehouse at Extra Point, and this month we asked the question every team running an agent in production eventually asks: **is the model we picked still the right one?** So we ran six LLMs through the analyst's regression suite — same system prompt, same tools, same cost-guarded warehouse access — with a Mastra harness that grades, prices, and audits every run. Two harness bugs later, four models post perfect boards, and the real rankings turn out to be discipline, speed, and cost.
 
-So we built a bake-off. Six frontier LLMs, each dropped into the *same* analyst harness — same system prompt, same tools, same cost-guarded warehouse access — and graded on twelve real pricing questions with known answers. Deterministic scorers, measured latency, and per-run cost pulled from the harness's own observability store. No vibes.
+## Everyone aces the test. That's the finding.
 
-The headline result: **four models posted perfect boards.** Numeric accuracy no longer separates frontier models on this corpus. What separates them now is discipline (does the model answer from the canonical data marts, or freelance against raw tables?), speed (28 to 152 seconds per case), and cost (a 23× spread — and the "flash" model was the *most expensive* run on the board).
+Five days and two harness fixes after the first bake-off, every model that can complete a run scores **12/12** on the trusted corpus — including two models the July 25 board had written off. Numeric accuracy no longer separates frontier models on these cases. What separates them now is *discipline* (does it use the canonical marts?), *speed* (28 to 152 seconds per case), and *cost* (a 23× spread) — all measured by the harness itself, on identical infrastructure, on the same afternoon.
 
-Two findings we think generalize beyond our warehouse:
+### The final board
 
-1. **Your eval harness is probably lying to you.** Our first scoreboard undercounted two models badly — infrastructure failures were being laundered into "wrong answers." Silent non-answers, sandbox friction, and corpus bugs each needed a structural fix before the numbers meant anything. Treat any eval number from an unaudited harness as a lower bound.
+| Model | Numeric | Marts | Sec / case | Run cost | Cache-read rate | Verdict |
+| :--- | ---: | ---: | ---: | ---: | ---: | :--- |
+| **claude-sonnet-4-6** | 12/12 | 11/12 | 76 | $2.06 | 94% | Stays in production — caching closed the cost gap |
+| **gemini-3.6-flash** | 12/12 | 12/12 | 65 | $4.06\* | 63% | Only flawless mart discipline; priciest run |
+| **gemini-3.5-flash-lite** | 12/12 | 7/12 | 28 | $0.86\* | 25% | Fastest board ever; freelances past marts |
+| **deepseek-v4-flash** | 12/12 | 9/12 | 152 | $0.18 | 83% | Four cents a case; slowest of the four |
+| **tracer/echo** | 10/10† | 7/10 | 196 | — | — | Perfect where it finished; 2 cases timed out |
+| **glm-4.7** | — | — | ~1140 | — | — | DQ on latency (Jul 25, unchanged) |
 
-2. **When models agree with each other and disagree with your answer key, fix the answer key.** Three unrelated architectures producing the *identical* "wrong" number is a corpus-bug detector, not a coincidence.
+**4 × 12/12.** Four models, four perfect numeric boards. July 25's spread (10/12, 8/12, DNF) was mostly the harness: silent approval suspensions and extraction misses scored as wrong answers. The corpus is now **saturated** — it guards regressions but can't rank frontier models. The next generation of golden cases (arbitrage framing, row-band geometry) is already queued.
 
-The full report — the final board, the methodology, and the three bugs that were really lessons — is published here:
+**23×.** Cost spread between the cheapest and most expensive perfect board: deepseek-v4-flash at **$0.18** vs gemini-3.6-flash at **$4.06**. The surprise: the "flash" model is the priciest run on the board — it burns ~70% more tokens per case than sonnet and gets less mileage from caching (63% vs 94% cache-read rate).
 
-**[Read the full report → The Analyst Model Bake-Off](/reports/analyst-model-matrix/)**
+**94%.** Of sonnet's 3.15M input tokens, 2.96M were cache reads. July 25's recommendation — "the cheapest upgrade is prompt caching" — shipped and took the sonnet run from ~$19 to **$2.06**. The recommendation paid for itself several hundred times over before this sentence was written.
 
-One more thing worth saying about that link. The report isn't a PDF or a slide export — it's the report *itself*, published as a page of this site. It was authored as a [softcopy](https://softcopy.dev) report: plain files on disk, written and revised by the same agents that ran the evals, rendered with live charts straight from the harness's observability data. Publishing it here was a copy of a folder. That's the hypothesis we keep coming back to — reports are better as websites — and this is us dogfooding it.
+### Effectiveness · time · cost
+
+![Marts discipline by model: gemini-3.6-flash 12/12, sonnet-4-6 11/12, deepseek-v4-flash 9/12, gemini-3.5-flash-lite 7/12](./chart-discipline.png)
+
+![Wall-clock seconds per case: flash-lite 28, gemini-3.6-flash 65, sonnet-4-6 76, deepseek-v4-flash 152](./chart-latency.png)
+
+![Cost per 12-case run, candidate model vs shared haiku structurer: deepseek $0.18, flash-lite $0.86, sonnet $2.06, gemini-3.6-flash $4.06](./chart-cost.png)
+
+> **The recommendation.** Sonnet-4-6 stays in production: perfect board, near-perfect mart discipline, mid-pack latency, and caching has collapsed its cost gap. **gemini-3.6-flash is the quality challenger** — the only model with flawless mart discipline — but at current token appetite it's the *most expensive* option, not a discount. **deepseek-v4-flash is the cost story**: a perfect board at four cents a case, held back by mart freelancing (9/12) that the marts-touched scorer exists to catch. **flash-lite** is the latency story with the same caveat, sharper (7/12). **Echo** joins the everyone-aces chorus with an asterisk — 10/10 on every case it finished, but two per-case timeouts at ~3.3 minutes a case, and its first attempt was entirely rate-limited; capacity, not capability, is its open question. And GLM's July 25 latency disqualification stands unchallenged.
+
+*All scored rows: 2026-07-30/31, identical harness (haiku envelope structurer, fixed workspace boundary + infra-error attribution), re-worded corpus, serial runs, per-query BigQuery cap 2GB. Costs from the observability store; \* = computed from harness-recorded tokens at list rates (the bundled pricing registry doesn't carry Gemini 3.5/3.6 yet); † = 10 completed cases, 2 per-case timeouts recorded as infra errors. Per-case wall-clock = suite duration ÷ 12.*
+
+## The harness is the product
+
+The test isn't a trivia benchmark. Each candidate *becomes* the analyst — same system prompt, same workspace filesystem, same cost-guarded BigQuery tool, same 50-step budget — and answers 12 real pricing questions against the live warehouse. Everything around that is Mastra: the corpus is a versioned Dataset, every run is a persisted Experiment, deterministic scorers do the grading, and the observability store prices every model call. One env var swaps the brain; the harness measures everything else.
+
+### The architecture
+
+**Git is authoritative; Datasets mirror it.** The 12 trusted golden cases live in `evals/golden/*.json` — reviewed, versioned, PR-gated. At boot, an idempotent sync mirrors them into a Mastra Dataset: unchanged content creates no new version; adds, edits, and removals reconcile into one. Studio gets a browsable corpus; Git keeps the authorship story. Curation never happens in the UI.
+
+**Experiments are persistent scoreboards.** Each live run executes as a Dataset Experiment: dataset id + version, model id, per-item outputs, both scorer results, per-case errors, run status — all persisted to the same store Studio reads. The scoreboard survives the terminal session that produced it, and any two Experiments diff against each other by construction.
+
+**Two deterministic scorers, zero vibes.** `numeric-correctness` (gating) matches the structured answer envelope against curated expected values with explicit tolerances — as tight as ±0.1%. `marts-touched` (observational) checks which warehouse objects the run actually queried. The second one is the quality axis that survived corpus saturation: right answers by unauthorized roads are tomorrow's wrong answers.
+
+**A side model reads the answer.** Forcing `response_format` on the model under test broke every non-Anthropic candidate differently — so candidates answer in plain text + tools, and claude-haiku-4-5 extracts the envelope afterward, with read-only conversation memory so it can see the metric key named in the question. Every row on the board is measured through the identical path, sonnet included.
+
+**Fresh everything, per case.** New memory thread, wiped scratch, and the answers cache deleted before every case — an early baseline once went green by serving a cached answer with zero BigQuery calls. Attempt and retry run on distinct threads so a half-run can't contaminate its own second chance.
+
+**The harness prices its own experiments.** Mastra's observability auto-extracts token usage from every model-generation span and writes `estimatedCost` against a bundled pricing registry — cache reads and writes included — into the local DuckDB store. The cost chart above is a SQL query against the harness's own records, not a spreadsheet of list prices.
+
+### What the harness is trained to distrust
+
+Three failure classes each produced a structural defense. This is where most of July's engineering went — and why the July 30 board is trustworthy in a way the July 25 board wasn't.
+
+**Silent non-answers.** A run can end without answering and without erroring — Mastra's approval suspension is the canonical case (see below). The harness now treats any generation whose `finishReason` isn't `"stop"` as an *infra error*: one retry on fresh state, then a labeled failure, never a zero on the scoreboard. Infra failures and wrong answers are different facts; conflating them cost DeepSeek four points in July's first board.
+
+**Sandbox boundary friction.** The analyst writes artifacts into an approval-gated workspace (`/work` mounts; everything else needs a human). Gemini writes paths without leading slashes, which read fine but tripped the write-approval boundary — the run froze awaiting an approval no eval can give. The boundary predicate now normalizes paths before deciding (closing a `..` traversal hole in the same change). The sandbox stays strict; the strictness is just no longer keyed to a slash.
+
+**The corpus itself.** When three independent architectures produce the *identical* "wrong" number, the corpus is wrong, not the models. Cross-model agreement against the expected value is now a standing corpus-bug detector — it re-worded two cases in July and re-anchored one expected value. The saturated 12/12 board is this process succeeding: the remaining cases are unambiguous, which means they no longer discriminate.
+
+### Running it
+
+One env var (`ANALYST_MODEL`) swaps the candidate; registry ids pass straight through Mastra's model router, and the one off-registry endpoint is a three-line OpenAI-compatible config. Two commands: one executes the live suite and persists the Experiment, one opens Studio to browse Datasets, Experiments, and traces. And zero dashboards — no bespoke eval UI was built for any of this. Scores live in Experiments, costs in the observability store, both readable from Studio or plain SQL. This post was assembled from those two stores.
+
+## Three bugs that were really lessons
+
+The long tail of breakage is in the git history. These are the three that changed how the harness works — each one a silent failure that scored as something it wasn't.
+
+**Suspension is not an error — that's the trap.** With Gemini, runs kept ending as `finishReason: "suspended"`: empty text, nothing thrown, empty error list, and the scorer filed each one as a zero. Suspension is Mastra's *human-in-the-loop pause* — a tool call flagged for approval freezes the run, snapshots it, and waits for a person. The tool, 48 snapshots out of 50: workspace `mkdir`/`write_file` on paths like `work/analyses/…` — **no leading slash**. Gemini reliably omits it; the write-approval predicate did a raw `startsWith("/work/")`; every artifact save — the analyst's last step before answering — hung the run waiting for nobody. That's why "failing" runs had perfect mart scores: the analysis was done. The model was asking permission to save its homework in an empty room.
+
+**Pre-fix boards undercount — by a lot.** Under the old scoring, a suspension was indistinguishable from "no structured answer envelope" — the same label as a real extraction miss. July 25's board: sonnet 10/12, deepseek 8/12, GLM DNF. July 30, fixed harness, re-worded corpus: sonnet 12/12, deepseek 12/12. Some of the July 25 deficit was corpus wording; the rest was infra failures laundered into wrong answers. Every model that completes now posts a perfect board — treat any pre-fix eval number, here or elsewhere, as a lower bound.
+
+**Cross-model agreement is a corpus-bug detector.** Three unrelated models produced the *identical* "wrong" answers on two cases — 61,710 where the corpus expected 59,170. Independent architectures don't coordinate on a mistake; the question wording didn't pin the seat-count definition, so every competent model routed to the other defensible number. Both cases were re-worded and one expected value re-anchored. The rule going forward: when models agree with each other and disagree with the corpus, fix the corpus.
+
+> **Honorable mentions**, preserved in the issue tracker rather than re-litigated here: GLM streaming back empty text with `finishReason: "stop"` in 2.5 seconds (distrust fast empty successes), the Gemini 1Password slot that contained an Anthropic key (label your keys), the AI Studio prepay wall (the billing screen wants one specific Google identity out of several), and the vitest ceiling that ate two full GLM runs before per-case timeouts became infra errors.
+
+---
+
+*This report was authored as a [softcopy](https://softcopy.dev) report — plain files on disk, written and revised by the same agents that ran the evals, charts bound straight to the harness's observability data — and published here as a blog post. Reports are better as websites; this is us dogfooding it.*
