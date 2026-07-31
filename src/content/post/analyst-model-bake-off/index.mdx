@@ -6,6 +6,9 @@ tags: ["ai", "agents", "evals", "data"]
 draft: false
 ---
 
+import VegaChart from "@/components/VegaChart";
+import charts from "./charts.json";
+
 We run an AI pricing analyst against a live BigQuery warehouse at Extra Point, and this month we asked the question every team running an agent in production eventually asks: **is the model we picked still the right one?** So we ran six LLMs through the analyst's regression suite — same system prompt, same tools, same cost-guarded warehouse access — with a Mastra harness that grades, prices, and audits every run. Two harness bugs later, four models post perfect boards, and the real rankings turn out to be discipline, speed, and cost.
 
 ## Everyone aces the test. That's the finding.
@@ -31,11 +34,26 @@ Five days and two harness fixes after the first bake-off, every model that can c
 
 ### Effectiveness · time · cost
 
-![Marts discipline by model: gemini-3.6-flash 12/12, sonnet-4-6 11/12, deepseek-v4-flash 9/12, gemini-3.5-flash-lite 7/12](./chart-discipline.png)
+<VegaChart
+	client:visible
+	spec={charts.vegaSpecs.disciplineBars}
+	datasets={charts.datasets}
+	caption="Numeric correctness is tied at 12/12 (not shown — it's a flat line). Marts discipline is the real quality axis: how often the model answered from the canonical mart instead of freelancing to raw tables. Freelance routes happened to be right on this corpus; on harder questions they are where wrong answers come from."
+/>
 
-![Wall-clock seconds per case: flash-lite 28, gemini-3.6-flash 65, sonnet-4-6 76, deepseek-v4-flash 152](./chart-latency.png)
+<VegaChart
+	client:visible
+	spec={charts.vegaSpecs.latencyBars}
+	datasets={charts.datasets}
+	caption="Wall-clock seconds per case, full suite ÷ 12. flash-lite is the fastest full board ever posted on this corpus; deepseek trades speed for cost."
+/>
 
-![Cost per 12-case run, candidate model vs shared haiku structurer: deepseek $0.18, flash-lite $0.86, sonnet $2.06, gemini-3.6-flash $4.06](./chart-cost.png)
+<VegaChart
+	client:visible
+	spec={charts.vegaSpecs.costBars}
+	datasets={charts.datasets}
+	caption="Cost per full 12-case run, measured by the harness (Mastra observability, estimatedCost per model-generation span), split candidate model vs shared haiku envelope-structurer. Gemini rows are computed from harness-recorded tokens at list rates — the bundled pricing registry doesn't carry Gemini 3.5/3.6 yet."
+/>
 
 > **The recommendation.** Sonnet-4-6 stays in production: perfect board, near-perfect mart discipline, mid-pack latency, and caching has collapsed its cost gap. **gemini-3.6-flash is the quality challenger** — the only model with flawless mart discipline — but at current token appetite it's the *most expensive* option, not a discount. **deepseek-v4-flash is the cost story**: a perfect board at four cents a case, held back by mart freelancing (9/12) that the marts-touched scorer exists to catch. **flash-lite** is the latency story with the same caveat, sharper (7/12). **Echo** joins the everyone-aces chorus with an asterisk — 10/10 on every case it finished, but two per-case timeouts at ~3.3 minutes a case, and its first attempt was entirely rate-limited; capacity, not capability, is its open question. And GLM's July 25 latency disqualification stands unchallenged.
 
