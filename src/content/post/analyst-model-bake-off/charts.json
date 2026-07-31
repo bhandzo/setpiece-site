@@ -1,0 +1,89 @@
+{
+  "datasets": {
+    "discipline": [
+      { "model": "gemini-3.6-flash", "marts": 12 },
+      { "model": "sonnet-4-6", "marts": 11 },
+      { "model": "deepseek-v4-flash", "marts": 9 },
+      { "model": "gemini-3.5-flash-lite", "marts": 7 }
+    ],
+    "latency": [
+      { "model": "gemini-3.5-flash-lite", "seconds": 28 },
+      { "model": "gemini-3.6-flash", "seconds": 65 },
+      { "model": "sonnet-4-6", "seconds": 76 },
+      { "model": "deepseek-v4-flash", "seconds": 152 }
+    ],
+    "cost": [
+      { "model": "deepseek-v4-flash", "component": "candidate model", "usd": 0.18 },
+      { "model": "deepseek-v4-flash", "component": "structurer (haiku)", "usd": 0.25 },
+      { "model": "gemini-3.5-flash-lite", "component": "candidate model", "usd": 0.86 },
+      { "model": "gemini-3.5-flash-lite", "component": "structurer (haiku)", "usd": 0.2 },
+      { "model": "sonnet-4-6", "component": "candidate model", "usd": 2.06 },
+      { "model": "sonnet-4-6", "component": "structurer (haiku)", "usd": 0.18 },
+      { "model": "gemini-3.6-flash", "component": "candidate model", "usd": 4.06 },
+      { "model": "gemini-3.6-flash", "component": "structurer (haiku)", "usd": 0.29 }
+    ]
+  },
+  "tables": {
+    "finalBoard": {
+      "headers": ["Model", "Numeric", "Marts", "Sec / case", "Run cost", "Cache-read rate", "Verdict"],
+      "alignRight": [1, 2, 3, 4, 5],
+      "boldColumns": [0],
+      "rows": [
+        ["claude-sonnet-4-6", "12/12", "11/12", "76", "$2.06", "94%", "Stays in production — caching closed the cost gap"],
+        ["gemini-3.6-flash", "12/12", "12/12", "65", "$4.06*", "63%", "Only flawless mart discipline; priciest run"],
+        ["gemini-3.5-flash-lite", "12/12", "7/12", "28", "$0.86*", "25%", "Fastest board ever; freelances past marts"],
+        ["deepseek-v4-flash", "12/12", "9/12", "152", "$0.18", "83%", "Four cents a case; slowest of the four"],
+        ["tracer/echo", "10/10†", "7/10", "196", "—", "—", "Perfect where it finished; 2 cases timed out"],
+        ["glm-4.7", "—", "—", "~1140", "—", "—", "DQ on latency (Jul 25, unchanged)"]
+      ]
+    }
+  },
+  "vegaSpecs": {
+    "disciplineBars": {
+      "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+      "background": "transparent",
+      "width": "container",
+      "height": 200,
+      "data": { "name": "discipline" },
+      "mark": { "type": "bar", "color": "#4a5d43", "cornerRadiusEnd": 2 },
+      "encoding": {
+        "y": { "field": "model", "type": "nominal", "title": null, "sort": "-x" },
+        "x": { "field": "marts", "type": "quantitative", "title": "cases answered from the canonical mart (of 12)", "scale": { "domain": [0, 12] }, "axis": { "tickMinStep": 1 } }
+      }
+    },
+    "latencyBars": {
+      "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+      "background": "transparent",
+      "width": "container",
+      "height": 180,
+      "data": { "name": "latency" },
+      "mark": { "type": "bar", "color": "#7a8471", "cornerRadiusEnd": 2 },
+      "encoding": {
+        "y": { "field": "model", "type": "nominal", "title": null, "sort": "x" },
+        "x": { "field": "seconds", "type": "quantitative", "title": "seconds per case" }
+      }
+    },
+    "costBars": {
+      "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+      "background": "transparent",
+      "width": "container",
+      "height": 200,
+      "data": { "name": "cost" },
+      "mark": { "type": "bar", "cornerRadiusEnd": 2 },
+      "encoding": {
+        "y": { "field": "model", "type": "nominal", "title": null, "sort": "x" },
+        "x": { "field": "usd", "type": "quantitative", "title": "cost per 12-case run (USD)" },
+        "color": {
+          "field": "component", "type": "nominal", "title": null,
+          "scale": { "domain": ["candidate model", "structurer (haiku)"], "range": ["#4a5d43", "#c9a227"] },
+          "legend": { "orient": "bottom" }
+        },
+        "tooltip": [
+          { "field": "model", "type": "nominal" },
+          { "field": "component", "type": "nominal" },
+          { "field": "usd", "type": "quantitative", "format": "$.2f" }
+        ]
+      }
+    }
+  }
+}
