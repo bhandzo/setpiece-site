@@ -1,4 +1,6 @@
 ---
+// ABOUTME: Index-row entry for blog listings — a post masthead in miniature:
+// ABOUTME: mono date eyebrow, grotesque title with orange hover, serif description.
 import type { CollectionEntry } from "astro:content";
 import FormattedDate from "@/components/FormattedDate.astro";
 import type { HTMLTag, Polymorphic } from "astro/types";
@@ -11,14 +13,17 @@ type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
 const { as: Tag = "div", post, withDesc = false } = Astro.props;
 ---
 
-<FormattedDate
-	class="min-w-30 font-semibold text-gray-600 dark:text-gray-400"
-	date={post.data.publishDate}
-/>
-<Tag>
-	{post.data.draft && <span class="text-red-500">(Draft) </span>}
-	<a class="cactus-link" href={`/posts/${post.id}/`}>
+<p class="eyebrow text-muted-dark flex flex-wrap items-center gap-x-3">
+	{post.data.draft && <span class="text-orange">Draft</span>}
+	<FormattedDate date={post.data.publishDate} />
+</p>
+<Tag class="mt-2 text-xl font-bold tracking-tight md:text-2xl">
+	<a class="hover:text-orange transition-colors" href={`/posts/${post.id}/`}>
 		{post.data.title}
 	</a>
 </Tag>
-{withDesc && <q class="line-clamp-3 italic">{post.data.description}</q>}
+{
+	withDesc && (
+		<p class="font-serif mt-2 line-clamp-2 max-w-[38em] leading-loose">{post.data.description}</p>
+	)
+}

@@ -1,4 +1,6 @@
 ---
+// ABOUTME: Per-tag post listing — masthead header with breadcrumb eyebrow,
+// ABOUTME: hairline-ruled post rows in the "Set Play" voice.
 import { render } from "astro:content";
 import Pagination from "@/components/Paginator.astro";
 import PostPreview from "@/components/blog/PostPreview.astro";
@@ -6,7 +8,6 @@ import { getAllPosts, getTagMeta, getUniqueTags } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
 import { collectionDateSort } from "@/utils/date";
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
-import { Icon } from "astro-icon/components";
 
 export const getStaticPaths = (async ({ paginate }) => {
 	const allPosts = await getAllPosts();
@@ -38,13 +39,13 @@ const meta = {
 const paginationProps = {
 	...(page.url.prev && {
 		prevUrl: {
-			text: "← Previous Tags",
+			text: "← Newer posts",
 			url: page.url.prev,
 		},
 	}),
 	...(page.url.next && {
 		nextUrl: {
-			text: "Next Tags →",
+			text: "Older posts →",
 			url: page.url.next,
 		},
 	}),
@@ -52,28 +53,41 @@ const paginationProps = {
 ---
 
 <PageLayout meta={meta}>
-	<nav class="mb-8" aria-label="Breadcrumbs">
-		<ul class="flex items-center">
-			<li class="flex items-center">
-				<a class="text-accent" href="/tags/">Tags</a>
-				<Icon aria-hidden="true" name="mdi:chevron-right" class="mx-1.5" />
-			</li>
-			<li aria-current="page" class=""><span aria-hidden="true">#</span>{tag}</li>
+	<section class="gc-full mb-12">
+		<div class="pb-baseline border-b border-(--hairline)">
+			<div class="eyebrow text-muted-dark flex flex-wrap items-center gap-x-2">
+				<nav class="flex items-center gap-x-2" aria-label="Breadcrumbs">
+					<a class="hover:text-orange transition-colors" href="/tags/">Tags</a>
+					<span aria-hidden="true">/</span>
+					<span aria-current="page"><span aria-hidden="true">#</span>{tag}</span>
+				</nav>
+				<span class="ms-auto">
+					{page.total} post{page.total === 1 ? "" : "s"}
+				</span>
+			</div>
+			<h1 class="display mt-3 text-3xl md:text-4xl">
+				{tagMeta?.data.title ?? `#${tag}`}
+			</h1>
+			{
+				(tagMeta?.data.description || TagContent) && (
+					<div class="prose prose-blog mt-4">
+						{tagMeta?.data.description && <p>{tagMeta.data.description}</p>}
+						{TagContent && <TagContent />}
+					</div>
+				)
+			}
+		</div>
+	</section>
+	<div class="gc-full max-w-[44rem]">
+		<ul class="divide-y divide-(--hairline) list-none">
+			{
+				page.data.map((p) => (
+					<li class="ml-0 py-6 first:pt-0 last:pb-0">
+						<PostPreview as="h2" post={p} withDesc />
+					</li>
+				))
+			}
 		</ul>
-	</nav>
-	<h1 class="title capitalize">{tagMeta?.data.title ?? `Posts about ${tag}`}</h1>
-	<div class="prose prose-sm prose-cactus mb-16 max-w-none">
-		{tagMeta?.data.description && <p>{tagMeta.data.description}</p>}
-		{TagContent && <TagContent />}
+		<Pagination {...paginationProps} />
 	</div>
-	<ul class="space-y-4">
-		{
-			page.data.map((p) => (
-				<li class="gap-1 sm:grid-cols-[auto_1fr] grid">
-					<PostPreview as="h2" post={p} />
-				</li>
-			))
-		}
-	</ul>
-	<Pagination {...paginationProps} />
 </PageLayout>
