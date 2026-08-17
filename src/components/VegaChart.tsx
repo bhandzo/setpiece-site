@@ -9,6 +9,8 @@ interface VegaChartProps {
 	spec: Record<string, unknown>;
 	/** Named-data map from the sidecar, attached via the embed spec's `datasets`. */
 	datasets: Record<string, unknown[]>;
+	/** Mono-caps panel title above the chart (the axis-reading line). */
+	title?: string;
 	/** Rendered as a muted figcaption below the chart. */
 	caption?: string;
 	/** Pixel height; a spec that declares its own height wins. */
@@ -30,11 +32,12 @@ function readThemeTokens(): ThemeTokens {
 		ink: token("--color-ink"),
 		label: token("--color-muted-dark"),
 		hairline: token("--hairline"),
-		font: token("--font-sans"),
+		// Charts speak the site's mono data voice — same as table headers and eyebrows.
+		font: token("--font-mono"),
 	};
 }
 
-export default function VegaChart({ spec, datasets, caption, height }: VegaChartProps) {
+export default function VegaChart({ spec, datasets, title, caption, height }: VegaChartProps) {
 	const ref = useRef<HTMLDivElement>(null);
 	// Read client-side only (getComputedStyle); null during SSR and first paint.
 	const [tokens, setTokens] = useState<ThemeTokens | null>(null);
@@ -74,17 +77,26 @@ export default function VegaChart({ spec, datasets, caption, height }: VegaChart
 					labelColor: tokens.ink,
 					titleColor: tokens.label,
 					labelFont: tokens.font,
+					labelFontSize: 11,
 					titleFont: tokens.font,
+					titleFontSize: 11,
+					titlePadding: 10,
 					domainColor: tokens.hairline,
 					tickColor: tokens.hairline,
 					gridColor: tokens.hairline,
+					gridOpacity: 0.35,
 				},
 				legend: {
 					labelColor: tokens.ink,
 					titleColor: tokens.label,
 					labelFont: tokens.font,
+					labelFontSize: 11,
 					titleFont: tokens.font,
+					titleFontSize: 10,
 				},
+				// Data labels drawn as text marks inherit the theme instead of
+				// hardcoding a fill that one of the two modes can't read.
+				text: { color: tokens.ink, font: tokens.font },
 				title: { color: tokens.ink, font: tokens.font },
 			};
 			const specDatasets = (spec.datasets as Record<string, unknown>) ?? {};
@@ -121,7 +133,13 @@ export default function VegaChart({ spec, datasets, caption, height }: VegaChart
 
 	return (
 		<figure className="my-8">
-			<div className="w-full" ref={ref} />
+			{/* Charts sit on a bone panel behind a hairline rule — the same panel
+			    treatment as the report artifacts; the vega canvas stays transparent
+			    so the panel token flips with the theme. */}
+			<div className="bg-bone border-(--hairline) border px-6 pt-5 pb-4">
+				{title && <p className="eyebrow text-muted-dark mb-4">{title}</p>}
+				<div className="w-full" ref={ref} />
+			</div>
 			{caption && <figcaption className="text-muted-dark mt-3 text-sm">{caption}</figcaption>}
 		</figure>
 	);
