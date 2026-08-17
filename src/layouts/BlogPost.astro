@@ -3,7 +3,6 @@ import { type CollectionEntry, render } from "astro:content";
 
 import CoverImage from "@/components/blog/CoverImage.astro";
 import Masthead from "@/components/blog/Masthead.astro";
-import TOC from "@/components/blog/TOC.astro";
 
 import BaseLayout from "./Base.astro";
 
@@ -15,7 +14,7 @@ const { post } = Astro.props;
 const { ogImage, title, description, updatedDate, publishDate } = post.data;
 const socialImage = ogImage ?? `/og-image/${post.id}.png`;
 const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString();
-const { headings, remarkPluginFrontmatter } = await render(post);
+const { remarkPluginFrontmatter } = await render(post);
 const readingTime: string = remarkPluginFrontmatter.readingTime;
 ---
 
@@ -27,31 +26,22 @@ const readingTime: string = remarkPluginFrontmatter.readingTime;
     title,
   }}
 >
-  <article class="gc-full grid-local" data-pagefind-body>
+  <article class="gc-full" data-pagefind-body>
     {post.data.coverImage && (
-      <div class="gc-full">
-        <CoverImage src={post.data.coverImage.src} alt={post.data.coverImage.alt} />
-      </div>
+      <CoverImage src={post.data.coverImage.src} alt={post.data.coverImage.alt} />
     )}
-    <div id="blog-hero" class="gc-full py-baseline">
-      <Masthead content={post} readingTime={readingTime} />
-    </div>
-    <div
-      class="gc-full md:gc-two-thirds lg:gc-two-thirds mx-auto py-baseline-sm max-w-[515px]"
-    >
-      <div
-        class="prose prose-sm prose-headings:font-semibold prose-headings:text-accent-2"
-      >
-        <slot />
+    <div class="mx-auto w-full max-w-[41rem]">
+      <div id="blog-hero" class="py-baseline border-b border-(--hairline)">
+        <Masthead content={post} readingTime={readingTime} />
+      </div>
+      <div class="py-baseline">
+        <div
+          class="prose prose-blog prose-headings:font-semibold prose-headings:text-accent-2"
+        >
+          <slot />
+        </div>
       </div>
     </div>
-    {
-      !!headings.length && (
-        <div class="gc-full md:gc-third lg:gc-third py-baseline-sm">
-          <TOC headings={headings} />
-        </div>
-      )
-    }
   </article>
 </BaseLayout>
 <button
