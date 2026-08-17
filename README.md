@@ -76,6 +76,15 @@ astro.config.ts  Astro integrations + build config
 mise.toml        Pinned Node + pnpm versions
 ```
 
+## Blog design voice
+
+Blog posts speak three type voices (the "Set Play" editorial system, PR #9): Georgia
+serif for prose (`prose-blog` in `src/styles/global.css`, which documents the tokens),
+aktiv-grotesk for headings, and bc-sklonar mono for data — eyebrows, table headers,
+and everything inside charts. Charts render through `src/components/VegaChart.tsx`
+(theme-aware panel treatment, both modes). To port a softcopy report into a post, see
+[`docs/solutions/porting-softcopy-reports-to-blog-posts-2026-08-17.md`](./docs/solutions/porting-softcopy-reports-to-blog-posts-2026-08-17.md).
+
 ## Credits
 
 Originally forked from [chrismwilliams/astro-theme-cactus](https://github.com/chrismwilliams/astro-theme-cactus). The cactus theme docs cover features not duplicated here (Pagefind search, OG image generation, admonitions).

@@ -1,0 +1,1014 @@
+{
+ "vegaSpecs": {
+  "bubbleTrade": {
+   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+   "data": {
+    "name": "modelSummary"
+   },
+   "layer": [
+    {
+     "transform": [
+      {
+       "filter": "datum.costPerQ != null"
+      }
+     ],
+     "mark": {
+      "type": "circle",
+      "opacity": 0.9
+     },
+     "encoding": {
+      "x": {
+       "field": "minutes",
+       "type": "quantitative",
+       "title": "Avg minutes per deep question \u2192",
+       "scale": {
+        "domainMin": 0,
+        "domainMax": 4.6
+       },
+       "axis": {
+        "tickCount": 5
+       }
+      },
+      "y": {
+       "field": "lines",
+       "type": "quantitative",
+       "title": "Avg lines per answer \u2191",
+       "scale": {
+        "domainMin": 0,
+        "domainMax": 58
+       },
+       "axis": {
+        "tickCount": 6
+       }
+      },
+      "size": {
+       "field": "costPerQ",
+       "type": "quantitative",
+       "title": "Avg $ / question",
+       "scale": {
+        "range": [
+         200,
+         2600
+        ]
+       },
+       "legend": null
+      },
+      "color": {
+       "field": "model",
+       "type": "nominal",
+       "scale": {
+        "domain": [
+         "Opus 5",
+         "Sonnet 4.6",
+         "Terra",
+         "Luna",
+         "Gemini 3.5F",
+         "Gemini 3.6F",
+         "GLM 5.2",
+         "Echo"
+        ],
+        "range": [
+         "#963F04",
+         "#EE7D0E",
+         "#1D5CAD",
+         "#4D96F2",
+         "#0F7D5A",
+         "#4FBA8C",
+         "#8040A0",
+         "#C75A88"
+        ]
+       },
+       "legend": null
+      },
+      "tooltip": [
+       {
+        "field": "model",
+        "title": "Model"
+       },
+       {
+        "field": "minutes",
+        "title": "Avg minutes"
+       },
+       {
+        "field": "lines",
+        "title": "Avg lines"
+       },
+       {
+        "field": "costLabel",
+        "title": "Avg $ / question"
+       }
+      ]
+     }
+    },
+    {
+     "transform": [
+      {
+       "filter": "datum.costPerQ == null"
+      }
+     ],
+     "mark": {
+      "type": "point",
+      "shape": "circle",
+      "filled": false,
+      "size": 700,
+      "strokeWidth": 2.5,
+      "opacity": 1
+     },
+     "encoding": {
+      "x": {
+       "field": "minutes",
+       "type": "quantitative"
+      },
+      "y": {
+       "field": "lines",
+       "type": "quantitative"
+      },
+      "color": {
+       "field": "model",
+       "type": "nominal",
+       "scale": {
+        "domain": [
+         "Opus 5",
+         "Sonnet 4.6",
+         "Terra",
+         "Luna",
+         "Gemini 3.5F",
+         "Gemini 3.6F",
+         "GLM 5.2",
+         "Echo"
+        ],
+        "range": [
+         "#963F04",
+         "#EE7D0E",
+         "#1D5CAD",
+         "#4D96F2",
+         "#0F7D5A",
+         "#4FBA8C",
+         "#8040A0",
+         "#C75A88"
+        ]
+       },
+       "legend": null
+      },
+      "tooltip": [
+       {
+        "field": "model",
+        "title": "Model"
+       },
+       {
+        "field": "minutes",
+        "title": "Avg minutes"
+       },
+       {
+        "field": "lines",
+        "title": "Avg lines"
+       },
+       {
+        "field": "costLabel",
+        "title": "Avg $ / question"
+       }
+      ]
+     }
+    },
+    {
+     "transform": [
+      {
+       "filter": "indexof(['Luna','GLM 5.2','Opus 5','Gemini 3.5F'], datum.model) < 0"
+      }
+     ],
+     "mark": {
+      "type": "text",
+      "dy": -22,
+      "fontSize": 11
+     },
+     "encoding": {
+      "x": {
+       "field": "minutes",
+       "type": "quantitative"
+      },
+      "y": {
+       "field": "lines",
+       "type": "quantitative"
+      },
+      "text": {
+       "field": "model"
+      }
+     }
+    },
+    {
+     "transform": [
+      {
+       "filter": "datum.model == 'Opus 5' || datum.model == 'Gemini 3.5F'"
+      }
+     ],
+     "mark": {
+      "type": "text",
+      "dy": -38,
+      "fontSize": 11
+     },
+     "encoding": {
+      "x": {
+       "field": "minutes",
+       "type": "quantitative"
+      },
+      "y": {
+       "field": "lines",
+       "type": "quantitative"
+      },
+      "text": {
+       "field": "model"
+      }
+     }
+    },
+    {
+     "transform": [
+      {
+       "filter": "datum.model == 'Luna' || datum.model == 'GLM 5.2'"
+      }
+     ],
+     "mark": {
+      "type": "text",
+      "dy": 22,
+      "fontSize": 11
+     },
+     "encoding": {
+      "x": {
+       "field": "minutes",
+       "type": "quantitative"
+      },
+      "y": {
+       "field": "lines",
+       "type": "quantitative"
+      },
+      "text": {
+       "field": "model"
+      }
+     }
+    }
+   ],
+   "width": "container",
+   "height": 380,
+   "background": "transparent"
+  },
+  "answerScatter": {
+   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+   "data": {
+    "name": "answers"
+   },
+   "mark": {
+    "type": "point",
+    "filled": true,
+    "size": 120,
+    "stroke": "rgba(34,32,25,0.45)",
+    "strokeWidth": 0.8
+   },
+   "encoding": {
+    "x": {
+     "field": "minutes",
+     "type": "quantitative",
+     "title": "Minutes to answer \u2192",
+     "axis": {
+      "tickCount": 6
+     }
+    },
+    "y": {
+     "field": "words",
+     "type": "quantitative",
+     "title": "Words in the answer \u2191",
+     "axis": {
+      "tickCount": 6
+     }
+    },
+    "color": {
+     "field": "model",
+     "type": "nominal",
+     "title": "Model",
+     "scale": {
+      "domain": [
+       "Opus 5",
+       "Sonnet 4.6",
+       "Terra",
+       "Luna",
+       "Gemini 3.5F",
+       "Gemini 3.6F",
+       "GLM 5.2",
+       "Echo"
+      ],
+      "range": [
+       "#963F04",
+       "#EE7D0E",
+       "#1D5CAD",
+       "#4D96F2",
+       "#0F7D5A",
+       "#4FBA8C",
+       "#8040A0",
+       "#C75A88"
+      ]
+     },
+     "legend": {
+      "orient": "bottom",
+      "direction": "horizontal",
+      "title": null,
+      "columns": 4,
+      "columnPadding": 26,
+      "rowPadding": 8,
+      "labelLimit": 200,
+      "offset": 24
+     }
+    },
+    "tooltip": [
+     {
+      "field": "model",
+      "title": "Model"
+     },
+     {
+      "field": "exercise",
+      "title": "Exercise"
+     },
+     {
+      "field": "minutes",
+      "title": "Minutes"
+     },
+     {
+      "field": "words",
+      "title": "Words"
+     }
+    ],
+    "opacity": {
+     "condition": {
+      "param": "modelSel",
+      "value": 0.9
+     },
+     "value": 0.12
+    }
+   },
+   "width": "container",
+   "height": 380,
+   "background": "transparent",
+   "params": [
+    {
+     "name": "modelSel",
+     "select": {
+      "type": "point",
+      "fields": [
+       "model"
+      ]
+     }
+    }
+   ]
+  },
+  "timeDecomp": {
+   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+   "data": {
+    "name": "timeSplit"
+   },
+   "mark": {
+    "type": "bar",
+    "height": {
+     "band": 0.62
+    }
+   },
+   "encoding": {
+    "y": {
+     "field": "model",
+     "type": "nominal",
+     "title": null,
+     "sort": {
+      "field": "seconds",
+      "op": "sum",
+      "order": "descending"
+     },
+     "axis": {
+      "grid": false
+     }
+    },
+    "x": {
+     "field": "seconds",
+     "type": "quantitative",
+     "title": "Avg seconds per deep question",
+     "axis": {
+      "tickCount": 6
+     }
+    },
+    "color": {
+     "field": "model",
+     "type": "nominal",
+     "scale": {
+      "domain": [
+       "Opus 5",
+       "Sonnet 4.6",
+       "Terra",
+       "Luna",
+       "Gemini 3.5F",
+       "Gemini 3.6F",
+       "GLM 5.2",
+       "Echo"
+      ],
+      "range": [
+       "#963F04",
+       "#EE7D0E",
+       "#1D5CAD",
+       "#4D96F2",
+       "#0F7D5A",
+       "#4FBA8C",
+       "#8040A0",
+       "#C75A88"
+      ]
+     },
+     "legend": null
+    },
+    "opacity": {
+     "field": "component",
+     "type": "nominal",
+     "scale": {
+      "domain": [
+       "Model thinking + writing",
+       "Tool execution"
+      ],
+      "range": [
+       1,
+       0.4
+      ]
+     },
+     "legend": {
+      "orient": "top",
+      "title": null,
+      "direction": "horizontal",
+      "symbolType": "square",
+      "symbolFillColor": "#8A8474",
+      "offset": 16
+     }
+    },
+    "order": {
+     "field": "component",
+     "sort": "ascending"
+    },
+    "tooltip": [
+     {
+      "field": "model",
+      "title": "Model"
+     },
+     {
+      "field": "component",
+      "title": "Component"
+     },
+     {
+      "field": "seconds",
+      "title": "Seconds"
+     }
+    ]
+   },
+   "width": "container",
+   "height": 300,
+   "background": "transparent"
+  },
+  "toolCallsBar": {
+   "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+   "data": {
+    "name": "toolCalls"
+   },
+   "mark": {
+    "type": "bar",
+    "height": {
+     "band": 0.62
+    }
+   },
+   "encoding": {
+    "y": {
+     "field": "model",
+     "type": "nominal",
+     "title": null,
+     "sort": {
+      "field": "calls",
+      "order": "descending"
+     },
+     "axis": {
+      "grid": false
+     }
+    },
+    "x": {
+     "field": "calls",
+     "type": "quantitative",
+     "title": "Avg tool calls per deep question",
+     "axis": {
+      "tickCount": 8
+     }
+    },
+    "color": {
+     "field": "model",
+     "type": "nominal",
+     "scale": {
+      "domain": [
+       "Opus 5",
+       "Sonnet 4.6",
+       "Terra",
+       "Luna",
+       "Gemini 3.5F",
+       "Gemini 3.6F",
+       "GLM 5.2",
+       "Echo"
+      ],
+      "range": [
+       "#963F04",
+       "#EE7D0E",
+       "#1D5CAD",
+       "#4D96F2",
+       "#0F7D5A",
+       "#4FBA8C",
+       "#8040A0",
+       "#C75A88"
+      ]
+     },
+     "legend": null
+    },
+    "tooltip": [
+     {
+      "field": "model",
+      "title": "Model"
+     },
+     {
+      "field": "calls",
+      "title": "Avg tool calls"
+     }
+    ]
+   },
+   "width": "container",
+   "height": 260,
+   "background": "transparent"
+  }
+ },
+ "datasets": {
+  "modelSummary": [
+   {
+    "model": "Opus 5",
+    "minutes": 3.36,
+    "lines": 51.2,
+    "costPerQ": 0.774,
+    "costLabel": "$0.77",
+    "totalSec": 190.1
+   },
+   {
+    "model": "Sonnet 4.6",
+    "minutes": 2.14,
+    "lines": 29.8,
+    "costPerQ": 0.264,
+    "costLabel": "$0.26",
+    "totalSec": 112.9
+   },
+   {
+    "model": "Luna",
+    "minutes": 0.93,
+    "lines": 16.3,
+    "costPerQ": 0.013,
+    "costLabel": "$0.01",
+    "totalSec": 57.2
+   },
+   {
+    "model": "Terra",
+    "minutes": 0.94,
+    "lines": 16.7,
+    "costPerQ": 0.116,
+    "costLabel": "$0.12",
+    "totalSec": 56.6
+   },
+   {
+    "model": "Echo",
+    "minutes": 2.67,
+    "lines": 28.5,
+    "costPerQ": null,
+    "costLabel": "n/a",
+    "totalSec": 163.9
+   },
+   {
+    "model": "GLM 5.2",
+    "minutes": 1.38,
+    "lines": 41.2,
+    "costPerQ": 0.085,
+    "costLabel": "$0.09",
+    "totalSec": 84.4
+   },
+   {
+    "model": "Gemini 3.5F",
+    "minutes": 4.16,
+    "lines": 51.7,
+    "costPerQ": 0.701,
+    "costLabel": "$0.70",
+    "totalSec": 264.6
+   },
+   {
+    "model": "Gemini 3.6F",
+    "minutes": 1.29,
+    "lines": 44.5,
+    "costPerQ": 0.336,
+    "costLabel": "$0.34",
+    "totalSec": 82.1
+   }
+  ],
+  "answers": [
+   {
+    "model": "Opus 5",
+    "exercise": "The loaded claim",
+    "minutes": 4.6,
+    "words": 625
+   },
+   {
+    "model": "Opus 5",
+    "exercise": "Section lift",
+    "minutes": 1.68,
+    "words": 264
+   },
+   {
+    "model": "Opus 5",
+    "exercise": "Band split",
+    "minutes": 3.71,
+    "words": 442
+   },
+   {
+    "model": "Opus 5",
+    "exercise": "Next-year valuation",
+    "minutes": 3.16,
+    "words": 527
+   },
+   {
+    "model": "Opus 5",
+    "exercise": "Channel breakdown",
+    "minutes": 2.63,
+    "words": 620
+   },
+   {
+    "model": "Opus 5",
+    "exercise": "The trap",
+    "minutes": 4.36,
+    "words": 325
+   },
+   {
+    "model": "Sonnet 4.6",
+    "exercise": "The loaded claim",
+    "minutes": 1.79,
+    "words": 242
+   },
+   {
+    "model": "Sonnet 4.6",
+    "exercise": "Section lift",
+    "minutes": 1.43,
+    "words": 187
+   },
+   {
+    "model": "Sonnet 4.6",
+    "exercise": "Band split",
+    "minutes": 0.98,
+    "words": 191
+   },
+   {
+    "model": "Sonnet 4.6",
+    "exercise": "Next-year valuation",
+    "minutes": 2.84,
+    "words": 219
+   },
+   {
+    "model": "Sonnet 4.6",
+    "exercise": "Channel breakdown",
+    "minutes": 2.17,
+    "words": 286
+   },
+   {
+    "model": "Sonnet 4.6",
+    "exercise": "The trap",
+    "minutes": 3.65,
+    "words": 318
+   },
+   {
+    "model": "Luna",
+    "exercise": "The loaded claim",
+    "minutes": 0.88,
+    "words": 146
+   },
+   {
+    "model": "Luna",
+    "exercise": "Section lift",
+    "minutes": 0.98,
+    "words": 52
+   },
+   {
+    "model": "Luna",
+    "exercise": "Band split",
+    "minutes": 0.63,
+    "words": 106
+   },
+   {
+    "model": "Luna",
+    "exercise": "Next-year valuation",
+    "minutes": 1.38,
+    "words": 70
+   },
+   {
+    "model": "Luna",
+    "exercise": "Channel breakdown",
+    "minutes": 0.91,
+    "words": 320
+   },
+   {
+    "model": "Luna",
+    "exercise": "The trap",
+    "minutes": 0.82,
+    "words": 152
+   },
+   {
+    "model": "Terra",
+    "exercise": "The loaded claim",
+    "minutes": 0.7,
+    "words": 114
+   },
+   {
+    "model": "Terra",
+    "exercise": "Section lift",
+    "minutes": 0.93,
+    "words": 56
+   },
+   {
+    "model": "Terra",
+    "exercise": "Band split",
+    "minutes": 0.68,
+    "words": 147
+   },
+   {
+    "model": "Terra",
+    "exercise": "Next-year valuation",
+    "minutes": 1.51,
+    "words": 74
+   },
+   {
+    "model": "Terra",
+    "exercise": "Channel breakdown",
+    "minutes": 1.12,
+    "words": 229
+   },
+   {
+    "model": "Terra",
+    "exercise": "The trap",
+    "minutes": 0.72,
+    "words": 171
+   },
+   {
+    "model": "Echo",
+    "exercise": "The loaded claim",
+    "minutes": 1.76,
+    "words": 192
+   },
+   {
+    "model": "Echo",
+    "exercise": "Section lift",
+    "minutes": 1.34,
+    "words": 147
+   },
+   {
+    "model": "Echo",
+    "exercise": "Band split",
+    "minutes": 1.53,
+    "words": 281
+   },
+   {
+    "model": "Echo",
+    "exercise": "Next-year valuation",
+    "minutes": 4.13,
+    "words": 128
+   },
+   {
+    "model": "Echo",
+    "exercise": "Channel breakdown",
+    "minutes": 3.21,
+    "words": 229
+   },
+   {
+    "model": "Echo",
+    "exercise": "The trap",
+    "minutes": 4.08,
+    "words": 404
+   },
+   {
+    "model": "GLM 5.2",
+    "exercise": "The loaded claim",
+    "minutes": 1.3,
+    "words": 350
+   },
+   {
+    "model": "GLM 5.2",
+    "exercise": "Section lift",
+    "minutes": 0.74,
+    "words": 171
+   },
+   {
+    "model": "GLM 5.2",
+    "exercise": "Band split",
+    "minutes": 1.02,
+    "words": 362
+   },
+   {
+    "model": "GLM 5.2",
+    "exercise": "Next-year valuation",
+    "minutes": 1.58,
+    "words": 205
+   },
+   {
+    "model": "GLM 5.2",
+    "exercise": "Channel breakdown",
+    "minutes": 1.17,
+    "words": 467
+   },
+   {
+    "model": "GLM 5.2",
+    "exercise": "The trap",
+    "minutes": 2.47,
+    "words": 475
+   },
+   {
+    "model": "Gemini 3.5F",
+    "exercise": "The loaded claim",
+    "minutes": 2.05,
+    "words": 418
+   },
+   {
+    "model": "Gemini 3.5F",
+    "exercise": "Section lift",
+    "minutes": 1.77,
+    "words": 251
+   },
+   {
+    "model": "Gemini 3.5F",
+    "exercise": "Band split",
+    "minutes": 3.59,
+    "words": 557
+   },
+   {
+    "model": "Gemini 3.5F",
+    "exercise": "Next-year valuation",
+    "minutes": 9.41,
+    "words": 419
+   },
+   {
+    "model": "Gemini 3.5F",
+    "exercise": "Channel breakdown",
+    "minutes": 2.99,
+    "words": 520
+   },
+   {
+    "model": "Gemini 3.5F",
+    "exercise": "The trap",
+    "minutes": 5.14,
+    "words": 281
+   },
+   {
+    "model": "Gemini 3.6F",
+    "exercise": "The loaded claim",
+    "minutes": 1.14,
+    "words": 273
+   },
+   {
+    "model": "Gemini 3.6F",
+    "exercise": "Section lift",
+    "minutes": 1.03,
+    "words": 238
+   },
+   {
+    "model": "Gemini 3.6F",
+    "exercise": "Band split",
+    "minutes": 0.81,
+    "words": 208
+   },
+   {
+    "model": "Gemini 3.6F",
+    "exercise": "Next-year valuation",
+    "minutes": 2.16,
+    "words": 274
+   },
+   {
+    "model": "Gemini 3.6F",
+    "exercise": "Channel breakdown",
+    "minutes": 1.73,
+    "words": 609
+   },
+   {
+    "model": "Gemini 3.6F",
+    "exercise": "The trap",
+    "minutes": 0.88,
+    "words": 233
+   }
+  ],
+  "timeSplit": [
+   {
+    "model": "Opus 5",
+    "component": "Model thinking + writing",
+    "seconds": 184.7
+   },
+   {
+    "model": "Opus 5",
+    "component": "Tool execution",
+    "seconds": 5.4
+   },
+   {
+    "model": "Sonnet 4.6",
+    "component": "Model thinking + writing",
+    "seconds": 107.1
+   },
+   {
+    "model": "Sonnet 4.6",
+    "component": "Tool execution",
+    "seconds": 5.8
+   },
+   {
+    "model": "Luna",
+    "component": "Model thinking + writing",
+    "seconds": 53.4
+   },
+   {
+    "model": "Luna",
+    "component": "Tool execution",
+    "seconds": 3.8
+   },
+   {
+    "model": "Terra",
+    "component": "Model thinking + writing",
+    "seconds": 54.1
+   },
+   {
+    "model": "Terra",
+    "component": "Tool execution",
+    "seconds": 2.5
+   },
+   {
+    "model": "Echo",
+    "component": "Model thinking + writing",
+    "seconds": 157.2
+   },
+   {
+    "model": "Echo",
+    "component": "Tool execution",
+    "seconds": 6.7
+   },
+   {
+    "model": "GLM 5.2",
+    "component": "Model thinking + writing",
+    "seconds": 79.8
+   },
+   {
+    "model": "GLM 5.2",
+    "component": "Tool execution",
+    "seconds": 4.6
+   },
+   {
+    "model": "Gemini 3.5F",
+    "component": "Model thinking + writing",
+    "seconds": 244.2
+   },
+   {
+    "model": "Gemini 3.5F",
+    "component": "Tool execution",
+    "seconds": 20.4
+   },
+   {
+    "model": "Gemini 3.6F",
+    "component": "Model thinking + writing",
+    "seconds": 73.8
+   },
+   {
+    "model": "Gemini 3.6F",
+    "component": "Tool execution",
+    "seconds": 8.3
+   }
+  ],
+  "toolCalls": [
+   {
+    "model": "Opus 5",
+    "calls": 22.2
+   },
+   {
+    "model": "Sonnet 4.6",
+    "calls": 18.0
+   },
+   {
+    "model": "Luna",
+    "calls": 20.8
+   },
+   {
+    "model": "Terra",
+    "calls": 19.7
+   },
+   {
+    "model": "Echo",
+    "calls": 21.2
+   },
+   {
+    "model": "GLM 5.2",
+    "calls": 23.7
+   },
+   {
+    "model": "Gemini 3.5F",
+    "calls": 37.2
+   },
+   {
+    "model": "Gemini 3.6F",
+    "calls": 22.8
+   }
+  ]
+ }
+}

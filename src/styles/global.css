@@ -47,6 +47,7 @@
 	--color-quote: var(--color-blue);
 
 	--font-sans: aktiv-grotesk, system-ui, sans-serif;
+	--font-serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
 	--font-mono:
 		bc-sklonar, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
 		"Courier New", monospace;
@@ -660,12 +661,12 @@ html {
 	}
 
 	.prose :where(thead th):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
-		border-bottom: 1px dashed #666;
+		border-bottom: 1px solid var(--hairline);
 		font-weight: 700;
 	}
 
 	.prose :where(tfoot):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
-		border-top: 1px dashed #666;
+		border-top: 1px solid var(--hairline);
 	}
 
 	.prose
@@ -701,4 +702,109 @@ html {
 		font-size: var(--text-sm);
 		font-weight: 400;
 	}
+
+	/* ------------------------------------------------------------------
+	 * Blog editorial voice: Georgia text under grotesque headings, mono
+	 * data voice for tables and captions. Scoped via .prose-blog so the
+	 * rest of the site stays in the sans voice. Lives after the plugin's
+	 * output in this layer so single-class overrides win by order.
+	 * ---------------------------------------------------------------- */
+	.prose-blog {
+		font-family: var(--font-serif);
+		font-size: 1.125rem;
+		line-height: 1.7;
+	}
+
+	.prose-blog :where(h1, h2, h3, h4, h5, h6):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+		font-family: var(--font-sans);
+		letter-spacing: -0.01em;
+	}
+
+	/* Inline code chips read as artifacts, not dotted-border callouts */
+	.prose-blog
+		:where(code):not(:where([class~="not-prose"], [class~="not-prose"] *)):not(:where(pre code)) {
+		border: 1px solid var(--hairline);
+		background: var(--color-bone);
+		font-size: 0.8125em;
+		font-weight: 400;
+		padding: 0.1em 0.35em;
+	}
+
+	/* the chip border already marks code — drop the plugin's literal backticks */
+	.prose-blog :where(code):not(:where([class~="not-prose"], [class~="not-prose"] *))::before,
+	.prose-blog :where(code):not(:where([class~="not-prose"], [class~="not-prose"] *))::after {
+		content: none;
+	}
+
+	/* Data tables in the utility voice: mono caps headers, hairline row
+	   rules, tabular numerals — the serif never sets data */
+	.prose-blog :where(table):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+		border-top: 1px solid var(--hairline);
+	}
+
+	/* Wide data tables scroll in place on small screens instead of
+	   dragging the whole page sideways */
+	@media (max-width: 767px) {
+		.prose-blog :where(table):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+			display: block;
+			overflow-x: auto;
+			-webkit-overflow-scrolling: touch;
+		}
+	}
+
+	.prose-blog :where(thead th):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		font-weight: 400;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--color-muted-dark);
+		padding-block: 0.6em;
+	}
+
+	.prose-blog :where(tbody tr):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+		border-bottom: 1px solid var(--hairline);
+	}
+
+	.prose-blog :where(tbody td, tfoot td):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+		font-family: var(--font-sans);
+		font-size: 0.9375rem;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.prose-blog :where(figcaption):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		letter-spacing: 0.02em;
+		color: var(--color-muted-dark);
+	}
+
+	.prose-blog :where(blockquote):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+		border-left: 2px solid var(--color-orange);
+		padding-left: 1.25rem;
+		font-style: italic;
+	}
+}
+
+/* Vega chart hover tooltip: the stock white vega-tooltip widget re-skinned as
+   the ink box from the report artifacts. Unlayered, and the id+class selector
+   outranks the plugin's own #vg-tooltip-element defaults regardless of
+   insertion order. The ink/paper tokens flip together in dark mode, so the
+   tooltip always inverts against the page. */
+#vg-tooltip-element.vg-tooltip {
+	font-family: var(--font-mono);
+	font-size: 11.5px;
+	line-height: 1.55;
+	background: var(--color-ink);
+	color: var(--color-paper);
+	border: none;
+	border-radius: 0;
+	padding: 8px 11px;
+}
+#vg-tooltip-element.vg-tooltip td.key {
+	color: var(--color-muted);
+}
+#vg-tooltip-element.vg-tooltip td.value {
+	color: var(--color-paper);
+	font-weight: 700;
 }
