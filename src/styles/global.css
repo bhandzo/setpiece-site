@@ -785,3 +785,26 @@ html {
 		font-style: italic;
 	}
 }
+
+/* Vega chart hover tooltip: the stock white vega-tooltip widget re-skinned as
+   the ink box from the report artifacts. Unlayered, and the id+class selector
+   outranks the plugin's own #vg-tooltip-element defaults regardless of
+   insertion order. The ink/paper tokens flip together in dark mode, so the
+   tooltip always inverts against the page. */
+#vg-tooltip-element.vg-tooltip {
+	font-family: var(--font-mono);
+	font-size: 11.5px;
+	line-height: 1.55;
+	background: var(--color-ink);
+	color: var(--color-paper);
+	border: none;
+	border-radius: 0;
+	padding: 8px 11px;
+}
+#vg-tooltip-element.vg-tooltip td.key {
+	color: var(--color-muted);
+}
+#vg-tooltip-element.vg-tooltip td.value {
+	color: var(--color-paper);
+	font-weight: 700;
+}

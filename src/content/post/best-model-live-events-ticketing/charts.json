@@ -51,14 +51,7 @@
          2600
         ]
        },
-       "legend": {
-        "orient": "bottom",
-        "direction": "horizontal",
-        "symbolFillColor": "#8A8474",
-        "symbolStrokeWidth": 0,
-        "titleOrient": "left",
-        "offset": 24
-       }
+       "legend": null
       },
       "color": {
        "field": "model",
@@ -266,7 +259,6 @@
     "type": "point",
     "filled": true,
     "size": 120,
-    "opacity": 0.9,
     "stroke": "rgba(34,32,25,0.45)",
     "strokeWidth": 0.8
    },
@@ -341,11 +333,29 @@
       "field": "words",
       "title": "Words"
      }
-    ]
+    ],
+    "opacity": {
+     "condition": {
+      "param": "modelSel",
+      "value": 0.9
+     },
+     "value": 0.12
+    }
    },
    "width": "container",
    "height": 380,
-   "background": "transparent"
+   "background": "transparent",
+   "params": [
+    {
+     "name": "modelSel",
+     "select": {
+      "type": "point",
+      "fields": [
+       "model"
+      ]
+     }
+    }
+   ]
   },
   "timeDecomp": {
    "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
