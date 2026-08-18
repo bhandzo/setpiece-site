@@ -9,9 +9,11 @@ interface VegaChartProps {
 	spec: Record<string, unknown>;
 	/** Named-data map from the sidecar, attached via the embed spec's `datasets`. */
 	datasets: Record<string, unknown[]>;
-	/** Mono-caps panel title above the chart (the axis-reading line). */
-	title?: string;
-	/** Rendered as a muted figcaption below the chart. */
+	/** Bold display headline above the chart, under the orange accent dash. */
+	headline?: string;
+	/** Plain-language reading key set under the headline. */
+	subtitle?: string;
+	/** Methodology/source note in the footer rule, opposite the wordmark. */
 	caption?: string;
 	/** Pixel height; a spec that declares its own height wins. */
 	height?: number;
@@ -37,7 +39,14 @@ function readThemeTokens(): ThemeTokens {
 	};
 }
 
-export default function VegaChart({ spec, datasets, title, caption, height }: VegaChartProps) {
+export default function VegaChart({
+	spec,
+	datasets,
+	headline,
+	subtitle,
+	caption,
+	height,
+}: VegaChartProps) {
 	const ref = useRef<HTMLDivElement>(null);
 	// Read client-side only (getComputedStyle); null during SSR and first paint.
 	const [tokens, setTokens] = useState<ThemeTokens | null>(null);
@@ -78,8 +87,11 @@ export default function VegaChart({ spec, datasets, title, caption, height }: Ve
 					titleColor: tokens.label,
 					labelFont: tokens.font,
 					labelFontSize: 11,
+					labelFontWeight: 400 as const,
 					titleFont: tokens.font,
 					titleFontSize: 11,
+					// Vega's default bolds axis titles; the mono voice stays regular.
+					titleFontWeight: 400 as const,
 					titlePadding: 10,
 					domainColor: tokens.hairline,
 					tickColor: tokens.hairline,
@@ -132,15 +144,34 @@ export default function VegaChart({ spec, datasets, title, caption, height }: Ve
 	}, [spec, datasets, height, tokens]);
 
 	return (
-		<figure className="my-8">
-			{/* Charts sit on a cream panel — lighter than the page paper in both
-			    themes — behind a hairline rule; the vega canvas stays transparent
-			    so the panel token flips with the theme. */}
-			<div className="bg-cream border-(--hairline) border px-6 pt-5 pb-4">
-				{title && <p className="eyebrow text-muted-dark mb-4">{title}</p>}
-				<div className="w-full" ref={ref} />
-			</div>
-			{caption && <figcaption className="text-muted-dark mt-3 text-sm">{caption}</figcaption>}
+		// Charts are unboxed plates on the page paper, sharing the reading
+		// measure. The header — orange dash, bold headline, plain-language
+		// key — and the footer rule with the wordmark are the chart's frame.
+		<figure className="my-12">
+			{(headline || subtitle) && (
+				<div className="mb-5">
+					<span aria-hidden="true" className="bg-orange mb-3 block h-1.5 w-10" />
+					{headline && (
+						<p className="font-sans text-ink m-0 text-2xl font-bold tracking-tight text-balance">
+							{headline}
+						</p>
+					)}
+					{subtitle && (
+						<p className="font-sans text-muted-dark m-0 mt-2 text-[0.9375rem] leading-normal">
+							{subtitle}
+						</p>
+					)}
+				</div>
+			)}
+			<div className="w-full" ref={ref} />
+			{/* prose-blog's figcaption rules set the mono data voice; the
+			    wordmark span opts back up to ink. */}
+			<figcaption className="mt-4 flex flex-col gap-1.5 border-t border-(--hairline) pt-2.5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
+				<span>{caption}</span>
+				<span className="text-ink self-end font-bold tracking-[0.08em] uppercase whitespace-nowrap sm:self-auto">
+					Setpiece
+				</span>
+			</figcaption>
 		</figure>
 	);
 }

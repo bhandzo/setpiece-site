@@ -7,120 +7,81 @@ draft: true
 ---
 ## TL;DR;
 
-If you’re building an agent to do data analysis for live events there are quite a few models, both closed and open weights that will do a great job. Which one is best for your workload comes down to “vibes” more than any particularly metric.
+If you’re building an agent to do data analysis for live events there are quite a few models, both closed and open weights, that will do a great job. Focusing on the "workhorse tier", we ran models through 6 quick question answers, and 6 deeper analysis requests to see how well they performed. We found that deciding which one was best for our workload came down to “vibes” more than any particularly metric.
 
-The newest OpenAI models are quite good for agentic work, and Echo is an emerging interesting option.
+One simple way we broke down model vibes was how many lines long their answers were. Models like Claude who love tables, and words, had the longest responses, while the new OpenAI models respond like my Gen Z nieces over text.
 
-<SectionLabel>
-Speed × quality × cost per deep question
-</SectionLabel>
-
-We ran models through 6 deeper analysis requests then graphed them by average time to respond, length of response in “slack lines” and cost.
+We were super impressed with the efficiency of the newest OpenAI models, and very intrigued by Echo as a new entrant.
 
 <Chart
 	name="bubbleTrade"
-	title="Avg minutes per deep question → · avg lines per answer ↑ · bubble area = avg $ per question"
-	caption="Echo is drawn hollow — it has no public rate card, so there's no honest bubble size for it."
+	headline="Balancing speed, cost, and brevity"
+	subtitle="How each model performed on average in terms of time, cost, and length of answer"
+	caption="Lines count how an answer lands in Slack — each table row or header is a line, prose at ~60 characters per line. Time is wall clock, including all querying."
 />
 
-*"Lines" counts the way an answer lands in a Slack thread: every table row and header is a line, prose ballparked at ~60 characters per rendered line. Time is wall clock per question including all the querying*
-
-## ISO Pareto Friend
+## Finding our pareto BFF
 
 As part of our work on Extra Point I built a data analyst agent using [Mastra](https://mastra.ai/) to handle our day to day workload. This agent sits on top of our warehouse, and all the context about our business and clients that we’ve carefully organized. That means that we don’t need to use the beefiest model to get the best results.\
 \
-When trying to figure out exactly which model was best for us, I didn’t find the public benchmarks to be particularly useful. I wanted to know what it would be like to live with this agent day in and day out, how it would perform in our harness.
+When trying to figure out which model was best for us, I didn’t find the public benchmarks to be particularly useful. I wanted to know what it would be like to live with this agent day in and day out, how it would perform in our harness, answering the kinds of ticketing questions we ask every day.
 
-## How we did our analysis
+### How we did our analysis
 
 I used Mastra’s [datasets](https://mastra.ai/docs/datasets/overview) and [experiments](https://mastra.ai/blog/mastra-experiments) to create a two tier benchmarking setup around our existing agent. This let us rotate models through the exact harness we use every day with the same tools and skills.
 
-1. **The "regression tier"** is a set of "quick questions" and golden answers. This serves both as a model baseline and our frontline eval/test suite when making changes to prompts.
+1. **The "regression tier"** is a set of "quick questions" and golden answers. This serves both as a model baseline and our frontline eval/test suite when making changes to prompts. Think "what was ATP for this section" or "what was the total revenue for this event". 
 2. **The "deep analysis tier"**. I cleaned up questions we had actually asked our agent, and generated golden answers. I also built a rubric for each question which I’m still tuning.
 
-The questions in the deep tier included valuing a block of tickets, analyzing a prior years sales. For us the hard yards are done in building our warehouse and giving our agents the context they need, so our goal was to find the model that most efficiently leveraged all of that work, and felt most like a member of our team.
+### The math is mathing
 
-## It's a vibes era
+Across both the regression and deep analysis tier, all the models we tested produced correct answers. I took some of that performance as an indication that our warehouse is in great shape, and some of that as an indication that we weren't testing for large open ended analysis skills that tend to produce more separation. 
 
-After all of that what we found was that it comes down to vibes. We're working on how we quantify vibes, but we started with a couple of axes.
+Getting these kinds of results this widely shows how much the model world has flattened in the past year. When Sonnet launched a year ago it was in a class of it's own when it came to efficient agentic use. There are now a wide variety of equally good competitors.
 
-## Speed and strength
 
-One simple way we broke down model vibes were how many lines long their answers were. Models like Claude who love tables, and words, had the longest responses, while the new OpenAI models respond like my Gen Z nieces over text.
+### It's a vibes era
 
-The question we asked ourselves was who we wanted to talk to every day? But also how c
+Given that all the models are capable of doing the basic analysis, I wanted to try to quantify the qualitiative parts of their answers. We built first versions of rubrics that do this, but we're still tuning them, so we started with some simpler axes that are still quite useful. 
 
-## The Setup
-
-<SectionLabel>
-Six deep questions · live warehouse queries
-</SectionLabel>
-
-We gave eight models the same job: be the pricing analyst for a major live event. Not a quiz — real questions a client would ask, answered with live queries against the actual warehouse. Things like *"someone says we took a loss on below-face seats — did we?"* and *"what's next year's inventory worth?"*
-
-Here's the punchline that reframes the whole exercise: **on numeric correctness, all eight models scored a perfect 1.000** across the deep questions. (One model fumbled a number on a single run; re-run twice more, it nailed it both times — a coin-flip artifact, not a capability gap.) The era of "which model can do the math" is over for this job. What's left is everything else: how fast, how expensive, how deep, how it *talks to you*. That's what this post is about.
-
-## The Six Exercises
-
-Each question is the kind of thing an operator actually asks — messy framing, a real decision behind it, and at least one way to get it subtly wrong.
-
-1. **The loaded claim.** A stakeholder asserts we sold thousands of seats below face value and took a big loss — verify what actually happened and quantify what those sales really brought in.
-2. **Section lift.** How much did seats in one specific band of one section sell for relative to face value — a question where the typical seat and the average seat tell different stories.
-3. **Band split.** How did a single section perform overall, which only has an honest answer if the model splits it into its premium and cheap-seat bands on both price and sell-through.
-4. **Next-year valuation.** We just received next season's seat allocation — size it, compare it to what we held last year, and project what it's worth if it sells the way this year did.
-5. **Channel breakdown.** Which resale marketplaces performed best — where the seats moved, where the revenue came from, and how the timing differed by channel.
-6. **The trap.** An operations question the warehouse genuinely can't answer — the right move is to say so clearly instead of inventing a number, and not every model finds that easy.
+At this point most of us are familiar with model vibes. I for one am incapable of reading or hearing "load bearing" without thinking of Claude. As model ability converges, the "feel" of interacting with a model is going to start to matter more. Most power users already have some version of this they do for themselves, and now builders both internal and external will need to think about this as they build for their teams and customers. 
 
 ## Fast Talkers, Slow Thinkers
 
-<SectionLabel>
-Every answer · time × length
-</SectionLabel>
-
-Each dot is one model answering one question. Right is slower, up is wordier. The quadrants are personalities: quick-and-terse consultants bottom-left, thorough-but-slow report writers top-right. Neither corner is "correct" — they're different colleagues. Click any dot to isolate its model; click empty space to bring everyone back.
+Given that we were starting from the basics, we wanted to dig in a bit more on both what drove models time to respond, and whether there was variation in timing across cases. 
 
 <Chart
 	name="answerScatter"
-	title="Minutes to answer → · words in the answer ↑ · one dot per model × question"
-	caption="All 48 answers, one dot per model × question."
+	headline="Model responses by speed and length"
+	subtitle="One dot per model per question — right is slower, up is wordier. Click a dot to isolate its model; click empty space to bring everyone back."
 />
 
-## Where the Time Goes
-
-<SectionLabel>
-Inference vs tool work · tool calls
-</SectionLabel>
-
-A fair worry: maybe the slow models are just doing more homework — more queries, more files read. The traces say no. **Tool execution is a rounding error.** Across every model, actually running the queries takes seconds; the rest of the clock is the model thinking and writing. Slow models aren't more diligent, they're more deliberate.
 
 <Chart
 	name="timeDecomp"
-	title="Avg seconds per deep question — thinking vs tool execution"
-	caption="The solid bar is the model thinking and writing; the faded tail is tool execution."
+	headline="Where model time goes"
+	subtitle="Average seconds per deep question — the solid bar is the model thinking and writing; the faded tail is tool execution."
 />
 
 <Chart
 	name="toolCallsBar"
-	title="Avg tool calls per deep question"
+	headline="More tool calls don't buy more time"
+	subtitle="Average tool calls per deep question."
 />
 
 *Read: even Gemini 3.5 Flash — the most tool-happy model at ~37 calls per question — spends only ~8% of its clock executing them. The other ~92% is generation. Speed differences between models are **thinking-speed** differences, not workload differences.*
 
-## Vibe Check
+## What we thought about each model
 
-<SectionLabel>
-One editor's read, after all forty-eight answers
-</SectionLabel>
+Reading through the answers we got, these were our impressions. 
 
-After reading all forty-eight answers, here's how each model feels to work with — not how it scores, how it *reads*. Voice is the thing no metric captures and the thing you live with every day.
+**Opus 5.** Writes like a senior consultant who won't let you leave the room with the wrong takeaway: headline, receipts — tables, drilldowns, caveats about what the numbers *don't* say. Longest and slowest answers in the field, but almost none of it is filler. Great for getting in the weeds, risks being ignored by team members with less time or interest.
 
-**Opus 5.** Writes like a senior consultant who won't let you leave the room with the wrong takeaway: verdict first, then the receipts — sale-window tables, per-tier drilldowns, caveats about what the numbers *don't* say. Longest and slowest answers in the field, but almost none of it is filler; you get the memo and the appendix.
+**Sonnet 4.6.** Reads like a great Slack message from an analyst who knows you're skimming: bolded verdict up top, emojis, a sharp "point you might have missed". The classic "Claude" voice and tone, with its occasional drift into burying the insight inside the formatting. 
 
-**Sonnet 4.6.** Reads like a great Slack message from an analyst who knows you're skimming: bolded verdict up top, checkmark math, one sharp "here's what the claim missed." Occasionally trades depth for tempo, but the tempo is the point.
+**Terra.** The disciplined one: crisp executive summaries, every number carefully labeled, scope guarded like a lawyer. Rarely dazzles, never overreaches, predicatbly direct.
 
-**Terra.** The disciplined one: crisp executive summaries, every number carefully labeled ("for context only — not an estimate"), scope guarded like a lawyer. Rarely dazzles, never overreaches — the most predictable voice here, in the way you want an analyst to be predictable.
-
-**Luna.** Gets in, drops a table, gets out — the shortest answers and the fastest clock, with almost no narrative around the numbers. When you know what you're asking it's an efficient dream; it does the least contextualizing, so you're trusting the table.
+**Luna.** The shortest answers and the fastest clock, with almost no narrative around the numbers. When you know what you're asking it's an efficient dream, but gives almost no cites, analysis, or illustration. 
 
 **Gemini 3.5 Flash.** The thorough professor: formal section headers, detailed breakdown tables, more tool calls than anyone, and the slowest clock by a wide margin. When it commits to digging it sometimes can't stop — thoroughness and stubbornness are the same trait wearing different hats.
 
@@ -128,8 +89,8 @@ After reading all forty-eight answers, here's how each model feels to work with 
 
 **GLM 5.2.** Methodical Part A / Part B structure with real analytical ambition — it will build the year-over-year diff you didn't ask for. That ambition cuts both ways: it's the model most likely to construct a clever answer where a shrug was the right call.
 
-**Echo.** Narrates its own thinking — you watch it check itself ("I need to correct course") and quote its sources verbatim before it lands. Endearingly transparent, occasionally long-winded, and when its tooling misbehaves it fails loudly rather than quietly.
+**Echo.** Narrates its own thinking — you watch it check itself ("I need to correct course") and quote its sources verbatim before it lands. Endearingly transparent, occasionally long-winded, and when its tooling misbehaves it fails loudly rather than quietly, clearly a work in progress. 
 
----
+# Where did we land?
 
-**Method, briefly.** One evaluation sweep, August 2026: eight candidate models, six deep analytical questions each, answered with live warehouse queries in isolated workspaces — no cached answers, no memory between cases. Answers were scored against independently verified ground truth; volatile cells use the median of three runs. Wall clock, cost, and tool/inference decomposition come from per-run telemetry. Next in the series: how the scoring works, and what happens to the leaderboard when you re-run everything three times.
+We're trying an experiment using Mastra's request context to route simple questions to Luna and complex questions to Opus. We will report back on whether this felt like a good optimization, or if it made us nervous about which version of the analyst we were going to get each time we asked.

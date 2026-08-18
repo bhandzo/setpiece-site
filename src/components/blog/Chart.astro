@@ -13,7 +13,8 @@ interface Props {
 	name: string;
 	/** Override the current route slug when rendering a post outside its canonical route. */
 	source?: string;
-	title?: string;
+	headline?: string;
+	subtitle?: string;
 	caption?: string;
 	height?: number;
 }
@@ -23,7 +24,7 @@ const chartSets = import.meta.glob<ChartSet>("/src/content/post/*/charts.json", 
 	import: "default",
 });
 
-const { name, source = Astro.params.slug, title, caption, height } = Astro.props;
+const { name, source = Astro.params.slug, headline, subtitle, caption, height } = Astro.props;
 const chartSet = source ? chartSets[`/src/content/post/${source}/charts.json`] : undefined;
 
 if (!chartSet) {
@@ -37,7 +38,8 @@ if (!spec) {
 }
 
 const presentationProps = {
-	...(title !== undefined && { title }),
+	...(headline !== undefined && { headline }),
+	...(subtitle !== undefined && { subtitle }),
 	...(caption !== undefined && { caption }),
 	...(height !== undefined && { height }),
 };
