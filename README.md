@@ -29,16 +29,16 @@ pnpm install
 
 ### Commands
 
-| Command         | Action                                             |
-| :-------------- | :------------------------------------------------- |
-| `pnpm dev`      | Start dev server at `localhost:4321`               |
+| Command          | Action                                             |
+| :--------------- | :------------------------------------------------- |
+| `pnpm dev`       | Start dev server at `localhost:4321`               |
 | `pnpm dev:local` | Start dev server with local Keystatic file editing |
-| `pnpm build`    | Build the static site to `./dist/`                 |
-| `pnpm preview`  | Preview the built site locally                     |
-| `pnpm check`    | Run Astro type checking                            |
-| `pnpm lint`     | Run Biome lint                                     |
-| `pnpm format`   | Format with Biome + Prettier                       |
-| `pnpm test`     | Run Vitest                                         |
+| `pnpm build`     | Build the static site to `./dist/`                 |
+| `pnpm preview`   | Preview the built site locally                     |
+| `pnpm check`     | Run Astro type checking                            |
+| `pnpm lint`      | Run Biome lint                                     |
+| `pnpm format`    | Format with Biome + Prettier                       |
+| `pnpm test`      | Run Vitest                                         |
 
 `pnpm dev` exposes a GitHub-backed Keystatic admin UI at `/keystatic`. Use `pnpm dev:local` to edit content files directly without a GitHub login. Builds skip Keystatic (it's dev-only).
 
@@ -47,6 +47,22 @@ pnpm install
 Posts live in `src/content/post/<slug>/index.mdx`. Co-locate any images, `charts.json`, and other post assets in the same directory.
 
 Keystatic edits post bodies as MDX. Use the registered `Chart` block to render a named chart from the post's `charts.json` file and the `SectionLabel` wrapper for compact eyebrow labels.
+
+```mdx
+<SectionLabel>
+
+Sales by section · primary and resale
+
+</SectionLabel>
+
+<Chart
+  name="salesBySection"
+  title="Tickets sold by section"
+  caption="Source: ticketing warehouse"
+/>
+```
+
+Do not import components or `charts.json` inside a post. Astro supplies the registered components, and `Chart` resolves the current post's sidecar automatically. Keep scratch `.md` and `.mdx` files outside `src/content/post`; Astro discovers every matching file there as content.
 
 Minimum frontmatter:
 
@@ -84,8 +100,9 @@ mise.toml        Pinned Node + pnpm versions
 Blog posts speak three type voices (the "Set Play" editorial system, PR #9): Georgia
 serif for prose (`prose-blog` in `src/styles/global.css`, which documents the tokens),
 aktiv-grotesk for headings, and bc-sklonar mono for data — eyebrows, table headers,
-and everything inside charts. Charts render through `src/components/VegaChart.tsx`
-(theme-aware panel treatment, both modes). To port a softcopy report into a post, see
+and everything inside charts. Authors use `src/components/blog/Chart.astro`, which
+resolves the post sidecar and delegates to the theme-aware `src/components/VegaChart.tsx`
+island. To port a softcopy report into a post, see
 [`docs/solutions/porting-softcopy-reports-to-blog-posts-2026-08-17.md`](./docs/solutions/porting-softcopy-reports-to-blog-posts-2026-08-17.md).
 
 ## Credits
