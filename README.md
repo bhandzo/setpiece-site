@@ -29,18 +29,20 @@ pnpm install
 
 ### Commands
 
-| Command          | Action                                             |
-| :--------------- | :------------------------------------------------- |
-| `pnpm dev`       | Start dev server at `localhost:4321`               |
-| `pnpm dev:local` | Start dev server with local Keystatic file editing |
-| `pnpm build`     | Build the static site to `./dist/`                 |
-| `pnpm preview`   | Preview the built site locally                     |
-| `pnpm check`     | Run Astro type checking                            |
-| `pnpm lint`      | Run Biome lint                                     |
-| `pnpm format`    | Format with Biome + Prettier                       |
-| `pnpm test`      | Run Vitest                                         |
+| Command          | Action                                                       |
+| :--------------- | :----------------------------------------------------------- |
+| `pnpm dev`       | Start the site and GitHub-backed Keystatic editor             |
+| `pnpm dev:local` | Developer fallback: edit files in the local checkout         |
+| `pnpm build`     | Build the static site to `./dist/`                            |
+| `pnpm preview`   | Preview the built site locally                               |
+| `pnpm check`     | Run Astro type checking                                      |
+| `pnpm lint`      | Run Biome lint                                               |
+| `pnpm format`    | Format with Biome + Prettier                                 |
+| `pnpm test`      | Run Vitest                                                   |
 
-`pnpm dev` exposes a GitHub-backed Keystatic admin UI at `/keystatic`. Use `pnpm dev:local` to edit content files directly without a GitHub login. Builds skip Keystatic (it's dev-only).
+`pnpm dev` exposes Keystatic at `http://localhost:4321/keystatic`. After GitHub login, Keystatic saves directly to the selected GitHub branch; it does not change the local checkout or require a manual push. Selecting `main` publishes through the normal Cloudflare deployment. Use `pnpm dev:local` only when a developer intentionally wants Keystatic to write files into the checkout.
+
+The production site intentionally does not expose `/keystatic`; only the local editor server does. Editors should follow the [GitHub-backed Keystatic workflow](./docs/editing-with-keystatic.md), including the copy-paste prompts for a local agent.
 
 ## Writing posts
 
@@ -76,7 +78,7 @@ draft: true
 ---
 ```
 
-Set `draft: false` when ready to publish.
+Set `draft: false` when ready to publish. A post saved with `draft: true` is committed to GitHub but excluded from the production site.
 
 ## Project structure
 
