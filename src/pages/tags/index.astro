@@ -1,4 +1,6 @@
 ---
+// ABOUTME: All-tags index — a small contents table: masthead header, hairline
+// ABOUTME: rows pairing each tag with its post count in the mono voice.
 import { getAllPosts, getUniqueTagsWithCount } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
 
@@ -6,26 +8,33 @@ const allPosts = await getAllPosts();
 const allTags = getUniqueTagsWithCount(allPosts);
 
 const meta = {
-	description: "A list of all the topics I've written about in my posts",
-	title: "All Tags",
+	description: "Every topic covered on the Setpiece blog.",
+	title: "Tags",
 };
 ---
 
 <PageLayout meta={meta}>
-	<h1 class="title mb-6">Tags</h1>
-	<ul class="space-y-4">
+	<section class="gc-full mb-12">
+		<div class="pb-baseline">
+			<p class="eyebrow text-muted-dark">
+				{allTags.length} topic{allTags.length === 1 ? "" : "s"}
+			</p>
+			<h1 class="display mt-3 text-4xl md:text-5xl">Tags</h1>
+		</div>
+	</section>
+	<ul class="gc-full max-w-[44rem] list-none divide-y divide-(--hairline)">
 		{
 			allTags.map(([tag, val]) => (
-				<li class="flex items-center gap-x-2">
+				<li class="ml-0 flex items-baseline py-4">
 					<a
-						class="cactus-link inline-block"
+						class="hover:text-orange text-xl font-bold tracking-tight transition-colors"
 						href={`/tags/${tag}/`}
 						title={`View posts with the tag: ${tag}`}
 					>
-						&#35;{tag}
+						<span aria-hidden="true">#</span>{tag}
 					</a>
-					<span class="inline-block">
-						- {val} Post{val > 1 && "s"}
+					<span class="eyebrow text-muted-dark ms-auto">
+						{val} post{val === 1 ? "" : "s"}
 					</span>
 				</li>
 			))

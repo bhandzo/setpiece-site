@@ -1,4 +1,6 @@
 ---
+// ABOUTME: Blog listing — the "Set Play" contents table: masthead header,
+// ABOUTME: blue year numerals anchoring hairline-ruled post rows, mono tag rail.
 import type { CollectionEntry } from "astro:content";
 import Pagination from "@/components/Paginator.astro";
 import PostPreview from "@/components/blog/PostPreview.astro";
@@ -6,7 +8,6 @@ import { getAllPosts, getUniqueTags, groupPostsByYear } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
 import { collectionDateSort } from "@/utils/date";
 import type { GetStaticPaths, Page } from "astro";
-import { Icon } from "astro-icon/components";
 
 export const getStaticPaths = (async ({ paginate }) => {
 	const MAX_POSTS_PER_PAGE = 10;
@@ -31,20 +32,20 @@ interface Props {
 const { page, uniqueTags, pinnedPosts } = Astro.props;
 
 const meta = {
-	description: "Read my collection of posts and the things that interest me",
-	title: "Posts",
+	description: "Essays and field reports from Setpiece — product, data, and AI in practice.",
+	title: "Blog",
 };
 
 const paginationProps = {
 	...(page.url?.prev && {
 		prevUrl: {
-			text: "← Previous Page",
+			text: "← Newer posts",
 			url: page.url.prev,
 		},
 	}),
 	...(page.url?.next && {
 		nextUrl: {
-			text: "Next Page →",
+			text: "Older posts →",
 			url: page.url.next,
 		},
 	}),
@@ -55,25 +56,29 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 ---
 
 <PageLayout meta={meta}>
-	<section class="gc-full">
-		<div class="mb-12 flex items-center gap-3">
-			<h1 class="title">Posts</h1>
-			<a class="text-accent" href="/rss.xml" target="_blank">
-				<span class="sr-only">RSS feed</span>
-				<Icon aria-hidden="true" class="h-6 w-6" focusable="false" name="mdi:rss" />
-			</a>
+	<!-- Masthead — centered nameplate; the nav's own hairline above is the
+	     only rule, so the title sits on open paper. -->
+	<section class="gc-full mb-12">
+		<div class="py-baseline text-center">
+			<h1 class="display text-4xl md:text-5xl">Blog</h1>
+			<p class="eyebrow text-muted-dark mt-4">
+				<a class="hover:text-orange transition-colors" href="/rss.xml" target="_blank">
+					RSS<span class="sr-only"> feed</span>
+					<span aria-hidden="true">↗</span>
+				</a>
+			</p>
 		</div>
 	</section>
 	<div class="gc-full grid-local md:gap-x-8 md:gap-y-16">
 		<div class="gc-full md:col-span-4 lg:col-span-6">
 			{
 				pinnedPosts.length > 0 && (
-					<section class="mb-16">
-						<h2 class="title mb-6 text-xl">Pinned Posts</h2>
-						<ul class="space-y-4" role="list">
+					<section class="mb-16 grid gap-y-4 md:grid-cols-[112px_1fr] md:gap-x-6">
+						<h2 class="eyebrow text-muted-dark md:pt-2">Pinned</h2>
+						<ul class="divide-y divide-(--hairline) list-none" role="list">
 							{pinnedPosts.map((p) => (
-								<li class="grid gap-1 sm:grid-cols-[auto_1fr]">
-									<PostPreview post={p} />
+								<li class="ml-0 py-8 first:pt-0 last:pb-0">
+									<PostPreview post={p} withDesc />
 								</li>
 							))}
 						</ul>
@@ -82,15 +87,18 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 			}
 			{
 				descYearKeys.map((yearKey) => (
-					<section class="mb-16">
-						<h2 id={`year-${yearKey}`} class="title text-lg">
-							<span class="sr-only">Posts in</span>
+					<section class="mb-16 grid gap-y-4 md:grid-cols-[112px_1fr] md:gap-x-6">
+						{/* the year numeral reuses the services table's Maier-scale
+						    row-numeral — both are contents tables, chronology is the
+						    information the number encodes */}
+						<h2 id={`year-${yearKey}`} class="row-numeral md:sticky md:top-24 md:self-start">
+							<span class="sr-only">Posts in </span>
 							{yearKey}
 						</h2>
-						<ul class="mt-5 space-y-4 text-start">
+						<ul class="divide-y divide-(--hairline) list-none">
 							{groupedByYear[yearKey]?.map((p) => (
-								<li class="grid gap-1 sm:grid-cols-[auto_1fr] sm:[&_q]:col-start-2">
-									<PostPreview post={p} />
+								<li class="ml-0 py-8 first:pt-0 last:pb-0">
+									<PostPreview post={p} withDesc />
 								</li>
 							))}
 						</ul>
@@ -102,42 +110,24 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 		{
 			!!uniqueTags.length && (
 				<aside class="gc-full md:col-span-2 lg:col-span-3">
-					<h2 class="title mb-4 flex items-center gap-2 text-lg">
-						Tags
-						<svg
-							aria-hidden="true"
-							class="h-6 w-6"
-							fill="none"
-							stroke="currentColor"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="1.5"
-							viewBox="0 0 24 24"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<path d="M0 0h24v24H0z" fill="none" stroke="none" />
-							<path d="M7.859 6h-2.834a2.025 2.025 0 0 0 -2.025 2.025v2.834c0 .537 .213 1.052 .593 1.432l6.116 6.116a2.025 2.025 0 0 0 2.864 0l2.834 -2.834a2.025 2.025 0 0 0 0 -2.864l-6.117 -6.116a2.025 2.025 0 0 0 -1.431 -.593z" />
-							<path d="M17.573 18.407l2.834 -2.834a2.025 2.025 0 0 0 0 -2.864l-7.117 -7.116" />
-							<path d="M6 9h-.01" />
-						</svg>
-					</h2>
-					<ul class="flex flex-wrap gap-2">
+					<h2 class="eyebrow text-muted-dark mb-4">Tags</h2>
+					<ul class="eyebrow flex list-none flex-wrap gap-x-4 gap-y-2">
 						{uniqueTags.map((tag) => (
-							<li>
-								<a class="cactus-link flex items-center justify-center" href={`/tags/${tag}/`}>
-									<span aria-hidden="true">#</span>
-									<span class="sr-only">View all posts with the tag</span>
-									{tag}
+							<li class="ml-0">
+								<a class="hover:text-orange transition-colors" href={`/tags/${tag}/`}>
+									<span class="sr-only">View all posts with the tag </span>
+									<span aria-hidden="true">#</span>{tag}
 								</a>
 							</li>
 						))}
 					</ul>
-					<span class="mt-4 block sm:text-end">
-						<a class="hover:text-link" href="/tags/">
-							View all <span aria-hidden="true">→</span>
-							<span class="sr-only">blog tags</span>
-						</a>
-					</span>
+					<a
+						class="eyebrow text-muted-dark hover:text-orange mt-6 inline-block transition-colors"
+						href="/tags/"
+					>
+						All tags <span aria-hidden="true">→</span>
+						<span class="sr-only">blog tags</span>
+					</a>
 				</aside>
 			)
 		}

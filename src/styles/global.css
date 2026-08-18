@@ -19,7 +19,6 @@
 	--bg: #e85a14;             /* page background */
 	/* Set-play system tokens */
 	--u: 80px;                          /* section rhythm module (20 × 4px) */
-	--hairline: rgba(34, 32, 25, 0.32); /* all rules, 1px */
 }
 
 /* use a selector-based strategy for dark mode */
@@ -179,6 +178,9 @@ html {
 	color-scheme: light dark;
 	accent-color: var(--color-accent);
 	scrollbar-gutter: stable;
+	/* all rules, 1px. Declared here (not the unlayered :root block) so the
+	   dark override below can win the cascade — unlayered beats @layer base. */
+	--hairline: rgba(34, 32, 25, 0.32);
 
 	&[data-theme="light"] {
 		color-scheme: light;
