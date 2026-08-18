@@ -1,0 +1,51 @@
+---
+// ABOUTME: Resolves a named Vega-Lite spec from the current post's colocated charts.json.
+// ABOUTME: Keeps chart data wiring out of MDX while delegating interactive rendering to VegaChart.
+import VegaChart from "@/components/VegaChart";
+
+interface ChartSet {
+	datasets: Record<string, unknown[]>;
+	vegaSpecs: Record<string, Record<string, unknown>>;
+}
+
+interface Props {
+	/** Key within the post sidecar's `vegaSpecs` object. */
+	name: string;
+	/** Override the current route slug when rendering a post outside its canonical route. */
+	source?: string;
+	title?: string;
+	caption?: string;
+	height?: number;
+}
+
+const chartSets = import.meta.glob<ChartSet>("/src/content/post/*/charts.json", {
+	eager: true,
+	import: "default",
+});
+
+const { name, source = Astro.params.slug, title, caption, height } = Astro.props;
+const chartSet = source ? chartSets[`/src/content/post/${source}/charts.json`] : undefined;
+
+if (!chartSet) {
+	throw new Error(`No charts.json sidecar found for post "${source ?? "unknown"}".`);
+}
+
+const spec = chartSet.vegaSpecs[name];
+
+if (!spec) {
+	throw new Error(`Chart "${name}" was not found in the "${source}" post sidecar.`);
+}
+
+const presentationProps = {
+	...(title !== undefined && { title }),
+	...(caption !== undefined && { caption }),
+	...(height !== undefined && { height }),
+};
+---
+
+<VegaChart
+	client:visible
+	spec={spec}
+	datasets={chartSet.datasets}
+	{...presentationProps}
+/>

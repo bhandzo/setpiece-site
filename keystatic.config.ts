@@ -1,11 +1,43 @@
 // keystatic.config.ts
 import { config, fields, collection, singleton } from '@keystatic/core';
+import { block, wrapper } from '@keystatic/core/content-components';
+
+const postContentComponents = {
+  Chart: block({
+    label: 'Chart',
+    description: 'Render a chart from the post\'s colocated charts.json file.',
+    schema: {
+      name: fields.text({
+        label: 'Chart name',
+        description: 'The chart key in charts.json.',
+      }),
+      title: fields.text({
+        label: 'Title',
+        validation: { isRequired: false },
+      }),
+      caption: fields.text({
+        label: 'Caption',
+        multiline: true,
+        validation: { isRequired: false },
+      }),
+      height: fields.integer({
+        label: 'Height',
+        description: 'Optional chart height in pixels.',
+        validation: { isRequired: false, min: 1 },
+      }),
+    },
+  }),
+  SectionLabel: wrapper({
+    label: 'Section label',
+    description: 'A compact eyebrow label that qualifies the section below it.',
+    schema: {},
+  }),
+};
 
 export default config({
-  // Default to GitHub storage so the deployed admin keeps working.
-  // Run `KEYSTATIC_LOCAL=1 pnpm dev` (or `pnpm dev:local`) to edit files
-  // on disk without a GitHub login.
-  storage: process.env.KEYSTATIC_LOCAL
+  // Default to GitHub storage. Use `pnpm dev:local` to edit files on disk
+  // without a GitHub login. `import.meta.env` is safe in the browser bundle.
+  storage: import.meta.env.MODE === 'keystatic-local'
     ? { kind: 'local' }
     : {
         kind: 'github',
@@ -63,9 +95,10 @@ export default config({
           label: 'Pinned',
           defaultValue: false 
         }),
-        content: fields.markdoc({ 
+        content: fields.mdx({
           label: 'Content',
-          extension: 'md'
+          extension: 'mdx',
+          components: postContentComponents,
         }),
       },
     }),
