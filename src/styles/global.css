@@ -28,6 +28,7 @@
 @theme {
 	/* "Set Play" palette — warm paper, slate blue plane, kinetic orange */
 	--color-paper: #f7f4ec;   /* page background — warm off-white */
+	--color-cream: #fdfaf2;   /* lifted surface, lighter than the page — chart panels */
 	--color-bone: #f1ece2;    /* raised/alternate surface */
 	--color-greige: #e6dfd2;  /* deep surface tone — the original warm greige */
 	--color-ink: #222019;     /* text, near-black warm */
@@ -190,6 +191,7 @@ html {
 		color-scheme: dark;
 		/* warm near-black paper; blue plane and orange accent stay put */
 		--color-paper: #1b1915;
+		--color-cream: #26231d; /* still lighter than the dark paper */
 		--color-bone: #26231d;
 		--color-ink: #e6dfd2;
 		--color-muted: #a29b8b;

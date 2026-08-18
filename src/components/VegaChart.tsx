@@ -133,10 +133,10 @@ export default function VegaChart({ spec, datasets, title, caption, height }: Ve
 
 	return (
 		<figure className="my-8">
-			{/* Charts sit on a bone panel behind a hairline rule — the same panel
-			    treatment as the report artifacts; the vega canvas stays transparent
+			{/* Charts sit on a cream panel — lighter than the page paper in both
+			    themes — behind a hairline rule; the vega canvas stays transparent
 			    so the panel token flips with the theme. */}
-			<div className="bg-bone border-(--hairline) border px-6 pt-5 pb-4">
+			<div className="bg-cream border-(--hairline) border px-6 pt-5 pb-4">
 				{title && <p className="eyebrow text-muted-dark mb-4">{title}</p>}
 				<div className="w-full" ref={ref} />
 			</div>
