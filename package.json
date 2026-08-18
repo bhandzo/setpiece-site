@@ -8,7 +8,7 @@
 	},
 	"scripts": {
 		"dev": "astro dev",
-		"dev:local": "KEYSTATIC_LOCAL=1 astro dev",
+		"dev:local": "astro dev --mode keystatic-local",
 		"start": "astro dev",
 		"build": "SKIP_KEYSTATIC=true astro build",
 		"preview": "SKIP_KEYSTATIC=true astro preview",

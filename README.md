@@ -32,6 +32,7 @@ pnpm install
 | Command         | Action                                             |
 | :-------------- | :------------------------------------------------- |
 | `pnpm dev`      | Start dev server at `localhost:4321`               |
+| `pnpm dev:local` | Start dev server with local Keystatic file editing |
 | `pnpm build`    | Build the static site to `./dist/`                 |
 | `pnpm preview`  | Preview the built site locally                     |
 | `pnpm check`    | Run Astro type checking                            |
@@ -39,11 +40,13 @@ pnpm install
 | `pnpm format`   | Format with Biome + Prettier                       |
 | `pnpm test`     | Run Vitest                                         |
 
-`pnpm dev` exposes a Keystatic admin UI at `/keystatic` for content editing. Builds skip Keystatic (it's dev-only).
+`pnpm dev` exposes a GitHub-backed Keystatic admin UI at `/keystatic`. Use `pnpm dev:local` to edit content files directly without a GitHub login. Builds skip Keystatic (it's dev-only).
 
 ## Writing posts
 
-Posts live in `src/content/post/<slug>/index.md`. Co-locate any images for the post in the same directory.
+Posts live in `src/content/post/<slug>/index.mdx`. Co-locate any images, `charts.json`, and other post assets in the same directory.
+
+Keystatic edits post bodies as MDX. Use the registered `Chart` block to render a named chart from the post's `charts.json` file and the `SectionLabel` wrapper for compact eyebrow labels.
 
 Minimum frontmatter:
 

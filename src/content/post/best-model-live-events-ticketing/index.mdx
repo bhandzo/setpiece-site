@@ -1,23 +1,60 @@
 ---
-title: "The Best Model for Live Events Ticketing Analysis"
+title: Finding the Best Model for Live Events Ticketing Analysis
 publishDate: "17 Aug 2026"
-description: "Eight frontier models sat the same six hard ticket-pricing questions against a live warehouse. Every one of them got the numbers right. So how do you pick?"
+description: “There are more model options to choose from than ever, and in the end it comes down to vibes“
 tags: ["ai", "agents", "evals", "data"]
 draft: true
 ---
+## TL;DR;
 
-import VegaChart from "@/components/VegaChart";
-import charts from "./charts.json";
+If you’re building an agent to do data analysis for live events there are quite a few models, both closed and open weights that will do a great job. Which one is best for your workload comes down to “vibes” more than any particularly metric.
 
-<p class="eyebrow text-muted-dark">Setpiece × Extra Point · Analyst Evals · Part 1 of a series</p>
+The newest OpenAI models are quite good for agentic work, and Echo is an emerging interesting option.
 
-Eight frontier models sat the same six hard ticket-pricing questions against a live warehouse. Every one of them got the numbers right. So how do you pick?
+<SectionLabel>
+Speed × quality × cost per deep question
+</SectionLabel>
 
-*This is the first post in a series. Here we stay at the level you actually feel day to day — speed, cost, depth, and voice. Later installments go deeper: how we score answers, how repeatable the results are, and what the full leaderboard looks like once you re-run everything.*
+We ran models through 6 deeper analysis requests then graphed them by average time to respond, length of response in “slack lines” and cost.
+
+<Chart
+	name="bubbleTrade"
+	title="Avg minutes per deep question → · avg lines per answer ↑ · bubble area = avg $ per question"
+	caption="Echo is drawn hollow — it has no public rate card, so there's no honest bubble size for it."
+/>
+
+*"Lines" counts the way an answer lands in a Slack thread: every table row and header is a line, prose ballparked at ~60 characters per rendered line. Time is wall clock per question including all the querying*
+
+## ISO Pareto Friend
+
+As part of our work on Extra Point I built a data analyst agent using [Mastra](https://mastra.ai/) to handle our day to day workload. This agent sits on top of our warehouse, and all the context about our business and clients that we’ve carefully organized. That means that we don’t need to use the beefiest model to get the best results.\
+\
+When trying to figure out exactly which model was best for us, I didn’t find the public benchmarks to be particularly useful. I wanted to know what it would be like to live with this agent day in and day out, how it would perform in our harness.
+
+## How we did our analysis
+
+I used Mastra’s [datasets](https://mastra.ai/docs/datasets/overview) and [experiments](https://mastra.ai/blog/mastra-experiments) to create a two tier benchmarking setup around our existing agent. This let us rotate models through the exact harness we use every day with the same tools and skills.
+
+1. **The "regression tier"** is a set of "quick questions" and golden answers. This serves both as a model baseline and our frontline eval/test suite when making changes to prompts.
+2. **The "deep analysis tier"**. I cleaned up questions we had actually asked our agent, and generated golden answers. I also built a rubric for each question which I’m still tuning.
+
+The questions in the deep tier included valuing a block of tickets, analyzing a prior years sales. For us the hard yards are done in building our warehouse and giving our agents the context they need, so our goal was to find the model that most efficiently leveraged all of that work, and felt most like a member of our team.
+
+## It's a vibes era
+
+After all of that what we found was that it comes down to vibes. We're working on how we quantify vibes, but we started with a couple of axes.
+
+## Speed and strength
+
+One simple way we broke down model vibes were how many lines long their answers were. Models like Claude who love tables, and words, had the longest responses, while the new OpenAI models respond like my Gen Z nieces over text.
+
+The question we asked ourselves was who we wanted to talk to every day? But also how c
 
 ## The Setup
 
-<p class="eyebrow text-muted-dark">Six deep questions · live warehouse queries</p>
+<SectionLabel>
+Six deep questions · live warehouse queries
+</SectionLabel>
 
 We gave eight models the same job: be the pricing analyst for a major live event. Not a quiz — real questions a client would ask, answered with live queries against the actual warehouse. Things like *"someone says we took a loss on below-face seats — did we?"* and *"what's next year's inventory worth?"*
 
@@ -34,54 +71,36 @@ Each question is the kind of thing an operator actually asks — messy framing, 
 5. **Channel breakdown.** Which resale marketplaces performed best — where the seats moved, where the revenue came from, and how the timing differed by channel.
 6. **The trap.** An operations question the warehouse genuinely can't answer — the right move is to say so clearly instead of inventing a number, and not every model finds that easy.
 
-## The Trade
-
-<p class="eyebrow text-muted-dark">Speed × quality × cost per deep question</p>
-
-One picture, three dimensions — and no scores. Left is faster, up is more reading, and the size of the bubble is what it costs you per question. Since every model gets the numbers right, this is the texture you actually live with day to day: do you want a fifteen-line brief in under a minute, or a fifty-line report in four? Neither corner is wrong — they're different hires.
-
-<VegaChart
-	client:visible
-	spec={charts.vegaSpecs.bubbleTrade}
-	datasets={charts.datasets}
-	title="Avg minutes per deep question → · avg lines per answer ↑ · bubble area = avg $ per question"
-	caption="Echo is drawn hollow — it has no public rate card, so there's no honest bubble size for it."
-/>
-
-*"Lines" counts the way an answer lands in a Slack thread: every table row and header is a line, prose ballparked at ~60 characters per rendered line. Time is wall clock per question including all the querying; cost is candidate-model spend only.*
-
 ## Fast Talkers, Slow Thinkers
 
-<p class="eyebrow text-muted-dark">Every answer · time × length</p>
+<SectionLabel>
+Every answer · time × length
+</SectionLabel>
 
 Each dot is one model answering one question. Right is slower, up is wordier. The quadrants are personalities: quick-and-terse consultants bottom-left, thorough-but-slow report writers top-right. Neither corner is "correct" — they're different colleagues. Click any dot to isolate its model; click empty space to bring everyone back.
 
-<VegaChart
-	client:visible
-	spec={charts.vegaSpecs.answerScatter}
-	datasets={charts.datasets}
+<Chart
+	name="answerScatter"
 	title="Minutes to answer → · words in the answer ↑ · one dot per model × question"
 	caption="All 48 answers, one dot per model × question."
 />
 
 ## Where the Time Goes
 
-<p class="eyebrow text-muted-dark">Inference vs tool work · tool calls</p>
+<SectionLabel>
+Inference vs tool work · tool calls
+</SectionLabel>
 
 A fair worry: maybe the slow models are just doing more homework — more queries, more files read. The traces say no. **Tool execution is a rounding error.** Across every model, actually running the queries takes seconds; the rest of the clock is the model thinking and writing. Slow models aren't more diligent, they're more deliberate.
 
-<VegaChart
-	client:visible
-	spec={charts.vegaSpecs.timeDecomp}
-	datasets={charts.datasets}
+<Chart
+	name="timeDecomp"
 	title="Avg seconds per deep question — thinking vs tool execution"
 	caption="The solid bar is the model thinking and writing; the faded tail is tool execution."
 />
 
-<VegaChart
-	client:visible
-	spec={charts.vegaSpecs.toolCallsBar}
-	datasets={charts.datasets}
+<Chart
+	name="toolCallsBar"
 	title="Avg tool calls per deep question"
 />
 
@@ -89,7 +108,9 @@ A fair worry: maybe the slow models are just doing more homework — more querie
 
 ## Vibe Check
 
-<p class="eyebrow text-muted-dark">One editor's read, after all forty-eight answers</p>
+<SectionLabel>
+One editor's read, after all forty-eight answers
+</SectionLabel>
 
 After reading all forty-eight answers, here's how each model feels to work with — not how it scores, how it *reads*. Voice is the thing no metric captures and the thing you live with every day.
 
