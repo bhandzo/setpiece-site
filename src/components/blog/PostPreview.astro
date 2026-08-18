@@ -1,6 +1,7 @@
 ---
-// ABOUTME: Index-row entry for blog listings — a post masthead in miniature:
-// ABOUTME: mono date eyebrow, grotesque title with orange hover, serif description.
+// ABOUTME: Index-row entry for blog listings — 4:3 cover crop over a post
+// ABOUTME: masthead in miniature: mono date eyebrow, grotesque title, serif description.
+import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import FormattedDate from "@/components/FormattedDate.astro";
 import type { HTMLTag, Polymorphic } from "astro/types";
@@ -13,6 +14,24 @@ type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
 const { as: Tag = "div", post, withDesc = false } = Astro.props;
 ---
 
+{
+	post.data.coverImage && (
+		<a
+			aria-hidden="true"
+			class="mb-5 block aspect-[4/3] w-full overflow-hidden"
+			href={`/posts/${post.id}/`}
+			tabindex="-1"
+		>
+			<Image
+				alt=""
+				class="h-full w-full object-cover"
+				src={post.data.coverImage.src}
+				widths={[480, 768, 1024, 1440]}
+				sizes="(min-width: 1024px) 44rem, 100vw"
+			/>
+		</a>
+	)
+}
 <p class="eyebrow text-muted-dark flex flex-wrap items-center gap-x-3">
 	{post.data.draft && <span class="text-orange">Draft</span>}
 	<FormattedDate date={post.data.publishDate} />

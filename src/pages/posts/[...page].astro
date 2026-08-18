@@ -56,24 +56,17 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 ---
 
 <PageLayout meta={meta}>
-	<!-- Masthead — the listing opens the way a post does: mono eyebrow,
-	     display title, one hairline. -->
+	<!-- Masthead — centered nameplate; the nav's own hairline above is the
+	     only rule, so the title sits on open paper. -->
 	<section class="gc-full mb-12">
-		<div class="pb-baseline border-b border-(--hairline)">
-			<p class="eyebrow text-muted-dark flex items-center">
-				<span>
-					{page.total} post{page.total === 1 ? "" : "s"}
-				</span>
-				<a
-					class="hover:text-orange ms-auto transition-colors"
-					href="/rss.xml"
-					target="_blank"
-				>
+		<div class="py-baseline text-center">
+			<h1 class="display text-4xl md:text-5xl">Blog</h1>
+			<p class="eyebrow text-muted-dark mt-4">
+				<a class="hover:text-orange transition-colors" href="/rss.xml" target="_blank">
 					RSS<span class="sr-only"> feed</span>
 					<span aria-hidden="true">↗</span>
 				</a>
 			</p>
-			<h1 class="display mt-3 text-4xl md:text-5xl">Blog</h1>
 		</div>
 	</section>
 	<div class="gc-full grid-local md:gap-x-8 md:gap-y-16">
@@ -84,7 +77,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 						<h2 class="eyebrow text-muted-dark md:pt-2">Pinned</h2>
 						<ul class="divide-y divide-(--hairline) list-none" role="list">
 							{pinnedPosts.map((p) => (
-								<li class="ml-0 py-6 first:pt-0 last:pb-0">
+								<li class="ml-0 py-8 first:pt-0 last:pb-0">
 									<PostPreview post={p} withDesc />
 								</li>
 							))}
@@ -104,7 +97,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 						</h2>
 						<ul class="divide-y divide-(--hairline) list-none">
 							{groupedByYear[yearKey]?.map((p) => (
-								<li class="ml-0 py-6 first:pt-0 last:pb-0">
+								<li class="ml-0 py-8 first:pt-0 last:pb-0">
 									<PostPreview post={p} withDesc />
 								</li>
 							))}

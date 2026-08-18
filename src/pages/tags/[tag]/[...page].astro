@@ -54,7 +54,7 @@ const paginationProps = {
 
 <PageLayout meta={meta}>
 	<section class="gc-full mb-12">
-		<div class="pb-baseline border-b border-(--hairline)">
+		<div class="pb-baseline">
 			<div class="eyebrow text-muted-dark flex flex-wrap items-center gap-x-2">
 				<nav class="flex items-center gap-x-2" aria-label="Breadcrumbs">
 					<a class="hover:text-orange transition-colors" href="/tags/">Tags</a>
@@ -82,7 +82,7 @@ const paginationProps = {
 		<ul class="divide-y divide-(--hairline) list-none">
 			{
 				page.data.map((p) => (
-					<li class="ml-0 py-6 first:pt-0 last:pb-0">
+					<li class="ml-0 py-8 first:pt-0 last:pb-0">
 						<PostPreview as="h2" post={p} withDesc />
 					</li>
 				))
