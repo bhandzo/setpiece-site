@@ -786,6 +786,59 @@ html {
 		padding-left: 1.25rem;
 		font-style: italic;
 	}
+
+	/* 538-style stat table: one strong header rule, zebra rows, and
+	   magnitude tints on the mechanism columns. Opt in with
+	   class="stat-table" on the table element. Tints mix the constant
+	   accent tokens over transparent so they hold in both themes. */
+	.prose-blog :where(table.stat-table) {
+		border-top: none;
+	}
+	.prose-blog :where(table.stat-table thead th) {
+		border-bottom: 2px solid var(--color-ink);
+	}
+	.prose-blog :where(table.stat-table tbody tr) {
+		border-bottom: none;
+	}
+	.prose-blog :where(table.stat-table tbody tr:nth-child(even)) {
+		background: color-mix(in srgb, var(--color-ink) 5%, transparent);
+	}
+	.prose-blog :where(table.stat-table th.num, table.stat-table td.num) {
+		text-align: right;
+	}
+	.prose-blog :where(table.stat-table .swatch) {
+		display: inline-block;
+		width: 9px;
+		height: 9px;
+		border-radius: 50%;
+		margin-right: 0.5em;
+	}
+	/* orange ramp: tokens per second */
+	.prose-blog :where(table.stat-table td.tok-1) {
+		background: color-mix(in srgb, var(--color-orange) 8%, transparent);
+	}
+	.prose-blog :where(table.stat-table td.tok-2) {
+		background: color-mix(in srgb, var(--color-orange) 18%, transparent);
+	}
+	.prose-blog :where(table.stat-table td.tok-3) {
+		background: color-mix(in srgb, var(--color-orange) 26%, transparent);
+	}
+	.prose-blog :where(table.stat-table td.tok-4) {
+		background: color-mix(in srgb, var(--color-orange) 34%, transparent);
+	}
+	.prose-blog :where(table.stat-table td.tok-5) {
+		background: color-mix(in srgb, var(--color-orange) 46%, transparent);
+	}
+	/* blue ramp: tool calls per trip */
+	.prose-blog :where(table.stat-table td.par-1) {
+		background: color-mix(in srgb, var(--color-blue) 6%, transparent);
+	}
+	.prose-blog :where(table.stat-table td.par-2) {
+		background: color-mix(in srgb, var(--color-blue) 16%, transparent);
+	}
+	.prose-blog :where(table.stat-table td.par-3) {
+		background: color-mix(in srgb, var(--color-blue) 30%, transparent);
+	}
 }
 
 /* Vega chart hover tooltip: the stock white vega-tooltip widget re-skinned as

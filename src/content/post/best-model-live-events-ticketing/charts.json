@@ -15,10 +15,10 @@
 						"x": {
 							"field": "minutes",
 							"type": "quantitative",
-							"title": "Avg minutes per deep question \u2192",
+							"title": "Avg minutes per deep question →",
 							"scale": {
 								"domainMin": 0,
-								"domainMax": 4.6
+								"domainMax": 3.8
 							},
 							"axis": {
 								"tickCount": 5
@@ -27,7 +27,7 @@
 						"y": {
 							"field": "lines",
 							"type": "quantitative",
-							"title": "Avg lines per answer \u2191",
+							"title": "Avg lines per answer ↑",
 							"scale": {
 								"domainMin": 0,
 								"domainMax": 58
@@ -54,7 +54,6 @@
 									"Sonnet 4.6",
 									"Terra",
 									"Luna",
-									"Gemini 3.5F",
 									"Gemini 3.6F",
 									"GLM 5.2",
 									"Echo"
@@ -64,7 +63,6 @@
 									"#EE7D0E",
 									"#1D5CAD",
 									"#4D96F2",
-									"#0F7D5A",
 									"#4FBA8C",
 									"#8040A0",
 									"#C75A88"
@@ -95,7 +93,7 @@
 				{
 					"transform": [
 						{
-							"filter": "indexof(['Luna','GLM 5.2','Opus 5','Gemini 3.5F'], datum.model) < 0"
+							"filter": "indexof(['Luna','GLM 5.2','Opus 5'], datum.model) < 0"
 						}
 					],
 					"mark": {
@@ -120,7 +118,7 @@
 				{
 					"transform": [
 						{
-							"filter": "datum.model == 'Opus 5' || datum.model == 'Gemini 3.5F'"
+							"filter": "datum.model == 'Opus 5'"
 						}
 					],
 					"mark": {
@@ -188,7 +186,7 @@
 				"x": {
 					"field": "minutes",
 					"type": "quantitative",
-					"title": "Minutes to answer \u2192",
+					"title": "Minutes to answer →",
 					"axis": {
 						"tickCount": 6
 					}
@@ -196,7 +194,7 @@
 				"y": {
 					"field": "words",
 					"type": "quantitative",
-					"title": "Words in the answer \u2191",
+					"title": "Words in the answer ↑",
 					"axis": {
 						"tickCount": 6
 					}
@@ -206,26 +204,8 @@
 					"type": "nominal",
 					"title": "Model",
 					"scale": {
-						"domain": [
-							"Opus 5",
-							"Sonnet 4.6",
-							"Terra",
-							"Luna",
-							"Gemini 3.5F",
-							"Gemini 3.6F",
-							"GLM 5.2",
-							"Echo"
-						],
-						"range": [
-							"#963F04",
-							"#EE7D0E",
-							"#1D5CAD",
-							"#4D96F2",
-							"#0F7D5A",
-							"#4FBA8C",
-							"#8040A0",
-							"#C75A88"
-						]
+						"domain": ["Opus 5", "Sonnet 4.6", "Terra", "Luna", "Gemini 3.6F", "GLM 5.2", "Echo"],
+						"range": ["#963F04", "#EE7D0E", "#1D5CAD", "#4D96F2", "#4FBA8C", "#8040A0", "#C75A88"]
 					},
 					"legend": {
 						"orient": "bottom",
@@ -277,177 +257,148 @@
 				}
 			]
 		},
-		"timeDecomp": {
+		"stepScatter": {
 			"$schema": "https://vega.github.io/schema/vega-lite/v6.json",
 			"data": {
-				"name": "timeSplit"
+				"name": "perStep"
 			},
-			"mark": {
-				"type": "bar",
-				"height": {
-					"band": 0.62
-				}
-			},
-			"encoding": {
-				"y": {
-					"field": "model",
-					"type": "nominal",
-					"title": null,
-					"sort": {
-						"field": "seconds",
-						"op": "sum",
-						"order": "descending"
+			"layer": [
+				{
+					"mark": {
+						"type": "point",
+						"filled": true,
+						"size": 220,
+						"stroke": "rgba(34,32,25,0.45)",
+						"strokeWidth": 0.8,
+						"opacity": 0.9
 					},
-					"axis": {
-						"grid": false
-					}
-				},
-				"x": {
-					"field": "seconds",
-					"type": "quantitative",
-					"title": "Avg seconds per deep question",
-					"axis": {
-						"tickCount": 6
-					}
-				},
-				"color": {
-					"field": "model",
-					"type": "nominal",
-					"scale": {
-						"domain": [
-							"Opus 5",
-							"Sonnet 4.6",
-							"Terra",
-							"Luna",
-							"Gemini 3.5F",
-							"Gemini 3.6F",
-							"GLM 5.2",
-							"Echo"
-						],
-						"range": [
-							"#963F04",
-							"#EE7D0E",
-							"#1D5CAD",
-							"#4D96F2",
-							"#0F7D5A",
-							"#4FBA8C",
-							"#8040A0",
-							"#C75A88"
+					"encoding": {
+						"x": {
+							"field": "callsPerStep",
+							"type": "quantitative",
+							"title": "Tool calls per round-trip →",
+							"scale": {
+								"domainMin": 0.8,
+								"domainMax": 2.1
+							},
+							"axis": {
+								"tickCount": 6
+							}
+						},
+						"y": {
+							"field": "secPerStep",
+							"type": "quantitative",
+							"title": "Seconds per round-trip ↑",
+							"scale": {
+								"domainMin": 0,
+								"domainMax": 14.5
+							},
+							"axis": {
+								"tickCount": 6
+							}
+						},
+						"color": {
+							"field": "model",
+							"type": "nominal",
+							"scale": {
+								"domain": [
+									"Opus 5",
+									"Sonnet 4.6",
+									"Terra",
+									"Luna",
+									"Gemini 3.6F",
+									"GLM 5.2",
+									"Echo"
+								],
+								"range": [
+									"#963F04",
+									"#EE7D0E",
+									"#1D5CAD",
+									"#4D96F2",
+									"#4FBA8C",
+									"#8040A0",
+									"#C75A88"
+								]
+							},
+							"legend": null
+						},
+						"tooltip": [
+							{
+								"field": "model",
+								"title": "Model"
+							},
+							{
+								"field": "callsPerStep",
+								"title": "Calls / round-trip"
+							},
+							{
+								"field": "secPerStep",
+								"title": "Sec / round-trip"
+							},
+							{
+								"field": "calls",
+								"title": "Avg tool calls / question"
+							},
+							{
+								"field": "steps",
+								"title": "Avg round-trips / question"
+							}
 						]
-					},
-					"legend": null
-				},
-				"opacity": {
-					"field": "component",
-					"type": "nominal",
-					"scale": {
-						"domain": ["Model thinking + writing", "Tool execution"],
-						"range": [1, 0.4]
-					},
-					"legend": {
-						"orient": "top",
-						"title": null,
-						"direction": "horizontal",
-						"symbolType": "square",
-						"symbolFillColor": "#8A8474",
-						"offset": 16
 					}
 				},
-				"order": {
-					"field": "component",
-					"sort": "ascending"
-				},
-				"tooltip": [
-					{
-						"field": "model",
-						"title": "Model"
+				{
+					"transform": [
+						{
+							"filter": "datum.model != 'Luna'"
+						}
+					],
+					"mark": {
+						"type": "text",
+						"dy": -16,
+						"fontSize": 11
 					},
-					{
-						"field": "component",
-						"title": "Component"
-					},
-					{
-						"field": "seconds",
-						"title": "Seconds"
+					"encoding": {
+						"x": {
+							"field": "callsPerStep",
+							"type": "quantitative"
+						},
+						"y": {
+							"field": "secPerStep",
+							"type": "quantitative"
+						},
+						"text": {
+							"field": "model"
+						}
 					}
-				]
-			},
-			"width": "container",
-			"height": 300,
-			"background": "transparent"
-		},
-		"toolCallsBar": {
-			"$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-			"data": {
-				"name": "toolCalls"
-			},
-			"mark": {
-				"type": "bar",
-				"height": {
-					"band": 0.62
+				},
+				{
+					"transform": [
+						{
+							"filter": "datum.model == 'Luna'"
+						}
+					],
+					"mark": {
+						"type": "text",
+						"dy": 20,
+						"fontSize": 11
+					},
+					"encoding": {
+						"x": {
+							"field": "callsPerStep",
+							"type": "quantitative"
+						},
+						"y": {
+							"field": "secPerStep",
+							"type": "quantitative"
+						},
+						"text": {
+							"field": "model"
+						}
+					}
 				}
-			},
-			"encoding": {
-				"y": {
-					"field": "model",
-					"type": "nominal",
-					"title": null,
-					"sort": {
-						"field": "calls",
-						"order": "descending"
-					},
-					"axis": {
-						"grid": false
-					}
-				},
-				"x": {
-					"field": "calls",
-					"type": "quantitative",
-					"title": "Avg tool calls per deep question",
-					"axis": {
-						"tickCount": 8
-					}
-				},
-				"color": {
-					"field": "model",
-					"type": "nominal",
-					"scale": {
-						"domain": [
-							"Opus 5",
-							"Sonnet 4.6",
-							"Terra",
-							"Luna",
-							"Gemini 3.5F",
-							"Gemini 3.6F",
-							"GLM 5.2",
-							"Echo"
-						],
-						"range": [
-							"#963F04",
-							"#EE7D0E",
-							"#1D5CAD",
-							"#4D96F2",
-							"#0F7D5A",
-							"#4FBA8C",
-							"#8040A0",
-							"#C75A88"
-						]
-					},
-					"legend": null
-				},
-				"tooltip": [
-					{
-						"field": "model",
-						"title": "Model"
-					},
-					{
-						"field": "calls",
-						"title": "Avg tool calls"
-					}
-				]
-			},
+			],
 			"width": "container",
-			"height": 260,
+			"height": 340,
 			"background": "transparent"
 		}
 	},
@@ -500,14 +451,6 @@
 				"costPerQ": 0.085,
 				"costLabel": "$0.09",
 				"totalSec": 84.4
-			},
-			{
-				"model": "Gemini 3.5F",
-				"minutes": 4.16,
-				"lines": 51.7,
-				"costPerQ": 0.701,
-				"costLabel": "$0.70",
-				"totalSec": 264.6
 			},
 			{
 				"model": "Gemini 3.6F",
@@ -736,42 +679,6 @@
 				"words": 475
 			},
 			{
-				"model": "Gemini 3.5F",
-				"exercise": "The loaded claim",
-				"minutes": 2.05,
-				"words": 418
-			},
-			{
-				"model": "Gemini 3.5F",
-				"exercise": "Section lift",
-				"minutes": 1.77,
-				"words": 251
-			},
-			{
-				"model": "Gemini 3.5F",
-				"exercise": "Band split",
-				"minutes": 3.59,
-				"words": 557
-			},
-			{
-				"model": "Gemini 3.5F",
-				"exercise": "Next-year valuation",
-				"minutes": 9.41,
-				"words": 419
-			},
-			{
-				"model": "Gemini 3.5F",
-				"exercise": "Channel breakdown",
-				"minutes": 2.99,
-				"words": 520
-			},
-			{
-				"model": "Gemini 3.5F",
-				"exercise": "The trap",
-				"minutes": 5.14,
-				"words": 281
-			},
-			{
 				"model": "Gemini 3.6F",
 				"exercise": "The loaded claim",
 				"minutes": 1.14,
@@ -808,120 +715,55 @@
 				"words": 233
 			}
 		],
-		"timeSplit": [
+		"perStep": [
 			{
-				"model": "Opus 5",
-				"component": "Model thinking + writing",
-				"seconds": 184.7
-			},
-			{
-				"model": "Opus 5",
-				"component": "Tool execution",
-				"seconds": 5.4
-			},
-			{
-				"model": "Sonnet 4.6",
-				"component": "Model thinking + writing",
-				"seconds": 107.1
-			},
-			{
-				"model": "Sonnet 4.6",
-				"component": "Tool execution",
-				"seconds": 5.8
+				"model": "Terra",
+				"callsPerStep": 1.93,
+				"secPerStep": 5.3,
+				"calls": 19.7,
+				"steps": 10.2
 			},
 			{
 				"model": "Luna",
-				"component": "Model thinking + writing",
-				"seconds": 53.4
-			},
-			{
-				"model": "Luna",
-				"component": "Tool execution",
-				"seconds": 3.8
-			},
-			{
-				"model": "Terra",
-				"component": "Model thinking + writing",
-				"seconds": 54.1
-			},
-			{
-				"model": "Terra",
-				"component": "Tool execution",
-				"seconds": 2.5
+				"callsPerStep": 1.92,
+				"secPerStep": 4.9,
+				"calls": 20.8,
+				"steps": 10.8
 			},
 			{
 				"model": "Echo",
-				"component": "Model thinking + writing",
-				"seconds": 157.2
-			},
-			{
-				"model": "Echo",
-				"component": "Tool execution",
-				"seconds": 6.7
+				"callsPerStep": 1.76,
+				"secPerStep": 13.1,
+				"calls": 21.2,
+				"steps": 12.0
 			},
 			{
 				"model": "GLM 5.2",
-				"component": "Model thinking + writing",
-				"seconds": 79.8
+				"callsPerStep": 1.75,
+				"secPerStep": 5.9,
+				"calls": 23.7,
+				"steps": 13.5
 			},
-			{
-				"model": "GLM 5.2",
-				"component": "Tool execution",
-				"seconds": 4.6
-			},
-			{
-				"model": "Gemini 3.5F",
-				"component": "Model thinking + writing",
-				"seconds": 244.2
-			},
-			{
-				"model": "Gemini 3.5F",
-				"component": "Tool execution",
-				"seconds": 20.4
-			},
-			{
-				"model": "Gemini 3.6F",
-				"component": "Model thinking + writing",
-				"seconds": 73.8
-			},
-			{
-				"model": "Gemini 3.6F",
-				"component": "Tool execution",
-				"seconds": 8.3
-			}
-		],
-		"toolCalls": [
 			{
 				"model": "Opus 5",
-				"calls": 22.2
+				"callsPerStep": 1.43,
+				"secPerStep": 11.9,
+				"calls": 22.2,
+				"steps": 15.5
 			},
 			{
 				"model": "Sonnet 4.6",
-				"calls": 18.0
-			},
-			{
-				"model": "Luna",
-				"calls": 20.8
-			},
-			{
-				"model": "Terra",
-				"calls": 19.7
-			},
-			{
-				"model": "Echo",
-				"calls": 21.2
-			},
-			{
-				"model": "GLM 5.2",
-				"calls": 23.7
-			},
-			{
-				"model": "Gemini 3.5F",
-				"calls": 37.2
+				"callsPerStep": 1.32,
+				"secPerStep": 7.8,
+				"calls": 18.0,
+				"steps": 13.7
 			},
 			{
 				"model": "Gemini 3.6F",
-				"calls": 22.8
+				"callsPerStep": 0.99,
+				"secPerStep": 3.2,
+				"calls": 22.8,
+				"steps": 23.2
 			}
 		]
 	}
