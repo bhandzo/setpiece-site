@@ -2,6 +2,7 @@
 import { render } from "astro:content";
 import Chart from "@/components/blog/Chart.astro";
 import SectionLabel from "@/components/blog/SectionLabel.astro";
+import StatTable from "@/components/blog/StatTable.astro";
 import { getAllPosts } from "@/data/post";
 import PostLayout from "@/layouts/BlogPost.astro";
 import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
@@ -22,5 +23,5 @@ const { Content } = await render(post);
 ---
 
 <PostLayout post={post}>
-	<Content components={{ Chart, SectionLabel }} />
+	<Content components={{ Chart, SectionLabel, StatTable }} />
 </PostLayout>

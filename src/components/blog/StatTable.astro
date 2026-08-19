@@ -1,0 +1,68 @@
+---
+// ABOUTME: Renders a named stat table from the current post's colocated charts.json.
+// ABOUTME: 538-style treatment (header rule, zebra rows, magnitude tints) styled by .stat-table in global.css.
+
+interface TableCell {
+	text: string;
+	/** Model identity color rendered as a leading dot. */
+	swatch?: string;
+	/** Magnitude tint class from global.css (tok-1..5, par-1..3). */
+	tint?: string;
+}
+
+interface TableDef {
+	columns: { label: string; num?: boolean }[];
+	rows: TableCell[][];
+}
+
+interface ChartSet {
+	tables?: Record<string, TableDef>;
+}
+
+interface Props {
+	/** Key within the post sidecar's `tables` object. */
+	name: string;
+	/** Override the current route slug when rendering a post outside its canonical route. */
+	source?: string;
+}
+
+const chartSets = import.meta.glob<ChartSet>("/src/content/post/*/charts.json", {
+	eager: true,
+	import: "default",
+});
+
+const { name, source = Astro.params.slug } = Astro.props;
+const chartSet = source ? chartSets[`/src/content/post/${source}/charts.json`] : undefined;
+
+if (!chartSet) {
+	throw new Error(`No charts.json sidecar found for post "${source ?? "unknown"}".`);
+}
+
+const table = chartSet.tables?.[name];
+
+if (!table) {
+	throw new Error(`Table "${name}" was not found in the "${source}" post sidecar.`);
+}
+---
+
+<table class="stat-table">
+	<thead>
+		<tr>
+			{table.columns.map((col) => <th class:list={[{ num: col.num }]}>{col.label}</th>)}
+		</tr>
+	</thead>
+	<tbody>
+		{
+			table.rows.map((row) => (
+				<tr>
+					{row.map((cell, i) => (
+						<td class:list={[{ num: table.columns[i]?.num }, cell.tint]}>
+							{cell.swatch && <span class="swatch" style={`background:${cell.swatch}`} />}
+							{cell.text}
+						</td>
+					))}
+				</tr>
+			))
+		}
+	</tbody>
+</table>

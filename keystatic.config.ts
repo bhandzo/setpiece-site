@@ -41,6 +41,17 @@ const postContentComponents = {
 		description: "A compact eyebrow label that qualifies the section below it.",
 		schema: {},
 	}),
+	StatTable: block({
+		label: "Stat table",
+		description:
+			"Render a named stat table from the post's colocated charts.json file.",
+		schema: {
+			name: fields.text({
+				label: "Table name",
+				description: "The table key in charts.json.",
+			}),
+		},
+	}),
 };
 
 export default config({
