@@ -8,6 +8,12 @@
 			"port": 4321
 		},
 		{
+			"name": "Astro Dev (Keystatic local)",
+			"runtimeExecutable": "/Users/kimberlynortman/.local/share/mise/installs/npm-pnpm/11.0.9/bin/pnpm",
+			"runtimeArgs": ["dev:local"],
+			"port": 4321
+		},
+		{
 			"name": "Astro Preview",
 			"runtimeExecutable": "/Users/kimberlynortman/.local/share/mise/installs/npm-pnpm/11.0.9/bin/pnpm",
 			"runtimeArgs": ["preview"],
