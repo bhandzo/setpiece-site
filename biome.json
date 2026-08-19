@@ -50,6 +50,12 @@
 	},
 	"overrides": [
 		{
+			"includes": ["src/content/**/*.json"],
+			"formatter": {
+				"indentStyle": "space"
+			}
+		},
+		{
 			"includes": ["**/*.astro"],
 			"linter": {
 				"rules": {
