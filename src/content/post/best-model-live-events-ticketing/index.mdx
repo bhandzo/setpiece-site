@@ -113,6 +113,6 @@ When every model is right, "which one is best" is the wrong question. **The real
 
 The two models that surprised us make the point. Gemini gets to a fast answer on raw token speed while never parallelizing; Luna gets there as a middling generator that batches its tool calls and stays terse. You don’t pick between them on a benchmark. You pick on which behavior fits the job, and at a penny a question versus Opus’s 77 cents, the job usually decides.
 
-So we’re not crowning a model. **We’re running an experiment that uses Mastra’s request context to route simple questions to Luna and complex ones to Opus.** We’ll report back on whether that felt like a smart optimization or whether it just made us nervous about which version of the analyst we’d get each time we asked.
+So we’re not crowning a model. **We’re running an experiment that uses Mastra’s request context to route simple questions to Terra and complex ones to Opus.** We’ll report back on whether that felt like a smart optimization or whether it just made us nervous about which version of the analyst we’d get each time we asked.
 
 **We're also going to try out Echo in our assistant harness.** Given this analysis the promise of smart model selection at the provider level is super intriguing so we want to get a sense of how it works.
