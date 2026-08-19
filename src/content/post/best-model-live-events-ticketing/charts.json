@@ -400,6 +400,175 @@
       "width": "container",
       "height": 340,
       "background": "transparent"
+    },
+    "costVolume": {
+      "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+      "data": {
+        "name": "costVolume"
+      },
+      "transform": [
+        {
+          "calculate": "datum.monthly * 12",
+          "as": "yearly"
+        }
+      ],
+      "layer": [
+        {
+          "params": [
+            {
+              "name": "costModelSel",
+              "select": {
+                "type": "point",
+                "fields": ["model"]
+              },
+              "bind": "legend"
+            }
+          ],
+          "mark": {
+            "type": "line",
+            "point": {
+              "filled": true,
+              "size": 46
+            },
+            "strokeWidth": 2.5
+          },
+          "encoding": {
+            "x": {
+              "field": "people",
+              "type": "quantitative",
+              "title": "People on the team →",
+              "scale": {
+                "domainMin": 0,
+                "domainMax": 150,
+                "nice": false
+              },
+              "axis": {
+                "tickCount": 6
+              }
+            },
+            "y": {
+              "field": "monthly",
+              "type": "quantitative",
+              "title": "Est. cost per month ↑",
+              "scale": {
+                "domainMin": 0,
+                "domainMax": 4400
+              },
+              "axis": {
+                "tickCount": 6,
+                "format": "$,.0f"
+              }
+            },
+            "color": {
+              "field": "model",
+              "type": "nominal",
+              "title": "Model",
+              "scale": {
+                "domain": [
+                  "Opus 5",
+                  "Sonnet 4.6",
+                  "Terra",
+                  "Luna",
+                  "Gemini 3.6F",
+                  "GLM 5.2",
+                  "Echo"
+                ],
+                "range": [
+                  "#963F04",
+                  "#EE7D0E",
+                  "#1D5CAD",
+                  "#4D96F2",
+                  "#4FBA8C",
+                  "#8040A0",
+                  "#C75A88"
+                ]
+              },
+              "legend": {
+                "orient": "bottom",
+                "direction": "horizontal",
+                "title": null,
+                "columns": 4,
+                "columnPadding": 26,
+                "rowPadding": 8,
+                "labelLimit": 200,
+                "offset": 24
+              }
+            },
+            "opacity": {
+              "condition": {
+                "param": "costModelSel",
+                "value": 0.95
+              },
+              "value": 0.15
+            },
+            "tooltip": [
+              {
+                "field": "model",
+                "title": "Model"
+              },
+              {
+                "field": "people",
+                "title": "People on the team"
+              },
+              {
+                "field": "questions",
+                "title": "Questions / month",
+                "type": "quantitative",
+                "format": ","
+              },
+              {
+                "field": "monthly",
+                "title": "Est. $ / month",
+                "type": "quantitative",
+                "format": "$,.0f"
+              },
+              {
+                "field": "yearly",
+                "title": "Est. $ / year",
+                "type": "quantitative",
+                "format": "$,.0f"
+              }
+            ]
+          }
+        },
+        {
+          "transform": [
+            {
+              "filter": "datum.people == 150 && indexof(['Opus 5','Gemini 3.6F','Sonnet 4.6','Terra'], datum.model) >= 0"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "align": "right",
+            "dx": -6,
+            "dy": -10,
+            "fontSize": 11
+          },
+          "encoding": {
+            "x": {
+              "field": "people",
+              "type": "quantitative"
+            },
+            "y": {
+              "field": "monthly",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "model"
+            },
+            "opacity": {
+              "condition": {
+                "param": "costModelSel",
+                "value": 1
+              },
+              "value": 0.2
+            }
+          }
+        }
+      ],
+      "width": "container",
+      "height": 380,
+      "background": "transparent"
     }
   },
   "datasets": {
@@ -765,6 +934,57 @@
         "calls": 22.8,
         "steps": 23.2
       }
+    ],
+    "costVolume": [
+      { "model": "Opus 5", "people": 0, "questions": 0, "monthly": 0 },
+      { "model": "Opus 5", "people": 25, "questions": 870, "monthly": 673 },
+      { "model": "Opus 5", "people": 50, "questions": 1740, "monthly": 1347 },
+      { "model": "Opus 5", "people": 75, "questions": 2610, "monthly": 2020 },
+      { "model": "Opus 5", "people": 100, "questions": 3480, "monthly": 2694 },
+      { "model": "Opus 5", "people": 125, "questions": 4350, "monthly": 3367 },
+      { "model": "Opus 5", "people": 150, "questions": 5220, "monthly": 4040 },
+      { "model": "Sonnet 4.6", "people": 0, "questions": 0, "monthly": 0 },
+      { "model": "Sonnet 4.6", "people": 25, "questions": 870, "monthly": 230 },
+      { "model": "Sonnet 4.6", "people": 50, "questions": 1740, "monthly": 459 },
+      { "model": "Sonnet 4.6", "people": 75, "questions": 2610, "monthly": 689 },
+      { "model": "Sonnet 4.6", "people": 100, "questions": 3480, "monthly": 919 },
+      { "model": "Sonnet 4.6", "people": 125, "questions": 4350, "monthly": 1148 },
+      { "model": "Sonnet 4.6", "people": 150, "questions": 5220, "monthly": 1378 },
+      { "model": "Terra", "people": 0, "questions": 0, "monthly": 0 },
+      { "model": "Terra", "people": 25, "questions": 870, "monthly": 101 },
+      { "model": "Terra", "people": 50, "questions": 1740, "monthly": 202 },
+      { "model": "Terra", "people": 75, "questions": 2610, "monthly": 303 },
+      { "model": "Terra", "people": 100, "questions": 3480, "monthly": 404 },
+      { "model": "Terra", "people": 125, "questions": 4350, "monthly": 505 },
+      { "model": "Terra", "people": 150, "questions": 5220, "monthly": 606 },
+      { "model": "Luna", "people": 0, "questions": 0, "monthly": 0 },
+      { "model": "Luna", "people": 25, "questions": 870, "monthly": 11 },
+      { "model": "Luna", "people": 50, "questions": 1740, "monthly": 23 },
+      { "model": "Luna", "people": 75, "questions": 2610, "monthly": 34 },
+      { "model": "Luna", "people": 100, "questions": 3480, "monthly": 45 },
+      { "model": "Luna", "people": 125, "questions": 4350, "monthly": 57 },
+      { "model": "Luna", "people": 150, "questions": 5220, "monthly": 68 },
+      { "model": "Gemini 3.6F", "people": 0, "questions": 0, "monthly": 0 },
+      { "model": "Gemini 3.6F", "people": 25, "questions": 870, "monthly": 292 },
+      { "model": "Gemini 3.6F", "people": 50, "questions": 1740, "monthly": 585 },
+      { "model": "Gemini 3.6F", "people": 75, "questions": 2610, "monthly": 877 },
+      { "model": "Gemini 3.6F", "people": 100, "questions": 3480, "monthly": 1169 },
+      { "model": "Gemini 3.6F", "people": 125, "questions": 4350, "monthly": 1462 },
+      { "model": "Gemini 3.6F", "people": 150, "questions": 5220, "monthly": 1754 },
+      { "model": "GLM 5.2", "people": 0, "questions": 0, "monthly": 0 },
+      { "model": "GLM 5.2", "people": 25, "questions": 870, "monthly": 74 },
+      { "model": "GLM 5.2", "people": 50, "questions": 1740, "monthly": 148 },
+      { "model": "GLM 5.2", "people": 75, "questions": 2610, "monthly": 222 },
+      { "model": "GLM 5.2", "people": 100, "questions": 3480, "monthly": 296 },
+      { "model": "GLM 5.2", "people": 125, "questions": 4350, "monthly": 370 },
+      { "model": "GLM 5.2", "people": 150, "questions": 5220, "monthly": 444 },
+      { "model": "Echo", "people": 0, "questions": 0, "monthly": 0 },
+      { "model": "Echo", "people": 25, "questions": 870, "monthly": 12 },
+      { "model": "Echo", "people": 50, "questions": 1740, "monthly": 24 },
+      { "model": "Echo", "people": 75, "questions": 2610, "monthly": 37 },
+      { "model": "Echo", "people": 100, "questions": 3480, "monthly": 49 },
+      { "model": "Echo", "people": 125, "questions": 4350, "monthly": 61 },
+      { "model": "Echo", "people": 150, "questions": 5220, "monthly": 73 }
     ]
   },
   "tables": {
@@ -775,6 +995,10 @@
         },
         {
           "label": "Avg. time",
+          "num": true
+        },
+        {
+          "label": "$ / answer",
           "num": true
         },
         {
@@ -800,6 +1024,9 @@
             "text": "0:56"
           },
           {
+            "text": "$0.01"
+          },
+          {
             "text": "3.5K"
           },
           {
@@ -818,6 +1045,9 @@
           },
           {
             "text": "0:57"
+          },
+          {
+            "text": "$0.12"
           },
           {
             "text": "3.4K"
@@ -840,6 +1070,9 @@
             "text": "1:18"
           },
           {
+            "text": "$0.34"
+          },
+          {
             "text": "8.9K"
           },
           {
@@ -858,6 +1091,9 @@
           },
           {
             "text": "1:23"
+          },
+          {
+            "text": "$0.09"
           },
           {
             "text": "8.5K"
@@ -880,6 +1116,9 @@
             "text": "2:09"
           },
           {
+            "text": "$0.26"
+          },
+          {
             "text": "4.7K"
           },
           {
@@ -900,6 +1139,9 @@
             "text": "2:40"
           },
           {
+            "text": "$0.01"
+          },
+          {
             "text": "6.4K"
           },
           {
@@ -918,6 +1160,9 @@
           },
           {
             "text": "3:21"
+          },
+          {
+            "text": "$0.77"
           },
           {
             "text": "10.6K"
