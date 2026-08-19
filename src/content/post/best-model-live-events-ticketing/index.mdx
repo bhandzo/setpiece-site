@@ -1,8 +1,9 @@
 ---
 title: Finding the Best Model for Live Events Ticketing Analysis
 description: >-
-  “There are more model options to choose from than ever, and in the end it
-  comes down to vibes“
+  Every model we tested got the ticketing questions right. So the choice stopped
+  being about smarts, and split into two: what we could measure, and what we
+  could only feel.
 coverImage:
   alt: >-
     Collage of college athletes — a football player, baseball batter, and
@@ -20,82 +21,89 @@ pinned: false
 ---
 ## TL;DR;
 
-If you’re building an agent to do data analysis for live events there are quite a few models, both closed and open weights, that will do a great job. Focusing on the "workhorse tier", we ran models through 6 quick question answers, and 6 deeper analysis requests to see how well they performed. We found that deciding which one was best for our workload came down to “vibes” more than any particularly metric.
+If you’re building an agent to do data analysis for live events, there are quite a few models — closed and open weights — that will do a great job. We took the "workhorse tier", and ran each one through 6 quick question answers and 6 deeper analysis requests, inside the exact harness we use every day.
 
-We were able to start analyzing vibes by breaking down speed, efficiency, and verbosity of the models. Models like Claude who love tables, and words, had the longest responses, while the new OpenAI models respond like my Gen Z nieces over text.
+The headline: every model got the answers right. Once correctness is a given, the choice stops being about which model is smartest and becomes about two things: (1) **the things you can measure:** speed, cost, how much a model parallelizes its work, how much it writes; and (2) **the "vibes".**
 
-We were super impressed with the efficiency of the newest OpenAI models, driven by their parallel tool calling, and very intrigued by Echo as a new entrant.
+On the measurable side, we were most impressed by the efficiency of the newest OpenAI models, driven by their parallel tool calling, and intrigued by Echo as a new entrant. On the vibes side, Claude still loves its tables and words while the new OpenAI models answer like my Gen Z nieces over text.
 
 <Chart name="bubbleTrade" headline="Balancing speed, cost, and brevity" subtitle="How each model performed on average in terms of time, cost, and length of answer" caption="Lines count how an answer lands in Slack — each table row or header is a line, prose at ~60 characters per line. Time is wall clock, including all querying." />
 
-## Finding our pareto BFF
+## Why we ran our own harness
 
-As part of our work on Extra Point I built a data analyst agent using [Mastra](https://mastra.ai/) to handle our day to day workload. This agent sits on top of our warehouse, and all the context about our business and clients that we’ve carefully organized. That means that we don’t need to use the beefiest model to get the best results.\
+As part of our work at Extra Point, I built a data analyst agent using [Mastra](https://mastra.ai/) to handle our day to day workload. This agent sits on top of our warehouse, and all the context about our business and clients that we’ve carefully organized. That means we don’t need the beefiest model to get the best results. **So the real question was who would be our Pareto BFF:** the model that gives us the best answers for the least time and money.\
 \
-When trying to figure out which model was best for us, I didn’t find the public benchmarks to be particularly useful. I wanted to know what it would be like to live with this agent day in and day out, how it would perform in our harness, answering the kinds of ticketing questions we ask every day.
+The public benchmarks didn’t help me find it. I wanted to know what it would be like to live with this agent day in and day out — how it would perform in our harness, answering the kinds of ticketing questions we ask every day.
 
-### How we did our analysis
-
-I used Mastra’s [datasets](https://mastra.ai/docs/datasets/overview) and [experiments](https://mastra.ai/blog/mastra-experiments) to create a two tier benchmarking setup around our existing agent. This let us rotate models through the exact harness we use every day with the same tools and skills.
+I used Mastra’s [datasets](https://mastra.ai/docs/datasets/overview) and [experiments](https://mastra.ai/blog/mastra-experiments) to build a two tier benchmark around our existing agent, rotating models through the exact harness we use every day with the same tools and skills.
 
 1. **The "regression tier"** is a set of "quick questions" and golden answers. This serves both as a model baseline and our frontline eval/test suite when making changes to prompts. Think "what was ATP for this section" or "what was the total revenue for this event".
-2. **The "deep analysis tier"**. I cleaned up questions we had actually asked our agent, and generated golden answers. I also built a rubric for each question which I’m still tuning.
+2. **The "deep analysis tier"** is questions we had actually asked our agent, cleaned up and paired with golden answers. I also built a rubric for each question which I’m still tuning.
 
-### The math is mathing
+## Every model got it right
 
-Across both the regression and deep analysis tier, all the models we tested produced correct answers. I took some of that performance as an indication that our warehouse is in great shape, and some of that as an indication that we weren't testing for large open ended analysis skills that tend to produce more separation.
+**The math, it turns out, is mathing.** Across both the regression and deep analysis tier, all the models we tested produced correct answers. I took some of that as a sign our warehouse is in great shape, and some of it as a sign we weren’t yet testing for the large, open-ended analysis that tends to produce real separation.
 
-Getting these kinds of results this widely shows how much the model world has flattened in the past year. When Sonnet launched a year ago it was in a class of it's own when it came to efficient agentic use. There are now a wide variety of equally good competitors.
+Getting results this uniform shows how much the model world has flattened in the past year. When Sonnet launched a year ago it was in a class of its own for efficient agentic use. There are now a wide variety of equally good competitors.
 
-### It's a vibes era
+## Once everyone’s right, what’s left? Measurable differences and "vibes."
 
-Given that all the models are capable of doing the basic analysis, I wanted to try to quantify the qualitiative parts of their answers. We built first versions of rubrics that do this, they're going to take some time to tune, so we started with simpler axes that are still quite useful.
+When every model clears the correctness bar, the decision moves to everything around the answer. That everything comes in two layers.
 
-At this point most of us are familiar with model vibes. I for one am incapable of reading or hearing "load bearing" without thinking of Claude. As model ability converges, the "feel" of interacting with a model is going to start to matter more. Most power users already have some version of this they do for themselves, and now builders both internal and external will need to think about this as they build for their teams and customers.
+The first layer you can put a number on: how fast a model responds, what it costs, how much of its work it does in parallel, how much it writes. The second layer you can’t — it’s the *feel* of the output once the facts are settled. That second layer is what most of us mean by "vibes": the personality that shows up in how a model formats, what it chooses to explain, whether it shows its work or just hands you the number.
 
-## Fast Talkers, Slow Thinkers
+Most of us are already fluent in this. I for one am incapable of reading or hearing "load bearing" without thinking of Claude. As raw ability converges, that feel is going to matter more, and both internal and external builders will have to reason about it deliberately as they choose models for their teams and customers.
 
-Given that we were starting from the basics, we wanted to dig in a bit more on both what drove models time to respond, and whether there was variation in timing across cases.
+The rest of this post takes those two layers in order: first the stuff we could measure, then the stuff we could only feel.
+
+## What actually drives the clock
+
+The measurable layer is mostly a story about time, so we dug into what actually drove each model’s time to respond, and whether it varied across cases.
 
 <Chart name="answerScatter" headline="Model responses by speed and length" subtitle="One dot per model per question — right is slower, up is wordier. Click a dot to isolate its model; click empty space to bring everyone back." />
 
-The first thing we ruled out was the obvious explanation, that the slow models were just doing more work. They weren't. Every model made roughly the same 18-24 tool calls per question, and actually running those calls was a rounding error for everyone — about 5% of the clock. The other 95%
-is the model thinking and writing.
+The first thing we ruled out was the obvious explanation, that the slow models were just doing more work. They weren’t. Every model made roughly the same 18–24 tool calls per question, and actually running those calls was a rounding error for everyone — about 5% of the clock. The other 95% is the model thinking and writing.
 
-What jumped out as most interesting ended up being how the models matched tool call parallization with token generation to end up at their unique "vibe"
+The interesting part is that the models reach similar speeds by opposite routes — how each one trades tool-call parallelization against raw token generation is what gives it its signature on the clock.
 
 <Chart name="stepScatter" headline="Tool calls per round trip vs time" subtitle="Right is more tool calls packed into each round-trip; up is more seconds of thinking per round-trip." />
 
-### Which middle school math quiz taker are you?
+### Which middle-school math-quiz kid are you?
 
-When I was a grade schooler, my KPI on quizzes was whether I could be the first to hand mine in. My least favorite request was to show my work. My wife on the other hand always needed an extra blue book for her written tests.
+When I was a grade schooler, my KPI on quizzes was whether I could be the first to hand mine in. My least favorite request was to show my work. My wife, on the other hand, always needed an extra blue book for her written tests.
 
-Terra and Luna are more like me, blazing through paralell tool and short turns calls to try to get the answer as fast as possible, not providing a ton of color. Opus can parallelize but does it less, taking half the round trips, but thinking 4x longer on each one.
+Terra and Luna are more like me — blazing through parallel tool calls and short turns to get the answer as fast as possible, without a ton of color. Opus can parallelize but does it less, taking half the round trips but thinking about 4x longer on each one.
 
-There are two models of note when looking at things this way. First is Gemini, which only ever made a single tool call per round trip, but had by far the fastest token generation. Secondd is Echo which had some of the slowest tokens/sec but are early in their journey and I'd expect that to go up.
+Two models take a genuinely different road. Gemini 3.6 Flash only ever made a single tool call per round trip — no parallelism at all — but had by far the fastest token generation, and keeps up on that alone. Luna and Terra are the mirror image: middling token speed, but they win the clock anyway on parallel tool calls plus ruthless brevity. Same fast answer, opposite engineering. (Echo is the odd one out — slow tokens and early in its journey — and I’d expect that speed to climb.)
 
 <StatTable name="perStepTable" />
 
 *All figures are averages per deep question. The tradeoff is in the shading: Gemini 3.6 Flash and GLM generate tokens roughly twice as fast as anyone else, but never (or barely) batch their tool calls. Luna and Terra generate at mid-pack speed and win anyway — parallel tool calls plus ruthless brevity. Echo has neither going for it, which is the whole story of its clock.*
 
-## What we thought about each model
+The other measurable gap is money, and it’s not close. At equal correctness, Luna and Echo came in around a penny a question while Opus ran about 77 cents — roughly 60x. When every answer is right, that spread is the whole argument for not defaulting to the biggest model.
 
-Reading through the answers we got, these were our impressions.
+## Now the vibes: what each model felt like
 
-**Opus 5.** Writes like a senior consultant who won't let you leave the room with the wrong takeaway: headline, receipts — tables, drilldowns, caveats about what the numbers *don't* say. Longest and slowest answers in the field, but almost none of it is filler. Great for getting in the weeds, risks being ignored by team members with less time or interest.
+Speed and cost sort the models on paper. Reading the actual answers is where the personalities show up — the layer you can’t put on an axis. These were our impressions.
 
-**Sonnet 4.6.** Reads like a great Slack message from an analyst who knows you're skimming: bolded verdict up top, emojis, a sharp "point you might have missed". The classic "Claude" voice and tone, with its occasional drift into burying the insight inside the formatting.
+**Opus 5.** Writes like a senior consultant who won’t let you leave the room with the wrong takeaway: headline, receipts — tables, drilldowns, caveats about what the numbers *don’t* say. Longest and slowest answers in the field, but almost none of it is filler. Great for getting in the weeds, risks being ignored by team members with less time or interest.
 
-**Terra.** The disciplined one: crisp executive summaries, every number carefully labeled, scope guarded like a lawyer. Rarely dazzles, never overreaches, predicatbly direct.
+**Sonnet 4.6.** Reads like a great Slack message from an analyst who knows you’re skimming: bolded verdict up top, emojis, a sharp "point you might have missed". The classic "Claude" voice and tone, with its occasional drift into burying the insight inside the formatting.
 
-**Luna.** The shortest answers and the fastest clock, with almost no narrative around the numbers. When you know what you're asking it's an efficient dream, but gives almost no cites, analysis, or illustration.
+**Terra.** The disciplined one: crisp executive summaries, every number carefully labeled, scope guarded like a lawyer. Rarely dazzles, never overreaches, predictably direct.
+
+**Luna.** The shortest answers and the fastest clock, with almost no narrative around the numbers. When you know what you’re asking it’s an efficient dream, but gives almost no cites, analysis, or illustration.
 
 **Gemini 3.6 Flash.** Polished report formatting — executive summary, bolded key metrics, artifact links — delivered at nearly Luna speed. Feels like the house style of a good BI team: maybe not the deepest read in the room, but consistently presentable and consistently quick.
 
-**GLM 5.2.** Methodical Part A / Part B structure with real analytical ambition — it will build the year-over-year diff you didn't ask for. That ambition cuts both ways: it's the model most likely to construct a clever answer where a shrug was the right call.
+**GLM 5.2.** Methodical Part A / Part B structure with real analytical ambition — it will build the year-over-year diff you didn’t ask for. That ambition cuts both ways: it’s the model most likely to construct a clever answer where a shrug was the right call.
 
 **Echo.** Narrates its own thinking — you watch it check itself ("I need to correct course") and quote its sources verbatim before it lands. Endearingly transparent, occasionally long-winded, and when its tooling misbehaves it fails loudly rather than quietly, clearly a work in progress.
 
-# Where did we land?
+## Where we landed
 
-We're trying an experiment using Mastra's request context to route simple questions to Luna and complex questions to Opus. We will report back on whether this felt like a good optimization, or if it made us nervous about which version of the analyst we were going to get each time we asked.
+When every model is right, "which one is best" is the wrong question. The real one is which personality you want answering, and what you’re willing to pay for it — and the answer changes with the question you’re asking.
+
+The two models that surprised us make the point. Gemini gets to a fast answer on raw token speed while never parallelizing; Luna gets there as a middling generator that batches its tool calls and stays terse. You don’t pick between them on a benchmark — you pick on which behavior fits the job, and at a penny a question versus Opus’s 77 cents, the job usually decides.
+
+So we’re not crowning a model. We’re running an experiment that uses Mastra’s request context to route simple questions to Luna and complex ones to Opus. We’ll report back on whether that felt like a smart optimization — or whether it just made us nervous about which version of the analyst we’d get each time we asked.
