@@ -27,13 +27,15 @@ const readingTime: string = remarkPluginFrontmatter.readingTime;
   }}
 >
   <article class="gc-full" data-pagefind-body>
-    {post.data.coverImage && (
-      <CoverImage src={post.data.coverImage.src} alt={post.data.coverImage.alt} />
-    )}
     <div class="mx-auto w-full max-w-[41rem]">
       <div id="blog-hero" class="py-baseline border-b border-(--hairline)">
         <Masthead content={post} readingTime={readingTime} />
       </div>
+      {post.data.coverImage && (
+        <div class="py-baseline">
+          <CoverImage src={post.data.coverImage.src} alt={post.data.coverImage.alt} />
+        </div>
+      )}
       <div class="py-baseline">
         <div
           class="prose prose-blog prose-headings:font-semibold prose-headings:text-accent-2"

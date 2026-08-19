@@ -79,6 +79,10 @@ export default config({
 					label: "Description",
 					multiline: true,
 				}),
+				author: fields.text({
+					label: "Author",
+					defaultValue: "Ben Handzo",
+				}),
 				coverImage: fields.object(
 					{
 						alt: fields.text({ label: "Alt Text" }),

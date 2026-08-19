@@ -17,6 +17,7 @@ const post = defineCollection({
 	schema: ({ image }) =>
 		baseSchema.extend({
 			description: z.string(),
+			author: z.string().default("Ben Handzo"),
 			coverImage: z
 				.object({
 					alt: z.string(),
