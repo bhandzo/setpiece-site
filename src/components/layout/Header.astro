@@ -33,6 +33,21 @@ import { siteConfig } from "../../site.config";
 				</a>
 			))
 		}
+		{
+			import.meta.env.DEV && (
+				<a
+					class="eyebrow border-orange bg-orange/10 text-orange hover:bg-orange inline-flex items-center gap-2 border px-2 py-1 transition-colors hover:text-[#222019]"
+					href="/keystatic/"
+					title="Open the Keystatic editor (development only)"
+				>
+					<span>Editor</span>
+					<span aria-hidden="true" class="border-orange/40 border-s ps-2 text-[0.65rem]">
+						dev
+					</span>
+					<span class="sr-only">Development only</span>
+				</a>
+			)
+		}
 		<ThemeToggle />
 	</nav>
 </header>

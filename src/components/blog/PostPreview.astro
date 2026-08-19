@@ -5,6 +5,7 @@ import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import type { HTMLTag, Polymorphic } from "astro/types";
 import FormattedDate from "@/components/FormattedDate.astro";
+import EditPostLink from "@/components/blog/EditPostLink.astro";
 
 type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
 	post: CollectionEntry<"post">;
@@ -36,11 +37,14 @@ const { as: Tag = "div", post, withDesc = false } = Astro.props;
 	{post.data.draft && <span class="text-orange">Draft</span>}
 	<FormattedDate date={post.data.publishDate} />
 </p>
-<Tag class="mt-2 text-xl font-bold tracking-tight md:text-2xl">
-	<a class="hover:text-orange transition-colors" href={`/posts/${post.id}/`}>
-		{post.data.title}
-	</a>
-</Tag>
+<div class="mt-2 flex items-start justify-between gap-4">
+	<Tag class="text-xl font-bold tracking-tight md:text-2xl">
+		<a class="hover:text-orange transition-colors" href={`/posts/${post.id}/`}>
+			{post.data.title}
+		</a>
+	</Tag>
+	<EditPostLink slug={post.id} />
+</div>
 {
 	withDesc && (
 		<p class="mt-2 line-clamp-2 max-w-[38em] font-serif leading-loose">{post.data.description}</p>
