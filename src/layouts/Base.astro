@@ -1,61 +1,57 @@
 ---
 import BaseHead from "@/components/BaseHead.astro";
-import SkipLink from "@/components/SkipLink.astro";
-import ThemeProvider from "@/components/ThemeProvider.astro";
 import Footer from "@/components/layout/Footer.astro";
 import Header from "@/components/layout/Header.astro";
+import SkipLink from "@/components/SkipLink.astro";
+import ThemeProvider from "@/components/ThemeProvider.astro";
 import { siteConfig } from "@/site.config";
 import type { SiteMeta } from "@/types";
 
 interface Props {
-  meta: SiteMeta;
-  baseline?: boolean;
+	meta: SiteMeta;
+	baseline?: boolean;
 }
 
 const {
-  meta: { articleDate, description = siteConfig.description, ogImage, title },
+	meta: { articleDate, description = siteConfig.description, ogImage, title },
 } = Astro.props;
 ---
 
 <html class="scroll-smooth" lang={siteConfig.lang}>
-  <head>
-    <BaseHead
-      articleDate={articleDate}
-      description={description}
-      ogImage={ogImage}
-      title={title}
-    />
-    <script is:inline async src="https://cdn.seline.com/seline.js" data-token="19eebe507ea0e6e"></script>
-  </head>
-  <body>
-    <ThemeProvider />
-    <SkipLink />
-    <div class="grid-frame">
-      <Header />
-      <main id="main" class="contents">
-        <slot />
-      </main>
-      <Footer />
-    </div>
-    <script is:inline type="speculationrules">
-      {
-        "prefetch": [
-          {
-            "where": {
-              "href_matches": "/*"
-            },
-            "eagerness": "immediate"
-          }
-        ],
-        "prerender": [
-          {
-            "where": {
-              "href_matches": "/*"
-            },
-            "eagerness": "moderate"
-          }
-        ]
-      }
-    </script>
-  </body>
+	<head>
+		<BaseHead articleDate={articleDate} description={description} ogImage={ogImage} title={title} />
+		<script is:inline async src="https://cdn.seline.com/seline.js" data-token="19eebe507ea0e6e"
+		></script>
+	</head>
+	<body>
+		<ThemeProvider />
+		<SkipLink />
+		<div class="grid-frame">
+			<Header />
+			<main id="main" class="contents">
+				<slot />
+			</main>
+			<Footer />
+		</div>
+		<script is:inline type="speculationrules">
+			{
+				"prefetch": [
+					{
+						"where": {
+							"href_matches": "/*"
+						},
+						"eagerness": "immediate"
+					}
+				],
+				"prerender": [
+					{
+						"where": {
+							"href_matches": "/*"
+						},
+						"eagerness": "moderate"
+					}
+				]
+			}
+		</script>
+	</body>
 </html>

@@ -43,8 +43,7 @@ const postContentComponents = {
 	}),
 	StatTable: block({
 		label: "Stat table",
-		description:
-			"Render a named stat table from the post's colocated charts.json file.",
+		description: "Render a named stat table from the post's colocated charts.json file.",
 		schema: {
 			name: fields.text({
 				label: "Table name",
@@ -236,13 +235,10 @@ export default config({
 					label: "Display Order",
 					defaultValue: 0,
 				}),
-				specializations: fields.array(
-					fields.text({ label: "Specialization" }),
-					{
-						label: "Specializations",
-						itemLabel: (props) => props.value || "Specialization",
-					},
-				),
+				specializations: fields.array(fields.text({ label: "Specialization" }), {
+					label: "Specializations",
+					itemLabel: (props) => props.value || "Specialization",
+				}),
 				bio: fields.markdoc({
 					label: "Bio",
 					extension: "md",
@@ -273,8 +269,7 @@ export default config({
 				}),
 				heroCtaUrl: fields.text({
 					label: "Hero CTA URL",
-					description:
-						"The hero button renders only when this is set — leave empty to hide it.",
+					description: "The hero button renders only when this is set — leave empty to hide it.",
 					defaultValue: "https://app.reclaim.ai/m/setpiece/setpiece-intro",
 					validation: { isRequired: false },
 				}),
@@ -309,8 +304,7 @@ export default config({
 				servicesDescription: fields.text({
 					label: "Services Description",
 					multiline: true,
-					defaultValue:
-						"You own the data. You own the artifacts. You own everything we ship.",
+					defaultValue: "You own the data. You own the artifacts. You own everything we ship.",
 				}),
 
 				// Setpiece Studio section

@@ -1,38 +1,30 @@
 ---
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
 // ABOUTME: Homepage — "Set Play" Swiss-grid layout: hero with set-play notation,
 // ABOUTME: sections bounded by full-bleed scrimmed imagery and color planes, Studio OG-card carousel, services accordion, team.
 import SetPlay from "@/components/SetPlay.astro";
 import StudioCarousel from "@/components/StudioCarousel.astro";
-import PageLayout from "@/layouts/Base.astro";
-import { Image } from "astro:assets";
-import flags from "@/content/images/Flags.jpeg";
-import lightsCropped from "@/content/images/Lights_Cropped.jpg";
-import hills from "@/content/images/hills.jpg";
-import { getCollection } from "astro:content";
-
 // Homepage copy is managed by the Keystatic "homepage" singleton, stored as JSON
 import homepage from "@/content/homepage.json";
+import flags from "@/content/images/Flags.jpeg";
+import hills from "@/content/images/hills.jpg";
+import lightsCropped from "@/content/images/Lights_Cropped.jpg";
+import PageLayout from "@/layouts/Base.astro";
 
 // Get collections data
 const problemCardsCollection = (await getCollection("problemCards")) || [];
-const differentiatorsCollection =
-  (await getCollection("differentiators")) || [];
+const differentiatorsCollection = (await getCollection("differentiators")) || [];
 const servicesCollection = (await getCollection("services")) || [];
 const teamMembersCollection = (await getCollection("teamMembers")) || [];
 const studioProductsCollection = (await getCollection("studioProducts")) || [];
 
 // Sort collections by order
-problemCardsCollection.sort(
-  (a, b) => (a.data.order ?? 0) - (b.data.order ?? 0)
-);
-differentiatorsCollection.sort(
-  (a, b) => (a.data.order ?? 0) - (b.data.order ?? 0)
-);
+problemCardsCollection.sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
+differentiatorsCollection.sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
 servicesCollection.sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
 teamMembersCollection.sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
-studioProductsCollection.sort(
-  (a, b) => (a.data.order ?? 0) - (b.data.order ?? 0)
-);
+studioProductsCollection.sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
 
 // Collections are already rendered with Astro v5+
 const problemCards = problemCardsCollection;
@@ -43,7 +35,7 @@ const studioProducts = studioProductsCollection;
 
 // Use the homepage data and fail loudly if it doesn't exist
 if (!homepage) {
-  throw new Error("Homepage data not found at src/content/homepage.json");
+	throw new Error("Homepage data not found at src/content/homepage.json");
 }
 
 const content = homepage;
@@ -56,110 +48,96 @@ const heroCtaUrl = content.heroCtaUrl.trim();
 ---
 
 <PageLayout meta={{ title: "Setpiece" }}>
-  <!-- 1. Hero — headline over the set-play notation -->
-  <section class="gc-full relative lg:min-h-[80vh] flex flex-col">
-    <SetPlay />
-    <div
-      class="relative grid grid-cols-1 lg:grid-cols-12 lg:gap-x-6 w-full flex-1 content-between pt-4 pb-20 md:pt-10 md:pb-24 lg:pb-0 xl:pb-12 gap-y-16"
-    >
-      <h1
-        class="display text-[clamp(2.75rem,6vw,5.5rem)] col-span-full lg:col-span-10"
-      >
-        {content.heroTitle}
-      </h1>
-      <!-- description starts on grid line 9 at xl — the same column as the
+	<!-- 1. Hero — headline over the set-play notation -->
+	<section class="gc-full relative flex flex-col lg:min-h-[80vh]">
+		<SetPlay />
+		<div
+			class="relative grid w-full flex-1 grid-cols-1 content-between gap-y-16 pt-4 pb-20 md:pt-10 md:pb-24 lg:grid-cols-12 lg:gap-x-6 lg:pb-0 xl:pb-12"
+		>
+			<h1 class="display col-span-full text-[clamp(2.75rem,6vw,5.5rem)] lg:col-span-10">
+				{content.heroTitle}
+			</h1>
+			<!-- description starts on grid line 9 at xl — the same column as the
            problem section's description, so the two blocks rule one vertical
            line. In the 1024–1279 window it widens one column left (start 8,
            span 5): with the CTA added, the narrow 4-col measure wraps to six
            lines and climbs into the set-play strokes — the text block moves,
            the SVG doesn't. max-width sits on the wrapper so the CTA below
            matches the text block's width exactly at every viewport. -->
-      <div
-        class="col-span-full lg:col-start-8 lg:col-span-5 xl:col-start-9 xl:col-span-4 max-w-[34em]"
-      >
-        <p class="text-lg leading-relaxed">
-          {content.heroDescription}
-        </p>
-        {
-          heroCtaUrl.length > 0 && (
-            <a class="cta cta-hero" href={heroCtaUrl} rel="noopener">
-              {content.heroCtaLabel}
-            </a>
-          )
-        }
-      </div>
-    </div>
-  </section>
+			<div
+				class="col-span-full max-w-[34em] lg:col-span-5 lg:col-start-8 xl:col-span-4 xl:col-start-9"
+			>
+				<p class="text-lg leading-relaxed">
+					{content.heroDescription}
+				</p>
+				{
+					heroCtaUrl.length > 0 && (
+						<a class="cta cta-hero" href={heroCtaUrl} rel="noopener">
+							{content.heroCtaLabel}
+						</a>
+					)
+				}
+			</div>
+		</div>
+	</section>
 
-  <!-- 2. Problem — bounded by a full-bleed scrimmed photograph; the image edge
+	<!-- 2. Problem — bounded by a full-bleed scrimmed photograph; the image edge
        is the section boundary. Theme-independent: same in light and dark. -->
-  <section class="gc-full bleed relative">
-    <div class="scrim-backdrop" aria-hidden="true">
-      <Image alt="" sizes="100vw" src={hills} widths={[768, 1440, 2560]} />
-    </div>
-    <div
-      class="relative w-[min(1280px,100%)] mx-auto px-(--margin) py-20 md:py-28"
-    >
-      <p class="eyebrow text-[#F1ECE2]/80 mb-6">The problem</p>
-      <!-- header stacks like the studio orange box: headline across the full
+	<section class="gc-full bleed relative">
+		<div class="scrim-backdrop" aria-hidden="true">
+			<Image alt="" sizes="100vw" src={hills} widths={[768, 1440, 2560]} />
+		</div>
+		<div class="relative mx-auto w-[min(1280px,100%)] px-(--margin) py-20 md:py-28">
+			<p class="eyebrow mb-6 text-[#F1ECE2]/80">The problem</p>
+			<!-- header stacks like the studio orange box: headline across the full
            container, description full-width below it (measure capped for
            reading, left-aligned — not squeezed into a right column) -->
-      <div class="mb-14 md:mb-20 text-[#F1ECE2]">
-        <h2 class="display text-[clamp(2rem,4vw,3.25rem)]">
-          {content.mainProblemTitle}
-        </h2>
-        <p class="text-lg leading-relaxed max-w-[34em] mt-6 md:mt-8">
-          {content.mainProblemDescription}
-        </p>
-      </div>
+			<div class="mb-14 text-[#F1ECE2] md:mb-20">
+				<h2 class="display text-[clamp(2rem,4vw,3.25rem)]">
+					{content.mainProblemTitle}
+				</h2>
+				<p class="mt-6 max-w-[34em] text-lg leading-relaxed md:mt-8">
+					{content.mainProblemDescription}
+				</p>
+			</div>
 
-      <div class="grid md:grid-cols-3 gap-x-6 gap-y-12 text-[#F1ECE2]">
-        {
-          problemCards.map((card) => (
-            <article class="border-t-[5px] border-[#F1ECE2] pt-6 md:pt-8">
-              <h3 class="text-xl font-bold tracking-tight mb-4">
-                {card.data.title}
-              </h3>
-              <div
-                class="leading-relaxed space-y-4"
-                set:html={card.rendered?.html}
-              />
-            </article>
-          ))
-        }
-      </div>
-    </div>
-  </section>
+			<div class="grid gap-x-6 gap-y-12 text-[#F1ECE2] md:grid-cols-3">
+				{
+					problemCards.map((card) => (
+						<article class="border-t-[5px] border-[#F1ECE2] pt-6 md:pt-8">
+							<h3 class="mb-4 text-xl font-bold tracking-tight">{card.data.title}</h3>
+							<div class="space-y-4 leading-relaxed" set:html={card.rendered?.html} />
+						</article>
+					))
+				}
+			</div>
+		</div>
+	</section>
 
-  <!-- 3. Differentiators — full-bleed slate-blue plane. -mt-6 cancels the
+	<!-- 3. Differentiators — full-bleed slate-blue plane. -mt-6 cancels the
        grid-frame's 24px row gap so the blue plane sits flush against the
        hills image edge: zero paper at the seam. -->
-  <section class="gc-full bleed bg-blue text-[#F1ECE2] -mt-6">
-    <div
-      class="w-[min(1280px,100%)] mx-auto px-(--margin) py-20 md:py-28 grid gap-y-12 lg:grid-cols-3 lg:gap-x-6"
-    >
-      <h2 class="display text-[clamp(2rem,4vw,3.25rem)] lg:col-span-1">
-        {content.differentiatorTitle}
-      </h2>
-      <div class="lg:col-span-2 divide-y divide-[rgba(241,236,226,0.35)]">
-        {
-          differentiators.map((diff) => (
-            <article class="py-8 first:pt-0 last:pb-0">
-              <h3 class="text-xl font-bold tracking-tight mb-3">
-                {diff.data.title}
-              </h3>
-              <div
-                class="leading-relaxed space-y-4 max-w-[38em]"
-                set:html={diff.rendered?.html}
-              />
-            </article>
-          ))
-        }
-      </div>
-    </div>
-  </section>
+	<section class="gc-full bleed bg-blue -mt-6 text-[#F1ECE2]">
+		<div
+			class="mx-auto grid w-[min(1280px,100%)] gap-y-12 px-(--margin) py-20 md:py-28 lg:grid-cols-3 lg:gap-x-6"
+		>
+			<h2 class="display text-[clamp(2rem,4vw,3.25rem)] lg:col-span-1">
+				{content.differentiatorTitle}
+			</h2>
+			<div class="divide-y divide-[rgba(241,236,226,0.35)] lg:col-span-2">
+				{
+					differentiators.map((diff) => (
+						<article class="py-8 first:pt-0 last:pb-0">
+							<h3 class="mb-3 text-xl font-bold tracking-tight">{diff.data.title}</h3>
+							<div class="max-w-[38em] space-y-4 leading-relaxed" set:html={diff.rendered?.html} />
+						</article>
+					))
+				}
+			</div>
+		</div>
+	</section>
 
-  <!-- 4. Setpiece Studio — the section header sits on a solid orange plane:
+	<!-- 4. Setpiece Studio — the section header sits on a solid orange plane:
        eyebrow, headline, subhead in fixed warm-black (#222019 is 5.5:1 on
        #E67812 — AA at body size in both themes; the orange never flips).
        Square corners, no border: the box IS the boundary. Products follow as
@@ -168,153 +146,132 @@ const heroCtaUrl = content.heroCtaUrl.trim();
        retained across its top edge, container width, shorter than a section
        opener. Seam spacing above and below the band matches the section
        rhythm (pb below = mt above). -->
-  <section class="gc-full pt-24 pb-24 md:pt-32 md:pb-32">
-    <div
-      class="bg-orange text-[#222019] px-6 py-10 md:p-20 mb-16 md:mb-24"
-    >
-      <p class="eyebrow mb-6">Setpiece Studio</p>
-      <h2 class="display text-[clamp(2.75rem,6vw,5.25rem)]">
-        {content.studioTitle}
-      </h2>
-      <p class="text-lg leading-relaxed max-w-[44em] mt-6 md:mt-8">
-        {content.studioDescription}
-      </p>
-      {
-        heroCtaUrl.length > 0 && (
-          <a
-            class="cta cta-inverse mt-8 md:mt-10"
-            href={heroCtaUrl}
-            rel="noopener"
-          >
-            {content.heroCtaLabel}
-          </a>
-        )
-      }
-    </div>
+	<section class="gc-full pt-24 pb-24 md:pt-32 md:pb-32">
+		<div class="bg-orange mb-16 px-6 py-10 text-[#222019] md:mb-24 md:p-20">
+			<p class="eyebrow mb-6">Setpiece Studio</p>
+			<h2 class="display text-[clamp(2.75rem,6vw,5.25rem)]">
+				{content.studioTitle}
+			</h2>
+			<p class="mt-6 max-w-[44em] text-lg leading-relaxed md:mt-8">
+				{content.studioDescription}
+			</p>
+			{
+				heroCtaUrl.length > 0 && (
+					<a class="cta cta-inverse mt-8 md:mt-10" href={heroCtaUrl} rel="noopener">
+						{content.heroCtaLabel}
+					</a>
+				)
+			}
+		</div>
 
-    <StudioCarousel products={studioProducts} />
+		<StudioCarousel products={studioProducts} />
 
-    <div class="mt-24 md:mt-32">
-      <Image
-        alt=""
-        class="w-full object-cover h-[150px] md:h-[240px] lg:h-[285px]"
-        sizes="(min-width: 1280px) 1184px, 100vw"
-        src={lightsCropped}
-        widths={[768, 1440, 2048]}
-      />
-    </div>
-  </section>
+		<div class="mt-24 md:mt-32">
+			<Image
+				alt=""
+				class="h-[150px] w-full object-cover md:h-[240px] lg:h-[285px]"
+				sizes="(min-width: 1280px) 1184px, 100vw"
+				src={lightsCropped}
+				widths={[768, 1440, 2048]}
+			/>
+		</div>
+	</section>
 
-  <!-- 5. Services — 1/3 header column, 2/3 accordion: 01–04 engagement arc as
+	<!-- 5. Services — 1/3 header column, 2/3 accordion: 01–04 engagement arc as
        hairline rows with plus-in-circle affordances. The one place drawn
        hairlines are honest: a table of contents. -mt-6 cancels the
        grid-frame's 24px row gap so the seam below the lights divider equals
        the seam above it (same trick as the hills→blue seam). -->
-  <section class="gc-full pb-24 md:pb-32 -mt-6">
-    <div class="grid gap-y-10 lg:grid-cols-3 lg:gap-x-6 items-start">
-      <div class="lg:sticky lg:top-24 lg:self-start">
-        <p class="eyebrow text-(--color-muted-dark) mb-6">Services</p>
-        <h2 class="display text-[clamp(2rem,4vw,3.25rem)]">
-          {content.servicesTitle}
-        </h2>
-        <p class="text-lg leading-relaxed max-w-[34em] mt-6">
-          {content.servicesSubtitle}
-        </p>
-        {
-          heroCtaUrl.length > 0 && (
-            <a class="cta mt-8" href={heroCtaUrl} rel="noopener">
-              {content.heroCtaLabel}
-            </a>
-          )
-        }
-      </div>
+	<section class="gc-full -mt-6 pb-24 md:pb-32">
+		<div class="grid items-start gap-y-10 lg:grid-cols-3 lg:gap-x-6">
+			<div class="lg:sticky lg:top-24 lg:self-start">
+				<p class="eyebrow mb-6 text-(--color-muted-dark)">Services</p>
+				<h2 class="display text-[clamp(2rem,4vw,3.25rem)]">
+					{content.servicesTitle}
+				</h2>
+				<p class="mt-6 max-w-[34em] text-lg leading-relaxed">
+					{content.servicesSubtitle}
+				</p>
+				{
+					heroCtaUrl.length > 0 && (
+						<a class="cta mt-8" href={heroCtaUrl} rel="noopener">
+							{content.heroCtaLabel}
+						</a>
+					)
+				}
+			</div>
 
-      <div class="lg:col-span-2">
-        <div class="svc-acc border-t border-(--hairline)">
-          {
-            services.map((service, i) => (
-              <details name="services-accordion">
-                <summary>
-                  <p class="row-numeral">{String(i + 1).padStart(2, "0")}</p>
-                  <h3 class="text-xl md:text-2xl font-bold tracking-tight">
-                    {service.data.title}
-                  </h3>
-                  <span class="svc-icon" aria-hidden="true"></span>
-                </summary>
-                <div class="svc-body service-desc" set:html={service.rendered?.html} />
-              </details>
-            ))
-          }
-        </div>
-        <!-- the deck's guarantee line, CMS-editable via servicesDescription -->
-        <p class="text-base font-bold tracking-tight mt-8">
-          {content.servicesDescription}
-        </p>
-      </div>
-    </div>
-  </section>
+			<div class="lg:col-span-2">
+				<div class="svc-acc border-t border-(--hairline)">
+					{
+						services.map((service, i) => (
+							<details name="services-accordion">
+								<summary>
+									<p class="row-numeral">{String(i + 1).padStart(2, "0")}</p>
+									<h3 class="text-xl font-bold tracking-tight md:text-2xl">{service.data.title}</h3>
+									<span class="svc-icon" aria-hidden="true" />
+								</summary>
+								<div class="svc-body service-desc" set:html={service.rendered?.html} />
+							</details>
+						))
+					}
+				</div>
+				<!-- the deck's guarantee line, CMS-editable via servicesDescription -->
+				<p class="mt-8 text-base font-bold tracking-tight">
+					{content.servicesDescription}
+				</p>
+			</div>
+		</div>
+	</section>
 
-  <!-- 6. Team — bounded by the full-bleed scrimmed flags photograph; the two
+	<!-- 6. Team — bounded by the full-bleed scrimmed flags photograph; the two
        operators sit on top as solid surface cards (theme-aware). -->
-  <section class="gc-full bleed relative">
-    <div class="scrim-backdrop" aria-hidden="true">
-      <Image alt="" sizes="100vw" src={flags} widths={[768, 1440, 2560]} />
-    </div>
-    <div
-      class="relative w-[min(1280px,100%)] mx-auto px-(--margin) py-20 md:py-28"
-    >
-      <p class="eyebrow text-[#F1ECE2]/80 mb-6">About</p>
-      <div
-        class="grid gap-y-6 lg:grid-cols-12 lg:gap-x-6 items-start mb-10 md:mb-12 text-[#F1ECE2]"
-      >
-        <h2
-          class="display text-[clamp(2rem,4vw,3.25rem)] lg:col-span-6"
-        >
-          {content.aboutUsTitle}
-        </h2>
-        <!-- description starts on grid line 7 — the left edge of the second bio card below -->
-        <p
-          class="text-lg leading-relaxed max-w-[34em] lg:col-start-7 lg:col-span-6"
-        >
-          {content.aboutUsDescription}
-        </p>
-      </div>
+	<section class="gc-full bleed relative">
+		<div class="scrim-backdrop" aria-hidden="true">
+			<Image alt="" sizes="100vw" src={flags} widths={[768, 1440, 2560]} />
+		</div>
+		<div class="relative mx-auto w-[min(1280px,100%)] px-(--margin) py-20 md:py-28">
+			<p class="eyebrow mb-6 text-[#F1ECE2]/80">About</p>
+			<div
+				class="mb-10 grid items-start gap-y-6 text-[#F1ECE2] md:mb-12 lg:grid-cols-12 lg:gap-x-6"
+			>
+				<h2 class="display text-[clamp(2rem,4vw,3.25rem)] lg:col-span-6">
+					{content.aboutUsTitle}
+				</h2>
+				<!-- description starts on grid line 7 — the left edge of the second bio card below -->
+				<p class="max-w-[34em] text-lg leading-relaxed lg:col-span-6 lg:col-start-7">
+					{content.aboutUsDescription}
+				</p>
+			</div>
 
-      <div class="grid md:grid-cols-2 gap-6">
-        {
-          teamMembers.map((member) => (
-            <article class="bg-bone p-8 md:p-10">
-              <h3 class="text-2xl font-bold tracking-tight mb-1">
-                {member.data.name
-                  .replace(/-/g, " ")
-                  .replace(/\b\w/g, (l) => l.toUpperCase())}
-              </h3>
-              <p class="eyebrow text-(--color-muted-dark) mb-6">
-                {member.data.title}
-              </p>
-              <div
-                class="leading-relaxed space-y-4 mb-8"
-                set:html={member.rendered?.html}
-              />
-              <ul class="eyebrow space-y-2 border-t border-(--hairline) pt-6 list-none">
-                {member.data.specializations.map((spec) => (
-                  <li class="ml-0">{spec}</li>
-                ))}
-              </ul>
-            </article>
-          ))
-        }
-      </div>
+			<div class="grid gap-6 md:grid-cols-2">
+				{
+					teamMembers.map((member) => (
+						<article class="bg-bone p-8 md:p-10">
+							<h3 class="mb-1 text-2xl font-bold tracking-tight">
+								{member.data.name.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())}
+							</h3>
+							<p class="eyebrow mb-6 text-(--color-muted-dark)">{member.data.title}</p>
+							<div class="mb-8 space-y-4 leading-relaxed" set:html={member.rendered?.html} />
+							<ul class="eyebrow list-none space-y-2 border-t border-(--hairline) pt-6">
+								{member.data.specializations.map((spec) => (
+									<li class="ml-0">{spec}</li>
+								))}
+							</ul>
+						</article>
+					))
+				}
+			</div>
 
-      {
-        heroCtaUrl.length > 0 && (
-          <div class="text-center mt-14 md:mt-20">
-            <a class="cta cta-scrim" href={heroCtaUrl} rel="noopener">
-              {content.heroCtaLabel}
-            </a>
-          </div>
-        )
-      }
-    </div>
-  </section>
+			{
+				heroCtaUrl.length > 0 && (
+					<div class="mt-14 text-center md:mt-20">
+						<a class="cta cta-scrim" href={heroCtaUrl} rel="noopener">
+							{content.heroCtaLabel}
+						</a>
+					</div>
+				)
+			}
+		</div>
+	</section>
 </PageLayout>

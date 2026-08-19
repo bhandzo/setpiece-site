@@ -26,8 +26,8 @@
 			"tags: []",
 			"draft: false",
 			"---",
-			"$2",
+			"$2"
 		],
-		"description": "Add frontmatter for new Markdown post",
-	},
+		"description": "Add frontmatter for new Markdown post"
+	}
 }

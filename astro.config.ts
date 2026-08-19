@@ -1,8 +1,11 @@
 import fs from "node:fs";
+import markdoc from "@astrojs/markdoc";
 // Rehype plugins
 import { rehypeHeadingIds, unified } from "@astrojs/markdown-remark";
 import mdx from "@astrojs/mdx";
+import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
+import keystatic from "@keystatic/astro";
 import tailwind from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 import expressiveCode from "astro-expressive-code";
@@ -18,10 +21,6 @@ import { remarkAdmonitions } from "./src/plugins/remark-admonitions"; /* Add adm
 import { remarkGithubCard } from "./src/plugins/remark-github-card";
 import { remarkReadingTime } from "./src/plugins/remark-reading-time";
 import { expressiveCodeOptions, siteConfig } from "./src/site.config";
-
-import keystatic from "@keystatic/astro";
-import react from "@astrojs/react";
-import markdoc from "@astrojs/markdoc";
 
 // https://astro.build/config
 export default defineConfig({

@@ -2,12 +2,12 @@
 // ABOUTME: Per-tag post listing — masthead header with breadcrumb eyebrow,
 // ABOUTME: hairline-ruled post rows in the "Set Play" voice.
 import { render } from "astro:content";
-import Pagination from "@/components/Paginator.astro";
+import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 import PostPreview from "@/components/blog/PostPreview.astro";
+import Pagination from "@/components/Paginator.astro";
 import { getAllPosts, getTagMeta, getUniqueTags } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
 import { collectionDateSort } from "@/utils/date";
-import type { GetStaticPaths, InferGetStaticPropsType } from "astro";
 
 export const getStaticPaths = (async ({ paginate }) => {
 	const allPosts = await getAllPosts();
@@ -79,7 +79,7 @@ const paginationProps = {
 		</div>
 	</section>
 	<div class="gc-full max-w-[44rem]">
-		<ul class="divide-y divide-(--hairline) list-none">
+		<ul class="list-none divide-y divide-(--hairline)">
 			{
 				page.data.map((p) => (
 					<li class="ml-0 py-8 first:pt-0 last:pb-0">

@@ -1,10 +1,11 @@
 /* Dev-only design tool: not imported by the site. Add class "baseline" on <body>
    to show a 4px baseline grid overlay (see docs/baseline_realign.md for context). */
 .baseline::before {
-    content: "";
-    position: fixed; inset: 0;
-    pointer-events: none;
-    background-image: linear-gradient(to bottom, rgba(255,0,0,.08) 1px, transparent 1px);
-    background-size: 100% 4px;
-    z-index: 9999;
-  }
+	content: "";
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	background-image: linear-gradient(to bottom, rgba(255, 0, 0, 0.08) 1px, transparent 1px);
+	background-size: 100% 4px;
+	z-index: 9999;
+}

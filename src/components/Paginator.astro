@@ -13,7 +13,7 @@ const { nextUrl, prevUrl } = Astro.props;
 
 {
 	(prevUrl || nextUrl) && (
-		<nav class="eyebrow text-muted-dark border-(--hairline) mt-12 flex items-center border-t pt-6">
+		<nav class="eyebrow text-muted-dark mt-12 flex items-center border-t border-(--hairline) pt-6">
 			{prevUrl && (
 				<a class="hover:text-orange me-auto py-2 transition-colors" href={prevUrl.url}>
 					{prevUrl.srLabel && <span class="sr-only">{prevUrl.srLabel}</span>}

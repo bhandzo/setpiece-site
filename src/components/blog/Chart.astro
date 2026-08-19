@@ -45,9 +45,4 @@ const presentationProps = {
 };
 ---
 
-<VegaChart
-	client:visible
-	spec={spec}
-	datasets={chartSet.datasets}
-	{...presentationProps}
-/>
+<VegaChart client:visible spec={spec} datasets={chartSet.datasets} {...presentationProps} />

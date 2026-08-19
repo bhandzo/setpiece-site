@@ -1,63 +1,57 @@
 ---
+import { getCollection } from "astro:content";
+// Import homepage data directly - Astro handles YAML natively
+import homepage from "@/content/homepage.json";
 // ABOUTME: About page for Setpiece — renders the "Operating Partners, Not Consultants"
 // ABOUTME: intro from homepage.json plus team member bios from the teamMembers collection.
 import PageLayout from "@/layouts/Base.astro";
-import { getCollection } from "astro:content";
 import { siteConfig } from "@/site.config";
-
-// Import homepage data directly - Astro handles YAML natively
-import homepage from "@/content/homepage.json";
 
 const teamMembers = (await getCollection("teamMembers")) || [];
 teamMembers.sort((a, b) => (a.data.order ?? 0) - (b.data.order ?? 0));
 
 // Use the homepage data and fail loudly if it doesn't exist
 if (!homepage) {
-  throw new Error("Homepage data not found at src/content/homepage.json");
+	throw new Error("Homepage data not found at src/content/homepage.json");
 }
 
 const content = homepage;
 
 const meta = {
-  description: siteConfig.description,
-  title: "About",
+	description: siteConfig.description,
+	title: "About",
 };
 ---
 
 <PageLayout meta={meta}>
-  <section class="gc-full grid-local-10 py-baseline">
-    <section class="gc-full py-baseline-sm">
-      <h2 class="text-3xl md:text-4xl leading-snug mb-baseline-sm">
-        {content.aboutUsTitle}
-      </h2>
-      <p class="text-sm leading-normal">
-        {content.aboutUsDescription}
-      </p>
-    </section>
+	<section class="gc-full grid-local-10 py-baseline">
+		<section class="gc-full py-baseline-sm">
+			<h2 class="mb-baseline-sm text-3xl leading-snug md:text-4xl">
+				{content.aboutUsTitle}
+			</h2>
+			<p class="text-sm leading-normal">
+				{content.aboutUsDescription}
+			</p>
+		</section>
 
-    {
-      teamMembers.map((member) => (
-        <section class="gc-full md:col-span-3 lg:col-span-5 py-baseline-sm px-5 bg-gray-200">
-          <h3 class="text-2xl mb-4">
-            {member.data.name
-              .replace(/-/g, " ")
-              .replace(/\b\w/g, (l) => l.toUpperCase())}
-          </h3>
-          <h4 class="text-lg mb-4 text-gray-600">{member.data.title}</h4>
-          <div
-            class="text-sm leading-normal prose-sm mb-4"
-            set:html={member.rendered?.html}
-          />
-          <div class="text-sm leading-normal">
-            <strong>Specializes in:</strong>
-            <ul class="list-disc list-inside mt-2 space-y-1">
-              {member.data.specializations.map((spec) => (
-                <li>{spec}</li>
-              ))}
-            </ul>
-          </div>
-        </section>
-      ))
-    }
-  </section>
+		{
+			teamMembers.map((member) => (
+				<section class="gc-full py-baseline-sm bg-gray-200 px-5 md:col-span-3 lg:col-span-5">
+					<h3 class="mb-4 text-2xl">
+						{member.data.name.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())}
+					</h3>
+					<h4 class="mb-4 text-lg text-gray-600">{member.data.title}</h4>
+					<div class="prose-sm mb-4 text-sm leading-normal" set:html={member.rendered?.html} />
+					<div class="text-sm leading-normal">
+						<strong>Specializes in:</strong>
+						<ul class="mt-2 list-inside list-disc space-y-1">
+							{member.data.specializations.map((spec) => (
+								<li>{spec}</li>
+							))}
+						</ul>
+					</div>
+				</section>
+			))
+		}
+	</section>
 </PageLayout>

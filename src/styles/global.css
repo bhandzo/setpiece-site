@@ -4,21 +4,21 @@
 
 :root {
 	color-scheme: light;
-	--font-fallback-sans: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; 
+	--font-fallback-sans: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 	/* Baseline rhythm system built on 4px foundation */
-	--baseline: 24px;          /* 6 × 4px - our main rhythm unit */
-	--baseline-sm: 16px;       /* 4 × 4px - small rhythm unit */
-	--baseline-lg: 32px;       /* 8 × 4px - large rhythm unit */
+	--baseline: 24px; /* 6 × 4px - our main rhythm unit */
+	--baseline-sm: 16px; /* 4 × 4px - small rhythm unit */
+	--baseline-lg: 32px; /* 8 × 4px - large rhythm unit */
 	/* Mobile-first responsive grid */
-	--cols: 3;                 /* mobile: 3 columns */
-	--row: min-content max-content auto;               /* row height (baseline module) */
-	--gutter-x: 24px;          /* column gap */
-	--gutter-y: 24px;          /* row gap */
-	--margin: 20px;            /* inner margin around the grid - mobile first */
-	--line: rgba(255,255,255,.85); /* overlay line color */
-	--bg: #e85a14;             /* page background */
+	--cols: 3; /* mobile: 3 columns */
+	--row: min-content max-content auto; /* row height (baseline module) */
+	--gutter-x: 24px; /* column gap */
+	--gutter-y: 24px; /* row gap */
+	--margin: 20px; /* inner margin around the grid - mobile first */
+	--line: rgba(255, 255, 255, 0.85); /* overlay line color */
+	--bg: #e85a14; /* page background */
 	/* Set-play system tokens */
-	--u: 80px;                          /* section rhythm module (20 × 4px) */
+	--u: 80px; /* section rhythm module (20 × 4px) */
 }
 
 /* use a selector-based strategy for dark mode */
@@ -27,15 +27,15 @@
 /* you could refactor below to use light-dark(), depending on your target audience */
 @theme {
 	/* "Set Play" palette — warm paper, slate blue plane, kinetic orange */
-	--color-paper: #faf8f3;   /* page background — warm off-white (#f7f4ec at 64% over white) */
-	--color-bone: #f1ece2;    /* raised/alternate surface */
-	--color-greige: #e6dfd2;  /* deep surface tone — the original warm greige */
-	--color-ink: #222019;     /* text, near-black warm */
-	--color-blue: #2e5e8a;    /* slate plane (Helmhaus) — bands, duotone */
+	--color-paper: #faf8f3; /* page background — warm off-white (#f7f4ec at 64% over white) */
+	--color-bone: #f1ece2; /* raised/alternate surface */
+	--color-greige: #e6dfd2; /* deep surface tone — the original warm greige */
+	--color-ink: #222019; /* text, near-black warm */
+	--color-blue: #2e5e8a; /* slate plane (Helmhaus) — bands, duotone */
 	--color-blue-lt: #6ca2e8; /* only for small highlights on dark/blue planes */
-	--color-orange: #e67812;  /* kinetic accent: play line, arrows, links, hovers */
-	--color-ochre: #d9a91a;   /* third plane color, used sparingly */
-	--color-muted: #8a8474;   /* secondary text on paper — decorative only, never labels */
+	--color-orange: #e67812; /* kinetic accent: play line, arrows, links, hovers */
+	--color-ochre: #d9a91a; /* third plane color, used sparingly */
+	--color-muted: #8a8474; /* secondary text on paper — decorative only, never labels */
 	--color-muted-dark: #6e6858; /* label tone: eyebrows, markers — reads as intentional */
 
 	--color-global-bg: var(--color-paper);
@@ -70,14 +70,29 @@
 	--text-6xl--line-height: 1.1;
 }
 
-
 /* Responsive grid settings - mobile first approach */
-@media (min-width: 640px)  { :root { --cols: 3; --margin: 20px;  } } /* sm+ */
-@media (min-width: 768px)  { :root { --cols: 6; --margin: 32px;  } } /* md+ */
-@media (min-width: 1024px) { :root { --cols: 9; --margin: 48px;  } } /* lg+ */
+@media (min-width: 640px) {
+	:root {
+		--cols: 3;
+		--margin: 20px;
+	}
+} /* sm+ */
+@media (min-width: 768px) {
+	:root {
+		--cols: 6;
+		--margin: 32px;
+	}
+} /* md+ */
+@media (min-width: 1024px) {
+	:root {
+		--cols: 9;
+		--margin: 48px;
+	}
+} /* lg+ */
 
 @layer base {
-	html, body {
+	html,
+	body {
 		height: 100%;
 	}
 
@@ -93,111 +108,145 @@
 		/* full-bleed sections use viewport-width margins; clip the sliver of overflow */
 		overflow-x: clip;
 		/* if you want the poster centered vertically: */
-	  }
-	.grid-frame {
-	/* size the "poster" area; adjust as you like */
-	width: min(1280px, 100vw);
-	/* height can be fluid or fixed; pick one: */
-	min-height: min(1280px, 140vh);
-	
-	padding: var(--margin);
-	position: relative;
-	
-	/* Use Tailwind-compatible grid setup with CSS variables */
-	display: grid;
-	grid-template-columns: repeat(var(--cols), 1fr); /* responsive fr tracks */
-	grid-auto-rows: var(--row);                      /* fixed row module */
-	column-gap: var(--gutter-x);
-	row-gap: var(--gutter-y);
-	
 	}
-	
+	.grid-frame {
+		/* size the "poster" area; adjust as you like */
+		width: min(1280px, 100vw);
+		/* height can be fluid or fixed; pick one: */
+		min-height: min(1280px, 140vh);
 
+		padding: var(--margin);
+		position: relative;
+
+		/* Use Tailwind-compatible grid setup with CSS variables */
+		display: grid;
+		grid-template-columns: repeat(var(--cols), 1fr); /* responsive fr tracks */
+		grid-auto-rows: var(--row); /* fixed row module */
+		column-gap: var(--gutter-x);
+		row-gap: var(--gutter-y);
+	}
 
 	/* ---- Grid system using Tailwind patterns ---- */
-	
-/* Essential grid helpers that coordinate with CSS variables */
-.grid-local {
-	display: grid;
-	grid-template-columns: repeat(var(--cols), 1fr);
-	grid-auto-rows: var(--row);
-	column-gap: var(--gutter-x);
-	row-gap: var(--gutter-y);
-	
-}
 
-.grid-local-10 {
-	display: grid;
-	grid-template-columns: repeat(var(--cols), 1fr);
-	grid-auto-rows: var(--row);
-	column-gap: var(--gutter-x);
-	row-gap: var(--gutter-y);
-}
+	/* Essential grid helpers that coordinate with CSS variables */
+	.grid-local {
+		display: grid;
+		grid-template-columns: repeat(var(--cols), 1fr);
+		grid-auto-rows: var(--row);
+		column-gap: var(--gutter-x);
+		row-gap: var(--gutter-y);
+	}
 
-@media (min-width: 1024px) {
 	.grid-local-10 {
-		grid-template-columns: repeat(10, 1fr);
+		display: grid;
+		grid-template-columns: repeat(var(--cols), 1fr);
+		grid-auto-rows: var(--row);
+		column-gap: var(--gutter-x);
+		row-gap: var(--gutter-y);
 	}
-}
 
-/* Responsive grid column utilities */
-.gc-full { grid-column: 1 / -1; }
+	@media (min-width: 1024px) {
+		.grid-local-10 {
+			grid-template-columns: repeat(10, 1fr);
+		}
+	}
 
-/* Mobile-first approach: 3 columns base */
-.gc-third { grid-column: span 1; }
-.gc-two-thirds { grid-column: span 2; }
+	/* Responsive grid column utilities */
+	.gc-full {
+		grid-column: 1 / -1;
+	}
 
-/* Tablet: 6 columns */
-@media (min-width: 768px) {
-  .md\:gc-half { grid-column: span 3; }
-  .md\:gc-third { grid-column: span 2; }
-  .md\:gc-two-thirds { grid-column: span 4; }
-}
+	/* Mobile-first approach: 3 columns base */
+	.gc-third {
+		grid-column: span 1;
+	}
+	.gc-two-thirds {
+		grid-column: span 2;
+	}
 
-/* Desktop: 9 columns */
-@media (min-width: 1024px) {
-  .lg\:gc-half { grid-column: span 4; }
-  .lg\:gc-third { grid-column: span 3; }
-  .lg\:gc-two-thirds { grid-column: span 6; }
-}
+	/* Tablet: 6 columns */
+	@media (min-width: 768px) {
+		.md\:gc-half {
+			grid-column: span 3;
+		}
+		.md\:gc-third {
+			grid-column: span 2;
+		}
+		.md\:gc-two-thirds {
+			grid-column: span 4;
+		}
+	}
 
-/* Row span utilities following Tailwind naming */
-/* Row spans (apply to grid items) */
-.gr-span-1{ grid-row: span 1; }
-.gr-span-2{ grid-row: span 2; }
-.gr-span-3{ grid-row: span 3; }
-.gr-span-4{ grid-row: span 4; }
-.gr-span-5{ grid-row: span 5; }
-.gr-span-6{ grid-row: span 6; }
-.gr-span-8{ grid-row: span 8; }
-.gr-span-12{ grid-row: span 12; }
-.gr-span-15{ grid-row: span 15; }
-.gr-span-25{ grid-row: span 25; }
+	/* Desktop: 9 columns */
+	@media (min-width: 1024px) {
+		.lg\:gc-half {
+			grid-column: span 4;
+		}
+		.lg\:gc-third {
+			grid-column: span 3;
+		}
+		.lg\:gc-two-thirds {
+			grid-column: span 6;
+		}
+	}
 
-html {
-	color-scheme: light dark;
-	accent-color: var(--color-accent);
-	scrollbar-gutter: stable;
-	/* all rules, 1px. Declared here (not the unlayered :root block) so the
+	/* Row span utilities following Tailwind naming */
+	/* Row spans (apply to grid items) */
+	.gr-span-1 {
+		grid-row: span 1;
+	}
+	.gr-span-2 {
+		grid-row: span 2;
+	}
+	.gr-span-3 {
+		grid-row: span 3;
+	}
+	.gr-span-4 {
+		grid-row: span 4;
+	}
+	.gr-span-5 {
+		grid-row: span 5;
+	}
+	.gr-span-6 {
+		grid-row: span 6;
+	}
+	.gr-span-8 {
+		grid-row: span 8;
+	}
+	.gr-span-12 {
+		grid-row: span 12;
+	}
+	.gr-span-15 {
+		grid-row: span 15;
+	}
+	.gr-span-25 {
+		grid-row: span 25;
+	}
+
+	html {
+		color-scheme: light dark;
+		accent-color: var(--color-accent);
+		scrollbar-gutter: stable;
+		/* all rules, 1px. Declared here (not the unlayered :root block) so the
 	   dark override below can win the cascade — unlayered beats @layer base. */
-	--hairline: rgba(34, 32, 25, 0.32);
+		--hairline: rgba(34, 32, 25, 0.32);
 
-	&[data-theme="light"] {
-		color-scheme: light;
-	}
+		&[data-theme="light"] {
+			color-scheme: light;
+		}
 
-	&[data-theme="dark"] {
-		color-scheme: dark;
-		/* warm near-black paper; blue plane and orange accent stay put */
-		--color-paper: #1b1915;
-		--color-bone: #26231d;
-		--color-ink: #e6dfd2;
-		--color-muted: #a29b8b;
-		--color-muted-dark: #b3ab9a;
-		--color-quote: var(--color-blue-lt);
-		--hairline: rgba(230, 223, 210, 0.28);
+		&[data-theme="dark"] {
+			color-scheme: dark;
+			/* warm near-black paper; blue plane and orange accent stay put */
+			--color-paper: #1b1915;
+			--color-bone: #26231d;
+			--color-ink: #e6dfd2;
+			--color-muted: #a29b8b;
+			--color-muted-dark: #b3ab9a;
+			--color-quote: var(--color-blue-lt);
+			--hairline: rgba(230, 223, 210, 0.28);
+		}
 	}
-}
 
 	/* Body styles consolidated above in the first body rule */
 
@@ -389,20 +438,20 @@ html {
 	.mb-baseline {
 		margin-bottom: var(--baseline);
 	}
-	
+
 	.mb-baseline-sm {
 		margin-bottom: var(--baseline-sm);
 	}
-	
+
 	.mb-baseline-lg {
 		margin-bottom: var(--baseline-lg);
 	}
-	
+
 	.py-baseline {
 		padding-top: var(--baseline);
 		padding-bottom: var(--baseline);
 	}
-	
+
 	.py-baseline-sm {
 		padding-top: var(--baseline-sm);
 		padding-bottom: var(--baseline-sm);
@@ -413,7 +462,10 @@ html {
 		@apply leading-normal max-w-measure;
 	}
 
-	h1, h2, h3, h4 {
+	h1,
+	h2,
+	h3,
+	h4 {
 		@apply tracking-tight;
 	}
 
@@ -525,7 +577,10 @@ html {
 		height: 2.75rem;
 		border: 1px solid var(--hairline);
 		border-radius: 50%;
-		transition: transform 250ms ease, border-color 150ms ease, color 150ms ease;
+		transition:
+			transform 250ms ease,
+			border-color 150ms ease,
+			color 150ms ease;
 	}
 	.svc-icon::before,
 	.svc-icon::after {
@@ -554,7 +609,9 @@ html {
 	.svc-acc details::details-content {
 		block-size: 0;
 		overflow-y: clip;
-		transition: block-size 300ms ease, content-visibility 300ms allow-discrete;
+		transition:
+			block-size 300ms ease,
+			content-visibility 300ms allow-discrete;
 	}
 	.svc-acc details[open]::details-content {
 		block-size: auto;
@@ -616,7 +673,7 @@ html {
 
 	/* `pre code` is excluded so code blocks keep the plugin's borderless reset */
 	.prose
-		:where(code):not(:where([class~="not-prose"], [class~="not-prose"] *)):not(:where(pre code)) {
+	:where(code):not(:where([class~="not-prose"], [class~="not-prose"] *)):not(:where(pre code)) {
 		border: 1px dotted #666;
 		border-radius: 2px;
 	}
@@ -717,14 +774,15 @@ html {
 		line-height: 1.7;
 	}
 
-	.prose-blog :where(h1, h2, h3, h4, h5, h6):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+	.prose-blog
+		:where(h1, h2, h3, h4, h5, h6):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
 		font-family: var(--font-sans);
 		letter-spacing: -0.01em;
 	}
 
 	/* Inline code chips read as artifacts, not dotted-border callouts */
 	.prose-blog
-		:where(code):not(:where([class~="not-prose"], [class~="not-prose"] *)):not(:where(pre code)) {
+	:where(code):not(:where([class~="not-prose"], [class~="not-prose"] *)):not(:where(pre code)) {
 		border: 1px solid var(--hairline);
 		background: var(--color-bone);
 		font-size: 0.8125em;

@@ -3,8 +3,8 @@
 // ABOUTME: masthead in miniature: mono date eyebrow, grotesque title, serif description.
 import { Image } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
-import FormattedDate from "@/components/FormattedDate.astro";
 import type { HTMLTag, Polymorphic } from "astro/types";
+import FormattedDate from "@/components/FormattedDate.astro";
 
 type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }> & {
 	post: CollectionEntry<"post">;
@@ -43,6 +43,6 @@ const { as: Tag = "div", post, withDesc = false } = Astro.props;
 </Tag>
 {
 	withDesc && (
-		<p class="font-serif mt-2 line-clamp-2 max-w-[38em] leading-loose">{post.data.description}</p>
+		<p class="mt-2 line-clamp-2 max-w-[38em] font-serif leading-loose">{post.data.description}</p>
 	)
 }

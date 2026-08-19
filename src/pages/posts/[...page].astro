@@ -2,12 +2,12 @@
 // ABOUTME: Blog listing — the "Set Play" contents table: masthead header,
 // ABOUTME: blue year numerals anchoring hairline-ruled post rows, mono tag rail.
 import type { CollectionEntry } from "astro:content";
-import Pagination from "@/components/Paginator.astro";
+import type { GetStaticPaths, Page } from "astro";
 import PostPreview from "@/components/blog/PostPreview.astro";
+import Pagination from "@/components/Paginator.astro";
 import { getAllPosts, getUniqueTags, groupPostsByYear } from "@/data/post";
 import PageLayout from "@/layouts/Base.astro";
 import { collectionDateSort } from "@/utils/date";
-import type { GetStaticPaths, Page } from "astro";
 
 export const getStaticPaths = (async ({ paginate }) => {
 	const MAX_POSTS_PER_PAGE = 10;
@@ -75,7 +75,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 				pinnedPosts.length > 0 && (
 					<section class="mb-16 grid gap-y-4 md:grid-cols-[112px_1fr] md:gap-x-6">
 						<h2 class="eyebrow text-muted-dark md:pt-2">Pinned</h2>
-						<ul class="divide-y divide-(--hairline) list-none" role="list">
+						<ul class="list-none divide-y divide-(--hairline)" role="list">
 							{pinnedPosts.map((p) => (
 								<li class="ml-0 py-8 first:pt-0 last:pb-0">
 									<PostPreview post={p} withDesc />
@@ -95,7 +95,7 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 							<span class="sr-only">Posts in </span>
 							{yearKey}
 						</h2>
-						<ul class="divide-y divide-(--hairline) list-none">
+						<ul class="list-none divide-y divide-(--hairline)">
 							{groupedByYear[yearKey]?.map((p) => (
 								<li class="ml-0 py-8 first:pt-0 last:pb-0">
 									<PostPreview post={p} withDesc />
@@ -116,7 +116,8 @@ const descYearKeys = Object.keys(groupedByYear).sort((a, b) => +b - +a);
 							<li class="ml-0">
 								<a class="hover:text-orange transition-colors" href={`/tags/${tag}/`}>
 									<span class="sr-only">View all posts with the tag </span>
-									<span aria-hidden="true">#</span>{tag}
+									<span aria-hidden="true">#</span>
+									{tag}
 								</a>
 							</li>
 						))}
