@@ -10,6 +10,9 @@ export function getFormattedDate(
 	}
 
 	return new Intl.DateTimeFormat(siteConfig.date.locale, {
+		// Date-only frontmatter strings parse as UTC midnight; format in UTC so
+		// the displayed day matches the frontmatter, not the build machine's TZ.
+		timeZone: "UTC",
 		...(siteConfig.date.options as Intl.DateTimeFormatOptions),
 		...options,
 	}).format(date);
