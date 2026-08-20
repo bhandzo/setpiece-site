@@ -3,25 +3,25 @@
 // ABOUTME: row with author/date/reading time on the left and tags on the right.
 import type { CollectionEntry } from "astro:content";
 import FormattedDate from "@/components/FormattedDate.astro";
+import EditPostLink from "@/components/blog/EditPostLink.astro";
 
 interface Props {
 	content: CollectionEntry<"post">;
 	readingTime: string;
 }
 
-const {
-	content: { data },
-	readingTime,
-} = Astro.props;
+const { content, readingTime } = Astro.props;
+const { data } = content;
 
 const dateTimeOptions: Intl.DateTimeFormatOptions = {
 	month: "long",
 };
 ---
 
-<h1 class="display text-4xl md:text-5xl">
-	{data.title}
-</h1>
+<div class="flex items-start justify-between gap-4">
+	<h1 class="display text-4xl md:text-5xl">{data.title}</h1>
+	<EditPostLink slug={content.id} />
+</div>
 <p class="text-muted-dark mt-4 max-w-[38em] font-serif text-lg leading-relaxed">
 	{data.description}
 </p>

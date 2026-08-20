@@ -1,0 +1,38 @@
+---
+// ABOUTME: Development-only shortcut from a rendered post to its Keystatic entry.
+
+interface Props {
+	slug: string;
+}
+
+const { slug } = Astro.props;
+const href = `/keystatic/collection/post/item/${encodeURIComponent(slug)}`;
+---
+
+{
+	import.meta.env.DEV && (
+		<a
+			aria-label={`Edit “${slug}” in Keystatic`}
+			class="dev-edit-link hover:border-orange hover:text-orange inline-flex size-8 shrink-0 items-center justify-center border border-(--hairline) text-(--color-muted-dark) transition-colors"
+			href={href}
+			title="Edit this post in Keystatic"
+		>
+			<svg
+				aria-hidden="true"
+				class="size-4"
+				fill="none"
+				focusable="false"
+				stroke="currentColor"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				stroke-width="1.75"
+				viewBox="0 0 24 24"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<path d="M12 20h9" />
+				<path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z" />
+			</svg>
+			<span class="sr-only">Edit post</span>
+		</a>
+	)
+}
