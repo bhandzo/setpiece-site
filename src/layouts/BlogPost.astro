@@ -3,6 +3,7 @@ import { type CollectionEntry, render } from "astro:content";
 
 import CoverImage from "@/components/blog/CoverImage.astro";
 import Masthead from "@/components/blog/Masthead.astro";
+import homepage from "@/content/homepage.json";
 
 import BaseLayout from "./Base.astro";
 
@@ -16,6 +17,7 @@ const socialImage = ogImage ?? `/og-image/${post.id}.png`;
 const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString();
 const { remarkPluginFrontmatter } = await render(post);
 const readingTime: string = remarkPluginFrontmatter.readingTime;
+const bookingUrl = homepage.heroCtaUrl.trim();
 ---
 
 <BaseLayout
@@ -43,6 +45,26 @@ const readingTime: string = remarkPluginFrontmatter.readingTime;
 					<slot />
 				</div>
 			</div>
+			<footer aria-labelledby="post-setpiece-cta" class="bg-bone my-8 p-6 md:my-10 md:p-8">
+				<h2 id="post-setpiece-cta" class="display text-2xl md:text-3xl">
+					We are Operating Partners, Not Consultants
+				</h2>
+				<p class="mt-4 max-w-[38em] leading-relaxed italic">
+					Setpiece is Kim Nortman and Ben Handzo. We embed with leadership teams as AI-native
+					operating partners and do the work alongside you.
+				</p>
+				{
+					bookingUrl.length > 0 && (
+						<a
+							class="text-link mt-4 inline-block font-semibold underline underline-offset-4"
+							href={bookingUrl}
+							rel="noopener"
+						>
+							Book an intro call
+						</a>
+					)
+				}
+			</footer>
 		</div>
 	</article>
 </BaseLayout>
