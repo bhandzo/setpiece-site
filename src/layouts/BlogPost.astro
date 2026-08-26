@@ -1,4 +1,5 @@
 ---
+import { getImage } from "astro:assets";
 import { type CollectionEntry, render } from "astro:content";
 
 import CoverImage from "@/components/blog/CoverImage.astro";
@@ -12,8 +13,17 @@ interface Props {
 }
 
 const { post } = Astro.props;
-const { ogImage, title, description, updatedDate, publishDate } = post.data;
-const socialImage = ogImage ?? `/og-image/${post.id}.png`;
+const { coverImage, ogImage, title, description, updatedDate, publishDate } = post.data;
+const coverSocialImage = coverImage
+	? await getImage({
+			src: coverImage.src,
+			width: 1200,
+			height: 630,
+			fit: "cover",
+			format: "jpg",
+		})
+	: undefined;
+const socialImage = ogImage ?? coverSocialImage?.src ?? `/og-image/${post.id}.png`;
 const articleDate = updatedDate?.toISOString() ?? publishDate.toISOString();
 const { remarkPluginFrontmatter } = await render(post);
 const readingTime: string = remarkPluginFrontmatter.readingTime;

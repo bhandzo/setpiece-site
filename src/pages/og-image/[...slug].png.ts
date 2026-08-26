@@ -82,7 +82,7 @@ export async function GET(context: APIContext) {
 export async function getStaticPaths() {
 	const posts = await getAllPosts();
 	return posts
-		.filter(({ data }) => !data.ogImage)
+		.filter(({ data }) => !data.ogImage && !data.coverImage)
 		.map((post) => ({
 			params: { slug: post.id },
 			props: {
