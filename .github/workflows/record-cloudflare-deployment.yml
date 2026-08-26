@@ -16,8 +16,11 @@ jobs:
       github.event.check_run.name == 'Cloudflare Pages' &&
       github.event.check_run.app.slug == 'cloudflare-workers-and-pages'
     runs-on: ubuntu-latest
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_DEPLOY_WEBHOOK_URL }}
     steps:
       - name: Record completed deployment
+        id: record
         uses: actions/github-script@v7
         with:
           script: |
@@ -114,3 +117,79 @@ jobs:
               log_url: checkRun.details_url,
               auto_inactive: isProduction,
             });
+
+            core.setOutput("state", state);
+            core.setOutput("environment", environment);
+            core.setOutput("branch", branch);
+            core.setOutput("url", urlMatch[1]);
+            core.setOutput("log_url", checkRun.details_url);
+            core.setOutput("sha", checkRun.head_sha);
+
+      - name: Announce deployment in Slack
+        if: env.SLACK_WEBHOOK_URL != ''
+        uses: actions/github-script@v7
+        env:
+          DEPLOY_STATE: ${{ steps.record.outputs.state }}
+          DEPLOY_ENVIRONMENT: ${{ steps.record.outputs.environment }}
+          DEPLOY_BRANCH: ${{ steps.record.outputs.branch }}
+          DEPLOY_URL: ${{ steps.record.outputs.url }}
+          DEPLOY_LOG_URL: ${{ steps.record.outputs.log_url }}
+          DEPLOY_SHA: ${{ steps.record.outputs.sha }}
+        with:
+          script: |
+            const {
+              SLACK_WEBHOOK_URL,
+              DEPLOY_STATE,
+              DEPLOY_ENVIRONMENT,
+              DEPLOY_BRANCH,
+              DEPLOY_URL,
+              DEPLOY_LOG_URL,
+              DEPLOY_SHA,
+            } = process.env;
+
+            // Slack presentation for each deployment state the recorder can emit.
+            const presentation = {
+              success: { emoji: ":white_check_mark:", verb: "is live" },
+              failure: { emoji: ":x:", verb: "failed" },
+              inactive: { emoji: ":fast_forward:", verb: "was skipped" },
+              error: { emoji: ":warning:", verb: "errored" },
+            };
+            const { emoji, verb } = presentation[DEPLOY_STATE] ?? presentation.error;
+
+            const repoUrl = context.payload.repository.html_url;
+            const shortSha = DEPLOY_SHA.slice(0, 7);
+            const headline = `${emoji} *${DEPLOY_ENVIRONMENT} deploy ${verb}* — <${DEPLOY_URL}|${DEPLOY_URL.replace(/^https:\/\//, "")}>`;
+
+            const response = await fetch(SLACK_WEBHOOK_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                text: `${DEPLOY_ENVIRONMENT} deploy ${verb}: ${DEPLOY_URL}`,
+                blocks: [
+                  {
+                    type: "section",
+                    text: { type: "mrkdwn", text: headline },
+                  },
+                  {
+                    type: "context",
+                    elements: [
+                      {
+                        type: "mrkdwn",
+                        text: [
+                          `\`${DEPLOY_BRANCH}\``,
+                          `<${repoUrl}/commit/${DEPLOY_SHA}|${shortSha}>`,
+                          `<${DEPLOY_LOG_URL}|Cloudflare build>`,
+                        ].join("  ·  "),
+                      },
+                    ],
+                  },
+                ],
+              }),
+            });
+
+            if (!response.ok) {
+              const body = await response.text();
+              core.setFailed(
+                `Slack rejected the deployment notification (${response.status}): ${body}`
+              );
+            }
