@@ -25,7 +25,7 @@ const ogOptions: SatoriOptions = {
 			weight: 700,
 		},
 	],
-	height: 630,
+	height: 627,
 	width: 1200,
 };
 
