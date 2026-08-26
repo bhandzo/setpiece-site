@@ -18,9 +18,10 @@ const coverSocialImage = coverImage
 	? await getImage({
 			src: coverImage.src,
 			width: 1200,
-			height: 630,
+			height: 627,
 			fit: "cover",
 			format: "jpg",
+			quality: "max",
 		})
 	: undefined;
 const socialImage = ogImage ?? coverSocialImage?.src ?? `/og-image/${post.id}.png`;
