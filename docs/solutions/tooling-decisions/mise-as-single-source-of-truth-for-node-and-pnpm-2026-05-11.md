@@ -61,7 +61,7 @@ Key quirks worth memorizing:
   ```
 
 - Once `mise.toml` exists, contributors run `mise install` once and the shell auto-swaps versions on `cd` into the repo (assuming `mise activate` is in their shell rc).
-- Delete `.nvmrc`. Remove `"packageManager"` from `package.json`. Do *not* tell contributors to `npm i -g pnpm` or `corepack prepare pnpm@... --activate` — those reintroduce competing sources of truth.
+- Delete `.nvmrc`. Remove `"packageManager"` from `package.json` *as a source of truth*. (Update 2026-10-27: it now returns as a doctor-checked **mirror** of the mise pin so Cloudflare Pages' own pnpm switches to it. See [pnpm 12 / mise.lock / Cloudflare pin](./pnpm-12-mise-lock-doctor-and-cloudflare-pin-2026-10-27.md).) Do *not* tell contributors to `npm i -g pnpm` or `corepack prepare pnpm@... --activate` — those reintroduce competing sources of truth.
 
 **Mirror the exact same pin in CI** using `jdx/mise-action`, which reads the same `mise.toml`:
 
@@ -201,5 +201,7 @@ pnpm dev
 Three commands, zero branching, identical to CI.
 
 ## Related
+
+- [pnpm 12, mise.lock, doctor checks and Cloudflare's pnpm](./pnpm-12-mise-lock-doctor-and-cloudflare-pin-2026-10-27.md): the follow-up upgrade playbook.
 
 - Commits on `main`: `f8b5082` (pnpm 11 upgrade + Vercel adapter removal), `cc128b7` (mise unification), `2f3cd14` (README rewrite).
