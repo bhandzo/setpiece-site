@@ -1,6 +1,8 @@
 import { h as _h, type Properties } from "hastscript";
 import type { Node, Paragraph as P } from "mdast";
 import type { Directives } from "mdast-util-directive";
+// Brings in mdast-util-to-hast's `hName`/`hProperties` augmentation of mdast `Data`; no Astro package exposes it to our types since @astrojs/mdx 8.
+import type {} from "mdast-util-to-hast";
 
 /** Checks if a node is a directive. */
 export function isNodeDirective(node: Node): node is Directives {
