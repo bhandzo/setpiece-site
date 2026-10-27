@@ -1,3 +1,19 @@
+[settings]
+lockfile = true
+
 [tools]
 node = "22"
-"npm:pnpm" = "11.0.9"
+# Mirror this pin in package.json "packageManager"; Cloudflare Pages reads that,
+# not mise. The pnpm-matches-package-manager doctor check catches drift.
+"npm:pnpm" = "12.15.0"
+
+[doctor.checks.pnpm-matches-package-manager]
+description = "package.json packageManager matches the pnpm pinned in mise.toml"
+run = '''test "$(node -p 'require("./package.json").packageManager')" = "pnpm@$(mise current npm:pnpm)"'''
+hint = "Set package.json \"packageManager\" to \"pnpm@<the npm:pnpm version in mise.toml>\", then run `pnpm install`."
+
+[doctor.checks.pnpm-lockfile-in-sync]
+description = "pnpm-lock.yaml matches package.json and pnpm-workspace.yaml"
+run = "pnpm install --frozen-lockfile --lockfile-only"
+hint = "Run `pnpm install` and commit pnpm-lock.yaml."
+timeout = "60s"

@@ -21,8 +21,9 @@ For bash/zsh, use `mise activate bash` / `mise activate zsh` and add to your she
 git clone https://github.com/bhandzo/setpiece-site.git
 cd setpiece-site
 mise trust       # one-time, approves the project's mise.toml
-mise install     # installs Node 22 + pnpm 11
+mise install     # installs Node 22 + pnpm 12 (versions locked in mise.lock)
 pnpm install
+mise doctor project   # optional: verify pins and lockfile are in sync
 ```
 
 `cd`ing into the repo will auto-swap your shell to the pinned Node and pnpm.
@@ -94,7 +95,8 @@ src/
   styles/        Global CSS, Tailwind config
   site.config.ts Site-wide config (title, URL, etc.)
 astro.config.ts  Astro integrations + build config
-mise.toml        Pinned Node + pnpm versions
+mise.toml        Pinned Node + pnpm versions, doctor checks (`mise doctor project`)
+mise.lock        Exact tool versions + checksums (+ .mise/locks/)
 ```
 
 ## Blog design voice
