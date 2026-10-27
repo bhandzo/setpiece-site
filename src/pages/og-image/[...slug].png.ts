@@ -127,7 +127,8 @@ export async function GET(context: APIContext) {
 		markup(title, postDate, `BY ${author.toUpperCase()}`) as unknown as ReactNode,
 		ogOptions,
 	);
-	const png = new Resvg(svg).render().asPng();
+	// Copy into a plain Uint8Array: TS 5.9's BodyInit rejects Node's Buffer<ArrayBufferLike>.
+	const png = new Uint8Array(new Resvg(svg).render().asPng());
 	return new Response(png, {
 		headers: {
 			"Cache-Control": "public, max-age=31536000, immutable",

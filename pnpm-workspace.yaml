@@ -12,3 +12,7 @@ onlyBuiltDependencies:
   - '@tailwindcss/oxide'
   - esbuild
   - sharp
+
+# Security floors for transitive deps whose parents pin vulnerable ranges.
+overrides:
+  astro-webmanifest>sharp: ^0.35.5
