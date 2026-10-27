@@ -13,20 +13,20 @@ export const siteConfig: SiteConfig = {
 			year: "numeric",
 		},
 	},
-	// Used as the default description meta property and webmanifest description
+	// Used as the default description meta property; keep public/manifest.webmanifest in sync
 	description: "AI-native operating partners for SaaS leaders who've hit a wall.",
-	// HTML lang property, found in src/layouts/Base.astro L:18 & astro.config.ts L:48
+	// HTML lang property, found in src/layouts/Base.astro L:18 & public/manifest.webmanifest
 	lang: "en-US",
 	// Meta property, found in src/components/BaseHead.astro L:42
 	ogLocale: "en_US",
 	/* 
 		- Used to construct the meta title property found in src/components/BaseHead.astro L:11 
-		- The webmanifest name found in astro.config.ts L:42
+		- The webmanifest name found in public/manifest.webmanifest
 		- The link value found in src/components/layout/Header.astro L:35
 		- In the footer found in src/components/layout/Footer.astro L:12
 	*/
 	title: "Setpiece Strategies",
-	// ! Please remember to replace the following site property with your own domain, used in astro.config.ts
+	// ! Please remember to replace the following site property with your own domain, used in astro.config.ts & public/robots.txt
 	url: "https://setpiece.co/",
 };
 

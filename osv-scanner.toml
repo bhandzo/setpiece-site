@@ -1,7 +1,0 @@
-# Known advisories we can't fix yet. Every entry needs a reason and an expiry;
-# once ignoreUntil passes, `mise run deps:audit` fails again until it's revisited.
-
-[[IgnoredVulns]]
-id = "GHSA-mrhx-c7xc-m3w5"
-ignoreUntil = 2026-12-26
-reason = "zod 3.25.76 comes only from astro-robots-txt@1.0.0 and astro-webmanifest@1.0.0 (both unmaintained since 2023, zod ^3). The fix is zod 4.6.6; overriding them to zod 4 breaks the build (astro-robots-txt calls z.function().args()). Clears when we replace those two integrations. Build-time config validation only, no untrusted input."

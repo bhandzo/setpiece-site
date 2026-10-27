@@ -49,7 +49,7 @@ The production site intentionally does not expose `/keystatic`; only the local e
 
 `mise run deps:audit` checks every dependency against the [OSV](https://osv.dev/) vulnerability database with [osv-scanner](https://google.github.io/osv-scanner/) (pinned in `mise.toml`). It finds every lockfile in the repo on its own, so nothing needs to list them. It needs the network, so it's a manual check: it's not in CI or `mise doctor`.
 
-It fails on any known advisory, whatever its severity; osv-scanner can't filter by severity. Fix what you can by bumping the package or adding a package-manager override. When you can't fix one yet, add an exception to `osv-scanner.toml` at the repo root:
+It fails on any known advisory, whatever its severity; osv-scanner can't filter by severity. Fix what you can by bumping the package or adding a package-manager override. When you can't fix one yet, add an exception to `osv-scanner.toml` at the repo root (create it if it doesn't exist):
 
 ```toml
 [[IgnoredVulns]]
