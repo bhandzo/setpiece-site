@@ -163,7 +163,7 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  astro-webmanifest>sharp: ^0.35.5
+  favilib>sharp: ^0.35.5
   '@tailwindcss/typography>postcss-selector-parser': ^6.1.5
   fflate@<0.7.5: ^0.7.5
 
@@ -213,6 +213,9 @@ importers:
       astro-expressive-code:
         specifier: ^0.44.3
         version: 0.44.3(astro@7.4.2(@astrojs/markdown-remark@7.3.4)(@types/node@24.19.2)(idb-keyval@6.3.0)(jiti@2.7.0)(yaml@2.9.1))
+      astro-favicons:
+        specifier: 3.1.8
+        version: 3.1.8(@types/node@24.19.2)(astro@7.4.2(@astrojs/markdown-remark@7.3.4)(@types/node@24.19.2)(idb-keyval@6.3.0)(jiti@2.7.0)(yaml@2.9.1))
       astro-icon:
         specifier: ^1.2.0
         version: 1.2.0
@@ -2350,6 +2353,11 @@ packages:
     peerDependencies:
       astro: ^4.0.0-beta || ^5.0.0-beta || ^3.3.0 || ^6.0.0-beta || ^7.0.0
 
+  astro-favicons@3.1.8:
+    resolution: {integrity: sha512-1d4ARIb7ZcHUoFAH7HabR9vnWOvU2wLJYb1mUBWXsH3ZeNSn0vrlC4iULWQu6Xkyi1AmwE7F6O3fAQ5B52IThA==}
+    peerDependencies:
+      astro: '>= 4.0.0'
+
   astro-icon@1.2.0:
     resolution: {integrity: sha512-0848V2WZuTPhqGSqLeZimLJZ5wmamMtWYzvA2kvg8s2DrUPZ3/nrTcHJWN0eJHt62jy7uvNxgTNiUJGIr7JNxg==}
     engines: {node: '>=22.12.0'}
@@ -2888,6 +2896,10 @@ packages:
   fast-xml-parser@5.11.2:
     resolution: {integrity: sha512-R9iDuNrQYeQut46cn2r2wHKn4HYzVDvDm5J1wW+koZewykv0yuO2HChTYeZtrULyHIDM9cj9TUXloCsueCQUog==}
     hasBin: true
+
+  favilib@1.0.5:
+    resolution: {integrity: sha512-3Fk5LQRU96QUmHWmyZc3WIMyz1tmte6TPlCVjaairXeHGtPHM4pnLvg11CyXTq6od1v5aaopHoREHNSwN4BKDA==}
+    engines: {node: '>=14.0.0'}
 
   fdir@6.5.0:
     resolution: {integrity: sha512-tIbYtZbucOs0BRGqPJkshJUYdL+SDH7dVM8gjy+ERp3WAUjLEFJE+02kanyHtwjWOnwrKYBiwAmM0p4kLJAnXg==}
@@ -4878,6 +4890,14 @@ packages:
   xml-naming@0.3.0:
     resolution: {integrity: sha512-ghig2TBE/H11aOVgmahA3MhimvkBr6JIYknH/Dhdk10nXwdbIqBJsbfMxpvFPG8bAw77gN29aQWvKpmVoPlvPQ==}
     engines: {node: '>=16.0.0'}
+
+  xml2js@0.6.2:
+    resolution: {integrity: sha512-T4rieHaC1EXcES0Kxxj4JWgaUQHDk+qwHcYOCFHfiwKz7tOVPLq7Hjq9dM1WCMhylqMEfP7hMcOIChvotiZegA==}
+    engines: {node: '>=4.0.0'}
+
+  xmlbuilder@11.0.1:
+    resolution: {integrity: sha512-fDlsI/kFEx7gLvbecc0/ohLG50fugQp8ryHzMTuW9vSa1GJ0XYWKnhsUx7oie3G98+r56aTQIUB4kht42R3JvA==}
+    engines: {node: '>=4.0'}
 
   xxhash-wasm@1.1.0:
     resolution: {integrity: sha512-147y/6YNh+tlp6nd/2pWq38i9h6mz/EuQ6njIrmW8D1BS5nCqs0P6DG+m6zTGnNz5I+uhZ0SHxBs9BsPrwcKDA==}
@@ -7239,6 +7259,14 @@ snapshots:
       rehype-expressive-code: 0.44.3
       url-extras: 0.1.0
 
+  astro-favicons@3.1.8(@types/node@24.19.2)(astro@7.4.2(@astrojs/markdown-remark@7.3.4)(@types/node@24.19.2)(idb-keyval@6.3.0)(jiti@2.7.0)(yaml@2.9.1)):
+    dependencies:
+      astro: 7.4.2(@astrojs/markdown-remark@7.3.4)(@types/node@24.19.2)(idb-keyval@6.3.0)(jiti@2.7.0)(yaml@2.9.1)
+      favilib: 1.0.5(@types/node@24.19.2)
+      ultrahtml: 1.7.0
+    transitivePeerDependencies:
+      - '@types/node'
+
   astro-icon@1.2.0:
     dependencies:
       '@iconify/tools': 5.0.14
@@ -7838,6 +7866,14 @@ snapshots:
       path-expression-matcher: 1.6.2
       strnum: 2.5.1
       xml-naming: 0.3.0
+
+  favilib@1.0.5(@types/node@24.19.2):
+    dependencies:
+      escape-html: 1.0.3
+      sharp: 0.35.5(@types/node@24.19.2)
+      xml2js: 0.6.2
+    transitivePeerDependencies:
+      - '@types/node'
 
   fdir@6.5.0(picomatch@4.0.7):
     optionalDependencies:
@@ -10331,6 +10367,13 @@ snapshots:
       strip-ansi: 7.2.0
 
   xml-naming@0.3.0: {}
+
+  xml2js@0.6.2:
+    dependencies:
+      sax: 1.6.1
+      xmlbuilder: 11.0.1
+
+  xmlbuilder@11.0.1: {}
 
   xxhash-wasm@1.1.0: {}
 
