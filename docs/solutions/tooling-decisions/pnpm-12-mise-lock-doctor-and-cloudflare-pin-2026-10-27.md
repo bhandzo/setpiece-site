@@ -58,8 +58,9 @@ The [12.0.0 release notes](https://github.com/pnpm/pnpm/releases/tag/v12.0.0) li
 - For core `node`, it records the exact version plus a URL and sha256 per platform.
 - For `npm:` tools, mise uses an embedded `aube` resolver. It records a digest pointing at `.mise/locks/npm-<tool>/<version>/aube-lock.yaml`, which holds the tool's full dependency graph. **Commit `.mise/locks/`.**
 - `jdx/mise-action` automatically runs `mise install --locked` when `mise.lock` exists. CI log: `Detected a mise lock file, running mise install --locked`.
-- **Local gotcha:** a plain `mise install --locked` also applies to your *global* tools. It fails on any that aren't in the project lock (`usage@latest is not in the lockfile`). Run `mise install --locked node npm:pnpm` locally. CI has no global config, so this doesn't bite there.
-- **Bumping:** run `mise lock npm:pnpm@<x.y.z>`. It locks that version and rewrites the request in `mise.toml` to match. Then update `packageManager` and run `pnpm install`. The doctor check fails until all three agree. For node (`"22"`), `mise lock --bump` picks up the newest 22.x.
+- **Local gotcha:** a plain `mise install --locked` also applies to your *global* tools. It fails on any that aren't in the project lock (`usage@latest is not in the lockfile`). Name the project's tools instead, such as `mise install --locked node npm:pnpm osv-scanner`. CI has no global config, so this doesn't bite there.
+- **Bumping** (verified 2026-10-27 on mise 2026.10.19, for `npm:pnpm` and the aqua-backed `osv-scanner`): run `mise lock <tool>@<x.y.z>`. It rewrites the pin in `mise.toml` and relocks every platform already in `mise.lock`. It also prunes the old version's entry. For `npm:` tools it replaces the old `.mise/locks/npm-<tool>/<version>/` directory with the new one, so commit both the deletion and the addition. For pnpm, then update `packageManager` and run `pnpm install`. The doctor check fails until all three agree. For node (`"22"`), `mise lock --bump` picks up the newest 22.x (untested).
+- **Adding a tool:** `mise use <tool>@<x.y.z>` writes the pin and locks it for the existing platforms in one step.
 
 ## mise doctor project checks
 

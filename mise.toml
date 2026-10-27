@@ -6,6 +6,13 @@ node = "22"
 # Mirror this pin in package.json "packageManager"; Cloudflare Pages reads that,
 # not mise. The pnpm-matches-package-manager doctor check catches drift.
 "npm:pnpm" = "12.15.0"
+osv-scanner = "2.7.0"
+
+# Not in CI or `mise doctor`: it queries osv.dev, so it needs the network.
+# Fails on any advisory; osv-scanner has no severity threshold. Exceptions: osv-scanner.toml.
+[tasks."deps:audit"]
+description = "Scan every lockfile in the repo for known vulnerabilities (osv-scanner)"
+run = "osv-scanner scan source -r ."
 
 [doctor.checks.pnpm-matches-package-manager]
 description = "package.json packageManager matches the pnpm pinned in mise.toml"

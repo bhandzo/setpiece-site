@@ -45,6 +45,21 @@ mise doctor project   # optional: verify pins and lockfile are in sync
 
 The production site intentionally does not expose `/keystatic`; only the local editor server does. Editors should follow the [GitHub-backed Keystatic workflow](./docs/editing-with-keystatic.md), including the copy-paste prompts for a local agent.
 
+### Dependency audit
+
+`mise run deps:audit` checks every dependency against the [OSV](https://osv.dev/) vulnerability database with [osv-scanner](https://google.github.io/osv-scanner/) (pinned in `mise.toml`). It finds every lockfile in the repo on its own, so nothing needs to list them. It needs the network, so it's a manual check: it's not in CI or `mise doctor`.
+
+It fails on any known advisory, whatever its severity; osv-scanner can't filter by severity. Fix what you can by bumping the package or adding a package-manager override. When you can't fix one yet, add an exception to `osv-scanner.toml` at the repo root:
+
+```toml
+[[IgnoredVulns]]
+id = "GHSA-xxxx-xxxx-xxxx"
+ignoreUntil = 2026-12-31  # the audit fails again after this date
+reason = "Why it can't be fixed yet, and what would clear it."
+```
+
+Every exception needs a `reason` and an `ignoreUntil`.
+
 ## Writing posts
 
 Posts live in `src/content/post/<slug>/index.mdx`. Co-locate any images, `charts.json`, and other post assets in the same directory.

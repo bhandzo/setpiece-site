@@ -20,3 +20,19 @@ version = "12.15.0"
 aube = { path = ".mise/locks/npm-pnpm/12.15.0", digest = "sha256:8d05eddd914fdc20b8d2f1c55732bae4db9bafcd3286008bbf268dd9e8943ed2" }
 backend = "npm:pnpm"
 specifiers = ["12.15.0"]
+
+[[tools.osv-scanner]]
+version = "2.7.0"
+backend = "aqua:google/osv-scanner"
+specifiers = ["2.7.0"]
+
+[tools.osv-scanner."platforms.linux-x64"]
+checksum = "sha256:160c6253e2922e9e0a6a9771c5c4c40a4b3c6090b34a3cdd5e80c96cc2e4218b"
+checksum_source = "mise-versions"
+url = "https://github.com/google/osv-scanner/releases/download/v2.7.0/osv-scanner_linux_amd64"
+url_api = "https://api.github.com/repos/google/osv-scanner/releases/assets/632251666"
+
+[tools.osv-scanner."platforms.macos-arm64"]
+checksum = "sha256:d4926ef8da134332543be276dff157e4c170f99ad91fc48e89448a8816bdf70b"
+url = "https://github.com/google/osv-scanner/releases/download/v2.7.0/osv-scanner_darwin_arm64"
+url_api = "https://api.github.com/repos/google/osv-scanner/releases/assets/632251557"
